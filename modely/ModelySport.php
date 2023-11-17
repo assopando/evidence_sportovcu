@@ -1,7 +1,8 @@
 <?php
 class ModelySport{
 
-    public function vratVsechyBarvy() {
+  //funkce vrati vsechno z tabulky "sport"
+    public function vratVsechySporty() {
         $sql = "
             SELECT *
             FROM sport
@@ -25,7 +26,7 @@ class ModelySport{
         }
       Db::vloz("sport",$sport);
       return 1;
-    }//vrati 0 pokud v uz databazi barva uz je, vrati 1 pokud v databazi Barvy jeste neni a prida tam barvu
+    }//vrati 0 pokud v uz databazi barva uz je, vrati 1 pokud v databazi Barvy jeste neni a prida tam sport
       
       
     //funkce slouzi k odebrani sportu z databaze, parametrem bude jen id z databaze(id_sport)

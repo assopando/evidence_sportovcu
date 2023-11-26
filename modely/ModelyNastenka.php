@@ -46,7 +46,7 @@ class ModelyDisciplina{
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "nastenka", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["id_uziv"] => 4
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_uziv"] => 4
                                                                       ["datum"] => 24.12.2020
                                                                       ["nazev"] => "Akce na 26.12.2020"
                                                                       ["text"] => "fhbdjknsojihufbdjnsjiosjnksjin"

@@ -44,7 +44,7 @@ class ModelyDisciplina{
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "disciplina", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["id_sport"] => 5
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_sport"] => 5
                                                                       ["nazev_disc"] => "sprint"
     $id - id z databaze(id_disc), čili id konkretni discipliny
     */

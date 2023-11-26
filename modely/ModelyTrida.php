@@ -44,7 +44,7 @@ class ModelyDisciplina{
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "trida", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["nazev"] => I4B
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev"] => I4B
                                                                       ["tridni_uc"] => "Antonín Kačerovský"
     $id - id z databaze(id_trid), čili id konkretni tridy
     */

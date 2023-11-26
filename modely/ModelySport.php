@@ -26,14 +26,14 @@ class ModelySport{
         }
       Db::vloz("sport",$sport);
       return 1;
-    }//vrati 0 pokud v uz databazi barva uz je, vrati 1 pokud v databazi Barvy jeste neni a prida tam sport
+    }//vrati 0 pokud v uz databazi sport uz je, vrati 1 pokud v databazi "sport" jeste neni a prida tam
       
       
     //funkce slouzi k odebrani sportu z databaze, parametrem bude jen id z databaze(id_sport)
     public function odeberSport($id){
         $sql = "
           DELETE FROM sport
-          where nazev = ?
+          where id_sport = ?
       ";
       if(Db::dotaz($sql,[$id])){
         return 1;
@@ -43,12 +43,12 @@ class ModelySport{
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "sport", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["nazev"] => "Atletika"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev"] => "Atletika"
     $id - id z databaze(id_sport), čili id konkretniho sportu
     */
     public function zmenSport($hodnoty, $id){
         $sql = "
-        where nazev = ?
+        where id_sport = ?
         ";
         if(Db::zmen("sport",$hodnoty,$sql,[$id])){
           return 1;

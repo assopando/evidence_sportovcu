@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 26. lis 2023, 17:57
+-- Vytvořeno: Pon 04. pro 2023, 20:36
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -43,7 +43,7 @@ CREATE TABLE `nastenka` (
   `id_nas` int(11) NOT NULL,
   `id_uziv` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `nazev` varchar(50) NOT NULL,
+  `nazev_nast` varchar(50) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -107,7 +107,7 @@ CREATE TABLE `sportuje` (
 
 CREATE TABLE `trida` (
   `id_trid` int(3) NOT NULL,
-  `nazev` varchar(3) NOT NULL,
+  `nazev_trid` varchar(3) NOT NULL,
   `tridni_uc` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -134,14 +134,14 @@ CREATE TABLE `uzivatel` (
 --
 ALTER TABLE `disciplina`
   ADD PRIMARY KEY (`id_disc`),
-  ADD KEY `sport_disc_fk` (`id_sport`);
+  ADD KEY `fk_disc_sport` (`id_sport`) USING BTREE;
 
 --
 -- Indexy pro tabulku `nastenka`
 --
 ALTER TABLE `nastenka`
   ADD PRIMARY KEY (`id_nas`),
-  ADD KEY `uzivatel_nastenka_fk` (`id_uziv`);
+  ADD KEY `fk_nastenka_uzivatel` (`id_uziv`) USING BTREE;
 
 --
 -- Indexy pro tabulku `osobni_udaje`
@@ -160,16 +160,16 @@ ALTER TABLE `sport`
 --
 ALTER TABLE `sportovci`
   ADD PRIMARY KEY (`id_stud`),
-  ADD KEY `osob_udaj_sportovci_fk` (`id_osob_udaj`),
-  ADD KEY `trida_sportovci_fk` (`id_trid`);
+  ADD KEY `fk_sportovci_osob_udaj` (`id_osob_udaj`) USING BTREE,
+  ADD KEY `fk_sportovci_trida` (`id_trid`) USING BTREE;
 
 --
 -- Indexy pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
   ADD PRIMARY KEY (`id_sportuje`),
-  ADD KEY `sportovci_sportuje_fk` (`id_stud`),
-  ADD KEY `disciplina_sportuje_fk` (`id_disc`);
+  ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
+  ADD KEY `fk_sportuje_sportovci` (`id_stud`) USING BTREE;
 
 --
 -- Indexy pro tabulku `trida`
@@ -182,7 +182,7 @@ ALTER TABLE `trida`
 --
 ALTER TABLE `uzivatel`
   ADD PRIMARY KEY (`id_uziv`),
-  ADD KEY `osob_udaj_uzivatel_fk` (`id_osob_udaj`);
+  ADD KEY `fk_uzivatel_osob_udaj` (`id_osob_udaj`) USING BTREE;
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -204,7 +204,7 @@ ALTER TABLE `nastenka`
 -- AUTO_INCREMENT pro tabulku `sport`
 --
 ALTER TABLE `sport`
-  MODIFY `id_sport` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sport` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `sportuje`
@@ -226,40 +226,33 @@ ALTER TABLE `uzivatel`
 -- Omezení pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  ADD CONSTRAINT `sport_disc_fk` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `disciplina_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`);
 
 --
 -- Omezení pro tabulku `nastenka`
 --
 ALTER TABLE `nastenka`
-  ADD CONSTRAINT `uzivatel_nastenka_fk` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
-
---
--- Omezení pro tabulku `sport`
---
-ALTER TABLE `sport`
-  ADD CONSTRAINT `sport_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `disciplina` (`id_sport`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `nastenka_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
 
 --
 -- Omezení pro tabulku `sportovci`
 --
 ALTER TABLE `sportovci`
-  ADD CONSTRAINT `osob_udaj_sportovci_fk` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `trida_sportovci_fk` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `sportovci_ibfk_1` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`),
+  ADD CONSTRAINT `sportovci_ibfk_2` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`);
 
 --
 -- Omezení pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  ADD CONSTRAINT `disciplina_sportuje_fk` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sportovci_sportuje_fk` FOREIGN KEY (`id_stud`) REFERENCES `sportovci` (`id_stud`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `sportuje_ibfk_1` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`),
+  ADD CONSTRAINT `sportuje_ibfk_2` FOREIGN KEY (`id_stud`) REFERENCES `sportovci` (`id_stud`);
 
 --
 -- Omezení pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
-  ADD CONSTRAINT `osob_udaj_uzivatel_fk` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `nastenka` (`id_uziv`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

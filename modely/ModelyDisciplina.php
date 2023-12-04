@@ -14,15 +14,15 @@ class ModelyDisciplina{
 
 
       /*funkce slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:
-    id sportu (pro atribut id_sport)
-    nazev*/
+    id_sportu (pro atribut id_sport)
+    nazev_disc*/
     public function pridejDisciplinu($disciplina) {
         $sql = "
-            SELECT id_disc
+            SELECT nazev_disc
             FROM disciplina
-            where id_disc = ?
+            where nazev_disc = ?
         ";
-        if(Db::dotazJeden($sql,[$disciplina["id_disc"]])){
+        if(Db::dotazJeden($sql,[$disciplina["nazev_disc"]])){
         return 0;
         }
       Db::vloz("disciplina",$disciplina);

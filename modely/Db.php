@@ -79,7 +79,7 @@ class Db {
 
 	private static function getPdoInstance() {
 		// Vytvoření instance objektu PDO pro připojení k databázi
-		$dsn = 'mysql:host=localhost;dbname=myspillowkva1774';
+		$dsn = 'mysql:host=localhost;dbname=evidence_sportovcu';
 		$username = 'root';
 		$password = '';
 	

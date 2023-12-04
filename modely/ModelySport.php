@@ -14,14 +14,14 @@ class ModelySport{
 
 
       /*funkce slouzi k pridani sportu do databaze, parametr bude pole, vyzadujici:
-    nazev*/
+    nazev_sportu*/
     public function pridejSporty($sport) {
         $sql = "
-            SELECT nazev
+            SELECT nazev_sportu
             FROM sport
-            where nazev = ?
+            where nazev_sportu = ?
         ";
-        if(Db::dotazJeden($sql,[$sport["nazev"]])){
+        if(Db::dotazJeden($sql,[$sport["nazev_sportu"]])){
         return 0;
         }
       Db::vloz("sport",$sport);
@@ -43,7 +43,7 @@ class ModelySport{
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "sport", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev"] => "Atletika"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_sportu"] => "Atletika"
     $id - id z databaze(id_sport), čili id konkretniho sportu
     */
     public function zmenSport($hodnoty, $id){

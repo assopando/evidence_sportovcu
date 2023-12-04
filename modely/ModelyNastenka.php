@@ -2,7 +2,7 @@
 class ModelyDisciplina{
 
   //funkce vrati vsechno z tabulky "nastenka"
-    public function vratVsechyNastenky() {
+    public function vratVsechnyNastenky() {
         $sql = "
             SELECT *
             FROM nastenka

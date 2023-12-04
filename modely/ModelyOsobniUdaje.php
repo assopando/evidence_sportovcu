@@ -2,7 +2,7 @@
 class ModelyOsobniUdaje{
 
   //funkce vrati vsechno z tabulky "osobni_udaje"
-    public function vratVsechyOsobniUdaje() {
+    public function vratVsechnyOsobniUdaje() {
         $sql = "
             SELECT *
             FROM osobni_udaje

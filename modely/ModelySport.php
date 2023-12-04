@@ -2,7 +2,7 @@
 class ModelySport{
 
   //funkce vrati vsechno z tabulky "sport"
-    public function vratVsechySporty() {
+    public function vratVsechnySporty() {
         $sql = "
             SELECT *
             FROM sport

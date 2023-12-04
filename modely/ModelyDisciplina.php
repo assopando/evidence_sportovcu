@@ -2,7 +2,7 @@
 class ModelyDisciplina{
 
   //funkce vrati vsechno z tabulky "disciplina"
-    public function vratVsechyDisciplinu() {
+    public function vratVsechnyDisciplinu() {
         $sql = "
             SELECT *
             FROM disciplina

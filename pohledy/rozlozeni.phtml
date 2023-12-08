@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP evidence sportovcu</title>
+</head>
+<body>
+    <header>
+        <div>MP evidence sportovcu</div>
+        <?php if ($this->prihlasenyUzivatel) { ?>
+
+            <?= $this->prihlasenyUzivatel["jmeno"] ?>
+            <?= $this->prihlasenyUzivatel["prijmeni"] ?>
+            <a href="odhlaseni">Odhlásit se</a>
+
+        <?php } else { ?>
+
+            <a href="login">Přihlásit se</a>
+        
+        <?php } ?>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="uvod">Úvod</a></li>
+            <li><a href="disciplina">Disciplina</a></li>
+            <li><a href="sporty">Sporty</a></li>
+            <li><a href="chyba">Chyba</a></li>
+        </ul>
+
+    <div class="zpravy">
+        <?php foreach ($zpravy as $zprava) { ?>
+            <div><?= $zprava ?></div>
+        <?php } ?>
+    </div>
+
+    </nav>
+    <?php
+        $this->kontroler->vypisPohled();
+    ?>
+</body>
+
+
+</html>

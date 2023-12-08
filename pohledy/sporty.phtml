@@ -1,0 +1,50 @@
+<h1>Přidání a Výpis všech sportů</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání sportu -->
+<form  method="post">
+    <label for="id_sport">ID sportu:</label>
+    <input type="number" name="id_sport" >
+    <label for="nazev_sportu">Název sportu:</label>
+    <input type="text" name="nazev_sportu" required>
+    <button type="submit" name="pridej">Přidat sport</button>
+</form>
+
+
+
+<!-- Výpis všech sportů -->
+
+<?php if (isset($this->data['sporty']) && !empty($this->data['sporty'])): ?>
+    <h2>Všechny sporty</h2>
+    <ul>
+    <?php foreach ($this->data['sporty'] as $sport): ?>
+            <li>ID: <?php echo $sport['id_sport']; ?>, Název: <?php echo $sport['nazev_sportu']; ?>
+            <form method="post">
+            <input type="hidden" name="editovany_sport_id" value="<?php echo $sport['id_sport']; ?>">
+            <label for="novy_nazev_sportu">Nový název sportu:</label>
+            <input type="text" name="novy_nazev_sportu" required>
+            <button type="submit" name="ulozit">Uložit</button>
+</form>
+                <form method="post">
+                    <input type="hidden" name="smazany_sport_id" value="<?php echo $sport['id_sport']; ?>">
+                    <button type="submit" name="smazat">Smazat</button>
+                </form>
+            </li>
+            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné sporty.</p>
+<?php endif; ?>
+
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pon 04. pro 2023, 20:36
+-- Vytvořeno: Stř 13. pro 2023, 20:22
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Databáze: `evidence_sportovcu`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `archiv`
+--
+
+CREATE TABLE `archiv` (
+  `id_arch` int(11) NOT NULL,
+  `id_turn` int(11) NOT NULL,
+  `popisek_arch` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -57,6 +69,19 @@ CREATE TABLE `osobni_udaje` (
   `id_osob_udaj` int(11) NOT NULL,
   `jmeno` varchar(50) NOT NULL,
   `prijmeni` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `soupiska`
+--
+
+CREATE TABLE `soupiska` (
+  `id_soup` int(11) NOT NULL,
+  `id_turn` int(11) NOT NULL,
+  `id_sportuje` int(11) NOT NULL,
+  `nazev_skupiny` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -114,6 +139,22 @@ CREATE TABLE `trida` (
 -- --------------------------------------------------------
 
 --
+-- Struktura tabulky `turnaj`
+--
+
+CREATE TABLE `turnaj` (
+  `id_turn` int(11) NOT NULL,
+  `nazev_soup` varchar(30) NOT NULL,
+  `datum_zahajeni` date NOT NULL,
+  `delka_dni` int(11) NOT NULL,
+  `id_sportuje` int(11) NOT NULL,
+  `misto_kon` varchar(30) NOT NULL,
+  `popisek_turn` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabulky `uzivatel`
 --
 
@@ -128,6 +169,13 @@ CREATE TABLE `uzivatel` (
 --
 -- Indexy pro exportované tabulky
 --
+
+--
+-- Indexy pro tabulku `archiv`
+--
+ALTER TABLE `archiv`
+  ADD PRIMARY KEY (`id_arch`),
+  ADD KEY `id_turn` (`id_turn`);
 
 --
 -- Indexy pro tabulku `disciplina`
@@ -148,6 +196,14 @@ ALTER TABLE `nastenka`
 --
 ALTER TABLE `osobni_udaje`
   ADD PRIMARY KEY (`id_osob_udaj`);
+
+--
+-- Indexy pro tabulku `soupiska`
+--
+ALTER TABLE `soupiska`
+  ADD PRIMARY KEY (`id_soup`),
+  ADD KEY `id_turn` (`id_turn`,`id_sportuje`),
+  ADD KEY `id_sportuje` (`id_sportuje`);
 
 --
 -- Indexy pro tabulku `sport`
@@ -178,6 +234,13 @@ ALTER TABLE `trida`
   ADD PRIMARY KEY (`id_trid`);
 
 --
+-- Indexy pro tabulku `turnaj`
+--
+ALTER TABLE `turnaj`
+  ADD PRIMARY KEY (`id_turn`),
+  ADD KEY `id_sportuje` (`id_sportuje`);
+
+--
 -- Indexy pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
@@ -192,7 +255,7 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `nastenka`
@@ -223,6 +286,12 @@ ALTER TABLE `uzivatel`
 --
 
 --
+-- Omezení pro tabulku `archiv`
+--
+ALTER TABLE `archiv`
+  ADD CONSTRAINT `archiv_ibfk_1` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`);
+
+--
 -- Omezení pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
@@ -233,6 +302,13 @@ ALTER TABLE `disciplina`
 --
 ALTER TABLE `nastenka`
   ADD CONSTRAINT `nastenka_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
+
+--
+-- Omezení pro tabulku `soupiska`
+--
+ALTER TABLE `soupiska`
+  ADD CONSTRAINT `soupiska_ibfk_1` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`),
+  ADD CONSTRAINT `soupiska_ibfk_2` FOREIGN KEY (`id_sportuje`) REFERENCES `sportuje` (`id_sportuje`);
 
 --
 -- Omezení pro tabulku `sportovci`

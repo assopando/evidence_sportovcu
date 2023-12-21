@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Stř 13. pro 2023, 20:22
+-- Vytvořeno: Čtv 21. pro 2023, 19:03
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -255,13 +255,19 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `nastenka`
 --
 ALTER TABLE `nastenka`
   MODIFY `id_nas` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `osobni_udaje`
+--
+ALTER TABLE `osobni_udaje`
+  MODIFY `id_osob_udaj` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport`
@@ -314,15 +320,15 @@ ALTER TABLE `soupiska`
 -- Omezení pro tabulku `sportovci`
 --
 ALTER TABLE `sportovci`
-  ADD CONSTRAINT `sportovci_ibfk_1` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`),
-  ADD CONSTRAINT `sportovci_ibfk_2` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`);
+  ADD CONSTRAINT `sportovci_ibfk_2` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`),
+  ADD CONSTRAINT `sportovci_ibfk_3` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`);
 
 --
 -- Omezení pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  ADD CONSTRAINT `sportuje_ibfk_1` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`),
-  ADD CONSTRAINT `sportuje_ibfk_2` FOREIGN KEY (`id_stud`) REFERENCES `sportovci` (`id_stud`);
+  ADD CONSTRAINT `sportuje_ibfk_2` FOREIGN KEY (`id_stud`) REFERENCES `sportovci` (`id_stud`),
+  ADD CONSTRAINT `sportuje_ibfk_3` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`);
 
 --
 -- Omezení pro tabulku `uzivatel`

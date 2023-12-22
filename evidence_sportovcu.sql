@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 22. pro 2023, 12:39
+-- Vytvořeno: Pát 22. pro 2023, 12:47
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -134,14 +134,14 @@ CREATE TABLE `turnaj` (
 
 CREATE TABLE `uzivatel` (
   `id_uziv` int(11) NOT NULL,
-  `id_trid` int(11) NOT NULL,
+  `id_trid` int(11) DEFAULT NULL,
   `student` tinyint(1) NOT NULL,
-  `isic` varchar(50) NOT NULL,
+  `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
   `heslo` int(11) NOT NULL,
   `opravneni` tinyint(1) NOT NULL,
-  `jmeno` varchar(25) NOT NULL,
-  `prijmeni` varchar(25) NOT NULL
+  `jmeno` varchar(25) DEFAULT NULL,
+  `prijmeni` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

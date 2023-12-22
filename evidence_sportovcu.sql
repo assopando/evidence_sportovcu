@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 22. pro 2023, 12:29
+-- Vytvořeno: Pát 22. pro 2023, 12:39
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -121,7 +121,7 @@ CREATE TABLE `turnaj` (
   `nazev_soup` varchar(30) NOT NULL,
   `datum_zahajeni` date NOT NULL,
   `delka_dni` int(11) NOT NULL,
-  `id_sportuje` int(11) NOT NULL,
+  `id_sportuje` int(11) DEFAULT NULL,
   `misto_kon` varchar(30) NOT NULL,
   `popisek_turn` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -217,6 +217,12 @@ ALTER TABLE `uzivatel`
 --
 
 --
+-- AUTO_INCREMENT pro tabulku `archiv`
+--
+ALTER TABLE `archiv`
+  MODIFY `id_arch` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
@@ -229,6 +235,12 @@ ALTER TABLE `nastenka`
   MODIFY `id_nas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pro tabulku `soupiska`
+--
+ALTER TABLE `soupiska`
+  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pro tabulku `sport`
 --
 ALTER TABLE `sport`
@@ -239,6 +251,18 @@ ALTER TABLE `sport`
 --
 ALTER TABLE `sportuje`
   MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `trida`
+--
+ALTER TABLE `trida`
+  MODIFY `id_trid` int(3) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `turnaj`
+--
+ALTER TABLE `turnaj`
+  MODIFY `id_turn` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `uzivatel`
@@ -263,17 +287,11 @@ ALTER TABLE `disciplina`
   ADD CONSTRAINT `disciplina_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`);
 
 --
--- Omezení pro tabulku `nastenka`
---
-ALTER TABLE `nastenka`
-  ADD CONSTRAINT `nastenka_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
-
---
 -- Omezení pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  ADD CONSTRAINT `soupiska_ibfk_1` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`),
-  ADD CONSTRAINT `soupiska_ibfk_2` FOREIGN KEY (`id_sportuje`) REFERENCES `sportuje` (`id_sportuje`);
+  ADD CONSTRAINT `soupiska_ibfk_2` FOREIGN KEY (`id_sportuje`) REFERENCES `sportuje` (`id_sportuje`),
+  ADD CONSTRAINT `soupiska_ibfk_3` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`);
 
 --
 -- Omezení pro tabulku `sportuje`

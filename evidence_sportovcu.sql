@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 22. pro 2023, 12:47
+-- Vytvořeno: Pát 22. pro 2023, 13:27
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -285,6 +285,12 @@ ALTER TABLE `archiv`
 --
 ALTER TABLE `disciplina`
   ADD CONSTRAINT `disciplina_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`);
+
+--
+-- Omezení pro tabulku `nastenka`
+--
+ALTER TABLE `nastenka`
+  ADD CONSTRAINT `nastenka_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
 
 --
 -- Omezení pro tabulku `soupiska`

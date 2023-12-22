@@ -62,10 +62,15 @@ class ModelyUzivatelu {
     }
 
     /*funkce slouzi k pridani uzivatele do databaze, parametr bude pole, vyzadujici:
+    *id_trid
+    student (true/false)
+    *isic
     email
     heslo
-    id_osob_udaj
     opravneni
+    *jmeno
+    *prijmeni
+    * - nepovinny atribut
     */
     public function pridejUzivatele($uzivatel) {
       $sql = "
@@ -81,10 +86,10 @@ class ModelyUzivatelu {
     }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam uzivatele
     
     
-    //funkce slouzi k odebrani uzivatele z databaze, parametrem bude jen id z databaze(id_user)
+    //funkce slouzi k odebrani uzivatele z databaze, parametrem bude jen id z databaze(id_uziv)
         public function odeberUzivatele($id){
         $sql = "
-          DELETE FROM User
+          DELETE FROM uzivatel
           where id_uziv = ?
       ";
       if(Db::dotaz($sql,[$id])){
@@ -95,10 +100,14 @@ class ModelyUzivatelu {
 
 
     /*funkce slouzi ke zmene sloupcu v tabulce "uzivatel", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["email"] => "s.fabisz.st@spseiostrava.cz"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_trid"] =>
+                                                                      ["student"] => true
+                                                                      ["isic"] => "4df56154sef612564"
+                                                                      ["email"] => "s.fabisz.st@spseiostrava.cz"
                                                                       ["heslo"] => "fotbal123"
-                                                                      ["id_osob_udaj"] => 5
                                                                       ["opravneni"] => 3
+                                                                      ["jmeno"] =>"Sami"
+                                                                      ["prijmeni"] =>"Fabi"
     $id - id z databaze(id_user), čili id konkretniho uzivatele
     */
       public function zmenUzivatele($hodnoty){

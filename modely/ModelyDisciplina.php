@@ -14,7 +14,7 @@ class ModelyDisciplina{
 
 
       /*funkce slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:
-    id_sportu (pro atribut id_sport)
+    id_sport (pro atribut id_sport)
     nazev_disc*/
     public function pridejDisciplinu($disciplina) {
         $sql = "

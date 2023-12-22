@@ -15,7 +15,7 @@ class ModelyDisciplina{
 
       /*funkce slouzi k pridani prispevku na nastenku do databaze, parametr bude pole, vyzadujici:
     id uzivatele (id_uziv)
-    datum_nast
+    datum
     nazev
     text*/
     public function pridejNastenka($nastenka) {
@@ -47,7 +47,7 @@ class ModelyDisciplina{
 
     /*funkce slouzi ke zmene sloupcu v tabulce "nastenka", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_uziv"] => 4
-                                                                      ["datum_nast"] => 24.12.2020
+                                                                      ["datum"] => 24.12.2020
                                                                       ["nazev"] => "Akce na 26.12.2020"
                                                                       ["text"] => "fhbdjknsojihufbdjnsjiosjnksjin"
     $id - id z databaze(id_nas), čili id konkretni prispevku (na nastenku)

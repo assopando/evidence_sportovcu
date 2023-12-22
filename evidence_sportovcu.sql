@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Čtv 21. pro 2023, 19:03
+-- Vytvořeno: Pát 22. pro 2023, 12:29
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -62,18 +62,6 @@ CREATE TABLE `nastenka` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `osobni_udaje`
---
-
-CREATE TABLE `osobni_udaje` (
-  `id_osob_udaj` int(11) NOT NULL,
-  `jmeno` varchar(50) NOT NULL,
-  `prijmeni` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `soupiska`
 --
 
@@ -93,20 +81,6 @@ CREATE TABLE `soupiska` (
 CREATE TABLE `sport` (
   `id_sport` int(11) NOT NULL,
   `nazev_sportu` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `sportovci`
---
-
-CREATE TABLE `sportovci` (
-  `id_stud` int(11) NOT NULL,
-  `id_osob_udaj` int(11) NOT NULL,
-  `id_trid` int(3) NOT NULL,
-  `fotka` blob NOT NULL,
-  `stav` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -132,8 +106,8 @@ CREATE TABLE `sportuje` (
 
 CREATE TABLE `trida` (
   `id_trid` int(3) NOT NULL,
-  `nazev_trid` varchar(3) NOT NULL,
-  `tridni_uc` varchar(30) NOT NULL
+  `tridni_uc` varchar(50) NOT NULL,
+  `zkratka_uc` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -160,10 +134,14 @@ CREATE TABLE `turnaj` (
 
 CREATE TABLE `uzivatel` (
   `id_uziv` int(11) NOT NULL,
+  `id_trid` int(11) NOT NULL,
+  `student` tinyint(1) NOT NULL,
+  `isic` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `heslo` int(11) NOT NULL,
-  `id_osob_udaj` int(11) NOT NULL,
-  `opravneni` tinyint(1) NOT NULL
+  `opravneni` tinyint(1) NOT NULL,
+  `jmeno` varchar(25) NOT NULL,
+  `prijmeni` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -192,12 +170,6 @@ ALTER TABLE `nastenka`
   ADD KEY `fk_nastenka_uzivatel` (`id_uziv`) USING BTREE;
 
 --
--- Indexy pro tabulku `osobni_udaje`
---
-ALTER TABLE `osobni_udaje`
-  ADD PRIMARY KEY (`id_osob_udaj`);
-
---
 -- Indexy pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
@@ -212,20 +184,13 @@ ALTER TABLE `sport`
   ADD PRIMARY KEY (`id_sport`);
 
 --
--- Indexy pro tabulku `sportovci`
---
-ALTER TABLE `sportovci`
-  ADD PRIMARY KEY (`id_stud`),
-  ADD KEY `fk_sportovci_osob_udaj` (`id_osob_udaj`) USING BTREE,
-  ADD KEY `fk_sportovci_trida` (`id_trid`) USING BTREE;
-
---
 -- Indexy pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
   ADD PRIMARY KEY (`id_sportuje`),
   ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
-  ADD KEY `fk_sportuje_sportovci` (`id_stud`) USING BTREE;
+  ADD KEY `fk_sportuje_sportovci` (`id_stud`) USING BTREE,
+  ADD KEY `isic` (`id_stud`);
 
 --
 -- Indexy pro tabulku `trida`
@@ -245,7 +210,7 @@ ALTER TABLE `turnaj`
 --
 ALTER TABLE `uzivatel`
   ADD PRIMARY KEY (`id_uziv`),
-  ADD KEY `fk_uzivatel_osob_udaj` (`id_osob_udaj`) USING BTREE;
+  ADD KEY `id_trid` (`id_trid`);
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -262,12 +227,6 @@ ALTER TABLE `disciplina`
 --
 ALTER TABLE `nastenka`
   MODIFY `id_nas` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `osobni_udaje`
---
-ALTER TABLE `osobni_udaje`
-  MODIFY `id_osob_udaj` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport`
@@ -317,24 +276,17 @@ ALTER TABLE `soupiska`
   ADD CONSTRAINT `soupiska_ibfk_2` FOREIGN KEY (`id_sportuje`) REFERENCES `sportuje` (`id_sportuje`);
 
 --
--- Omezení pro tabulku `sportovci`
---
-ALTER TABLE `sportovci`
-  ADD CONSTRAINT `sportovci_ibfk_2` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`),
-  ADD CONSTRAINT `sportovci_ibfk_3` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`);
-
---
 -- Omezení pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  ADD CONSTRAINT `sportuje_ibfk_2` FOREIGN KEY (`id_stud`) REFERENCES `sportovci` (`id_stud`),
-  ADD CONSTRAINT `sportuje_ibfk_3` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`);
+  ADD CONSTRAINT `sportuje_ibfk_3` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`),
+  ADD CONSTRAINT `sportuje_ibfk_4` FOREIGN KEY (`id_stud`) REFERENCES `uzivatel` (`id_uziv`);
 
 --
 -- Omezení pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
-  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_osob_udaj`) REFERENCES `osobni_udaje` (`id_osob_udaj`);
+  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

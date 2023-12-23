@@ -61,29 +61,57 @@ class ModelyUzivatelu {
       return $uzivatel;
     }
 
-    /*funkce slouzi k pridani uzivatele do databaze, parametr bude pole, vyzadujici:
+    /*funkce slouzi k pridani studenta do uzivatele, parametr bude pole, vyzadujici:
     *id_trid
-    student (true/false)
+    student (true)
     *isic
-    email
+    *email
     heslo
     opravneni
     *jmeno
     *prijmeni
+
     * - nepovinny atribut
     */
-    public function pridejUzivatele($uzivatel) {
+    public function pridejStudenta($uzivatel) {
       $sql = "
-          SELECT email
+          SELECT isic
           FROM uzivatel
-          where email = ?
+          where isic = ?
       ";
-      if(Db::dotazJeden($sql,[$uzivatel["email"]])){
+      if(Db::dotazJeden($sql,[$uzivatel["isic"]])){
       return 0;
       }
     Db::vloz("uzivatel",$uzivatel);
     return 1;
-    }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam uzivatele
+    }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam studenta
+
+
+    /*funkce slouzi k pridani ucitele do uzivatelu, parametr bude pole, vyzadujici:
+    *id_trid - null
+    student (false)
+    *isic - null
+    *email
+    heslo
+    opravneni
+    *jmeno
+    *prijmeni
+    
+    * - nepovinny atribut
+    */
+    public function pridejUcitele($uzivatel) {
+      $sql = "
+          SELECT id_uziv
+          FROM uzivatel
+          where id_uziv = ?
+      ";
+      if(Db::dotazJeden($sql,[$uzivatel["id_uziv"]])){
+      return 0;
+      }
+    Db::vloz("uzivatel",$uzivatel);
+    return 1;
+    }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam ucitele
+
     
     
     //funkce slouzi k odebrani uzivatele z databaze, parametrem bude jen id z databaze(id_uziv)

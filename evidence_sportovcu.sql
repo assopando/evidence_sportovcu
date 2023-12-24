@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 24. pro 2023, 14:42
+-- Vytvořeno: Ned 24. pro 2023, 16:18
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -105,7 +105,7 @@ CREATE TABLE `sportuje` (
 --
 
 CREATE TABLE `trida` (
-  `id_trid` int(3) NOT NULL,
+  `id_trid` varchar(3) NOT NULL,
   `tridni_uc` varchar(50) NOT NULL,
   `zkratka_uc` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -134,7 +134,7 @@ CREATE TABLE `turnaj` (
 
 CREATE TABLE `uzivatel` (
   `id_uziv` int(11) NOT NULL,
-  `id_trid` int(11) DEFAULT NULL,
+  `id_trid` varchar(3) DEFAULT NULL,
   `student` tinyint(1) NOT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -251,12 +251,6 @@ ALTER TABLE `sport`
 --
 ALTER TABLE `sportuje`
   MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `trida`
---
-ALTER TABLE `trida`
-  MODIFY `id_trid` int(3) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `turnaj`

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 24. pro 2023, 16:18
+-- Vytvořeno: Ned 24. pro 2023, 21:43
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -141,7 +141,9 @@ CREATE TABLE `uzivatel` (
   `heslo` int(11) NOT NULL,
   `opravneni` tinyint(1) NOT NULL,
   `jmeno` varchar(25) DEFAULT NULL,
-  `prijmeni` varchar(25) DEFAULT NULL
+  `prijmeni` varchar(25) DEFAULT NULL,
+  `dat_nar` date DEFAULT NULL,
+  `pohlavi` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 23. pro 2023, 11:56
+-- Vytvořeno: Ned 24. pro 2023, 14:42
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -68,7 +68,7 @@ CREATE TABLE `nastenka` (
 CREATE TABLE `soupiska` (
   `id_soup` int(11) NOT NULL,
   `id_turn` int(11) NOT NULL,
-  `id_sportuje` int(11) NOT NULL,
+  `id_sportuje` int(11) DEFAULT NULL,
   `nazev_skupiny` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -93,9 +93,9 @@ CREATE TABLE `sportuje` (
   `id_sportuje` int(11) NOT NULL,
   `id_disc` int(11) NOT NULL,
   `id_stud` int(11) NOT NULL,
-  `pozice` varchar(25) NOT NULL,
-  `tym` varchar(25) NOT NULL,
-  `uroven` int(11) NOT NULL
+  `pozice` varchar(25) DEFAULT NULL,
+  `tym` varchar(25) DEFAULT NULL,
+  `uroven` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -118,10 +118,10 @@ CREATE TABLE `trida` (
 
 CREATE TABLE `turnaj` (
   `id_turn` int(11) NOT NULL,
+  `id_sportuje` int(11) DEFAULT NULL,
   `nazev_soup` varchar(30) NOT NULL,
   `datum_zahajeni` date NOT NULL,
-  `delka_dni` int(11) NOT NULL,
-  `id_sportuje` int(11) DEFAULT NULL,
+  `delka_dni` int(11) DEFAULT NULL,
   `misto_kon` varchar(30) NOT NULL,
   `popisek_turn` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

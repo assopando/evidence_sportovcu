@@ -1,5 +1,5 @@
 <?php
-class ModelyDisciplina{
+class ModelyTrida{
 
   //funkce vrati vsechno z tabulky "trida"
     public function vratVsechnyTridy() {

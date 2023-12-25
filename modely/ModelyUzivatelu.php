@@ -88,6 +88,7 @@ class ModelyUzivatelu {
 
 
     /*funkce slouzi k pridani ucitele do uzivatelu, parametr bude pole, vyzadujici:
+    id_uziv
     *id_trid - null
     student (false)
     *isic - null
@@ -153,14 +154,25 @@ class ModelyUzivatelu {
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-    public function vratInfoUzivatele($id){
-  // Získání instance připojení k databázi
-  $sql = "SELECT id_osob_udaj, email FROM uzivatel WHERE id_uziv = ?";
-  $data = Db::dotazJeden($sql, [$id]);
 
-  return $data;
-
+//vrati informace vsech ucitelu vsechny ucitele
+//Work in progress
+    public function vratInfoVsechUzivatele(){
+      for($i=0;$i<100;$i++){
+  $sql = "SELECT jmeno, prijmeni, email, opravneni FROM uzivatel WHERE id_uziv = ?";
+  $data = Db::dotazJeden($sql, [$i]);
 }
+return $data;
+}
+
+//vrati info o studentovi, vyzaduje isic
+    public function vratInfoStudenta($isic){
+      $sql = "SELECT jmeno, prijmeni, id_trid, email,  FROM uzivatel WHERE isic = ?";
+      $data = Db::dotazJeden($sql, [$isic]);
+
+      return $data;
+
+    }
         
 
 }

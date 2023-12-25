@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 24. pro 2023, 21:43
+-- Vytvořeno: Pon 25. pro 2023, 13:17
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -48,14 +48,14 @@ CREATE TABLE `disciplina` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `nastenka`
+-- Struktura tabulky `prispevek`
 --
 
-CREATE TABLE `nastenka` (
-  `id_nas` int(11) NOT NULL,
+CREATE TABLE `prispevek` (
+  `id_pris` int(11) NOT NULL,
   `id_uziv` int(11) NOT NULL,
+  `nazev_pris` varchar(50) NOT NULL,
   `datum` date NOT NULL,
-  `nazev_nast` varchar(50) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -165,10 +165,10 @@ ALTER TABLE `disciplina`
   ADD KEY `fk_disc_sport` (`id_sport`) USING BTREE;
 
 --
--- Indexy pro tabulku `nastenka`
+-- Indexy pro tabulku `prispevek`
 --
-ALTER TABLE `nastenka`
-  ADD PRIMARY KEY (`id_nas`),
+ALTER TABLE `prispevek`
+  ADD PRIMARY KEY (`id_pris`),
   ADD KEY `fk_nastenka_uzivatel` (`id_uziv`) USING BTREE;
 
 --
@@ -231,10 +231,10 @@ ALTER TABLE `disciplina`
   MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pro tabulku `nastenka`
+-- AUTO_INCREMENT pro tabulku `prispevek`
 --
-ALTER TABLE `nastenka`
-  MODIFY `id_nas` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `prispevek`
+  MODIFY `id_pris` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `soupiska`
@@ -283,10 +283,10 @@ ALTER TABLE `disciplina`
   ADD CONSTRAINT `disciplina_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`);
 
 --
--- Omezení pro tabulku `nastenka`
+-- Omezení pro tabulku `prispevek`
 --
-ALTER TABLE `nastenka`
-  ADD CONSTRAINT `nastenka_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
+ALTER TABLE `prispevek`
+  ADD CONSTRAINT `prispevek_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`);
 
 --
 -- Omezení pro tabulku `soupiska`

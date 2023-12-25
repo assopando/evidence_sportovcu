@@ -92,7 +92,7 @@ class DisciplinaKontroler extends Kontroler {
 
 
         $this->pohled = "disciplina";
-        $discipliny=$modelDisciplin->vratVsechnyDisciplinu();
+        $discipliny=$modelDisciplin->vratVsechnyDiscipliny();
         $this->data["discipliny"] = $discipliny; 
         
         $sporty=$modelSporty->vratVsechnySporty();

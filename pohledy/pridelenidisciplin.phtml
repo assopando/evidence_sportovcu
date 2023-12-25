@@ -1,0 +1,127 @@
+<h1>Přidělení disciplín žákům</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<style>
+    th {
+        cursor: pointer;
+        
+    }
+</style>
+
+<input id="search-input" type="text">
+
+<table>
+    <thead>
+        <tr>
+            <th data-colname="id_trid" data-order="desc">Class ID &#9650</th>
+            <th data-colname="isic" data-order="desc">ISIC &#9650</th>
+            <th data-colname="jmeno" data-order="desc">Name &#9650</th>
+            <th data-colname="prijmeni" data-order="desc">Surname &#9650</th>
+            
+        </tr>
+    </thead>
+    <tbody id="myTable">
+
+    </tbody>
+</table>
+
+<div id="form-container"></div>
+
+<script>
+    var myArray = <?php echo json_encode($this->data["studenti"]); ?>
+
+    $('#search-input').on('keyup', function () {
+        var value = $(this).val().toLowerCase();
+        var data = searchTable(value, myArray);
+        buildTable(data);
+    });
+
+    buildTable(myArray);
+
+    $('th').on('click', function () {
+        var column = $(this).data('colname');
+        var order = $(this).data('order');
+        var text = $(this).html();
+        text = text.substring(0, text.length - 1);
+
+        if (order == 'desc') {
+            myArray = myArray.sort((a, b) => a[column] > b[column] ? 1 : -1);
+            $(this).data("order", "asc");
+            text += '&#9660';
+        } else {
+            myArray = myArray.sort((a, b) => a[column] < b[column] ? 1 : -1);
+            $(this).data("order", "desc");
+            text += '&#9650';
+        }
+
+        $(this).html(text);
+        buildTable(myArray);
+    });
+
+    function buildTable(data) {
+        var table = document.getElementById('myTable');
+        table.innerHTML = '';
+        for (var i = 0; i < data.length; i++) {
+            var row = `<tr>
+                            <td>${data[i].id_trid}</td>
+                            <td>${data[i].isic}</td>
+                            <td>${data[i].jmeno}</td>
+                            <td>${data[i].prijmeni}</td>
+                            <td><button onclick="showForm(${i})">Přidat hodnoty</button></td>
+                       </tr>`;
+            table.innerHTML += row;
+        }
+    }
+
+    function searchTable(value, data) {
+        var filteredData = [];
+        for (var i = 0; i < data.length; i++) {
+            var jmeno = data[i].jmeno.toLowerCase();
+            var prijmeni = data[i].prijmeni.toLowerCase();
+
+            if (jmeno.includes(value) || prijmeni.includes(value)) {
+                filteredData.push(data[i]);
+            }
+        }
+
+        return filteredData;
+    }
+
+
+    function showForm(index) {
+    var formContainer = document.getElementById('form-container');
+    formContainer.innerHTML = '';
+
+    var form = document.createElement('div');
+    form.className = 'student-form';
+    form.innerHTML = `
+        <h2>Formulář pro přidání hodnot do databáze</h2>
+        <form id="sportuje-form" method="post">
+            <input type="hidden" name="id_uziv" value="${myArray[index].id_uziv}">
+            
+            <label for="id_disc">ID Disciplíny:</label>
+            <select name="id_disc">
+        <?php foreach ($this->data['disc'] as $disc): ?>
+            <option value="<?php echo $disc['id_disc']; ?>" >
+                <?php echo $disc['nazev_disc']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+            
+            <label for="pozice">Pozice:</label>
+            <input type="text" id="pozice" name="pozice">
+
+            <label for="tym">Tým:</label>
+            <input type="text" id="tym" name="tym">
+
+            <label for="uroven">Úroveň:</label>
+            <input type="text" id="uroven" name="uroven">
+
+            <input type="submit" value="Přidat hodnoty" name="pridej">
+        </form>
+    `;
+
+    formContainer.appendChild(form);
+    formContainer.style.display = 'block';
+}
+</script>

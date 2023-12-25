@@ -1,0 +1,19 @@
+<h1>Body</h1>
+
+<h2>Nový bod</h2>
+
+<form method="post">
+    <input type="number" name="x" required>
+    <input type="number" name="y" required>
+    <input type="submit" value="Uložit">
+</form>
+
+<h2>Seznam bodů</h2>
+
+<?php foreach ($body as $bod) { ?>
+    <p><?= $bod ?> 
+        <form method="get" action="body/<?= $bod->id ?>/delete">
+            <input type="submit" value="Odstranit">
+        </form>
+    </p>
+<?php } ?>

@@ -48,7 +48,7 @@ class SportyKontroler extends Kontroler {
                 
             ];
 
-            $editSport= $modelSporty->zmenDisciplinu($hodnoty, $_POST['editovany_sport_id']);
+            $editSport= $modelSporty->zmenSport($hodnoty, $_POST['editovany_sport_id']);
 
             if ($editSport === 1) {
                 // Sport byl úspěšně editován

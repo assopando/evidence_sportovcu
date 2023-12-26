@@ -1,0 +1,21 @@
+<h1>wagwan</h1>
+
+<?php if (isset($this->data['ucitele']) && !empty($this->data['ucitele'])): ?>
+    <h2>Všechny učitele</h2>
+    <ul>
+        <?php foreach ($this->data['ucitele'] as $ucitel): ?>
+            <?php if ($ucitel !== null): ?>
+                <li>
+                    <strong>ID:</strong> <?php echo $ucitel['id_uziv']; ?><br>
+                    <strong>Jméno:</strong> <?php echo $ucitel['jmeno']; ?><br>
+                    <strong>Příjmení:</strong> <?php echo $ucitel['prijmeni']; ?><br>
+                    <strong>Email:</strong> <?php echo $ucitel['email']; ?><br>
+                    <strong>Oprávnění:</strong> <?php echo $ucitel['opravneni']; ?>
+                </li>
+                <br>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádní učitelé.</p>
+<?php endif; ?>

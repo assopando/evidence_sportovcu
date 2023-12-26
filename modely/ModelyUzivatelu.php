@@ -154,16 +154,37 @@ class ModelyUzivatelu {
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-
+/*
+      public function ziskejIdUzivatele(){
+        $sql = "SELECT id_uziv FROM uzivatel";
+        $id = Db::dotazJeden($sql, []);
+      return $id;
+      
+      }
+*/
 //vrati informace vsech ucitelu vsechny ucitele
 //Work in progress
-    public function vratInfoVsechUzivatele(){
-      for($i=0;$i<100;$i++){
-  $sql = "SELECT jmeno, prijmeni, email, opravneni FROM uzivatel WHERE id_uziv = ?";
-  $data = Db::dotazJeden($sql, [$i]);
+    public function vratInfoVsechUcitelu(){
+    for ($i = 0; $i < 100; $i++) {
+      $sql = "SELECT id_uziv FROM uzivatel WHERE id_uziv = ?";
+      $id = Db::dotazJeden($sql, [$i]);
+      if($id!=NULL){
+      $sql = "SELECT id_uziv, jmeno, prijmeni, email, opravneni FROM uzivatel WHERE id_uziv = ?";
+      $data[] = Db::dotazJeden($sql, [$i]);
+      }
+    }
+    return $data;
 }
-return $data;
+/*
+public function vratInfoVsechUcitelu(){
+  $data = array(); // Initialize an array to store the data
+  for ($i = 0; $i < 100; $i++) {
+      $sql = "SELECT id_uziv, jmeno, prijmeni, email, opravneni FROM uzivatel WHERE id_uziv = ?";
+      $data[] = Db::dotazJeden($sql, [$i]); // Store each row in the array
+  }
+  return $data; // Return the array
 }
+*/
 
 //vrati info o studentovi, vyzaduje isic
     public function vratInfoStudenta($isic){

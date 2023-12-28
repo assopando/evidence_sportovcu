@@ -18,14 +18,20 @@ class ModelySport{
     nazev_sportu*/
     public function pridejSporty($sport) {
         $sql = "
-            SELECT id_sport, nazev_sportu
+            SELECT id_sport
             FROM sport
-            where id_sport = ? and nazev_sportu = ?
+            where id_sport = ?
         ";
-
-        
-        if(Db::dotazJeden($sql,[$sport["id_sport"],$sport["nazev_sportu"]])){
+        if(Db::dotazJeden($sql,[$sport["id_sport"]])){
         return 0;
+        }
+        $sql = "
+            SELECT nazev_sportu
+            FROM sport
+            where nazev_sportu = ?
+        ";
+        if(Db::dotazJeden($sql,[$sport["nazev_sportu"]])){
+          return 0;
         }
       Db::vloz("sport",$sport);
       return 1;

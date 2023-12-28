@@ -56,33 +56,26 @@ class ModelySport{
     $id - id z databaze(id_sport), čili id konkretniho sportu
     */
     public function zmenSport($hodnoty, $id){
-        $sql = "
-        SELECT id_sport
-        FROM disciplina
-        where id_sport = ?
-        ";
-        if(Db::dotazJeden($sql,$id)){
-        return 0;
-        }
-        $sql = "
-            SELECT nazev_sportu
-            FROM disciplina
-            where nazev_sportu = ?
-        ";
-        if(Db::dotazJeden($sql,[$hodnoty["nazev_sportu"]])){
-          return 0;
-        }
 
-        $sql = "
-        where id_sport = ?
-        ";
-        if(Db::zmen("sport",$hodnoty,$sql,[$id])){
-          return 1;
-        }
+      $sql = "
+      SELECT nazev_sportu
+      FROM sport
+      where nazev_sportu = ?
+      ";
+      if(Db::dotazJeden($sql,[$hodnoty["nazev_sportu"]])){
         return 0;
+      }
+
+
+      $sql = "
+      where id_sport = ?
+      ";
+      if(Db::zmen("sport",$hodnoty,$sql,[$id])){
+        return 1;
+      }
+      return 0;
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
-
 
 
 

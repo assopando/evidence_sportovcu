@@ -58,14 +58,6 @@ class ModelyDisciplina{
     $id - id z databaze(id_disc), čili id konkretni discipliny
     */
     public function zmenDisciplinu($hodnoty, $id){
-              $sql = "
-              SELECT id_disc
-              FROM disciplina
-              where id_disc = ?
-          ";
-          if(Db::dotazJeden($sql,$id)){
-          return 0;
-          }
           $sql = "
               SELECT nazev_disc
               FROM disciplina
@@ -74,11 +66,15 @@ class ModelyDisciplina{
           if(Db::dotazJeden($sql,[$hodnoty["nazev_disc"]])){
             return 0;
           }
+          $sql = "
+          where id_disc = ?
+          ";
 
         if(Db::zmen("disciplina",$hodnoty,$sql,[$id])){
           return 1;
         }
         return 0;
+
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
 

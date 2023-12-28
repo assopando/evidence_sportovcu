@@ -14,12 +14,13 @@ class ModelySport{
 
 
       /*funkce slouzi k pridani sportu do databaze, parametr bude pole, vyzadujici:
+    id_sport
     nazev_sportu*/
     public function pridejSporty($sport) {
         $sql = "
-            SELECT nazev_sportu
+            SELECT id_sport, nazev_sportu
             FROM sport
-            where nazev_sportu = ?
+            where id_sport = ? and nazev_sportu = ?
         ";
         if(Db::dotazJeden($sql,[$sport["nazev_sportu"]])){
         return 0;

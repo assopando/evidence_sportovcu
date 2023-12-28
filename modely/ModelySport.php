@@ -22,7 +22,9 @@ class ModelySport{
             FROM sport
             where id_sport = ? and nazev_sportu = ?
         ";
-        if(Db::dotazJeden($sql,[$sport["nazev_sportu"]])){
+
+        
+        if(Db::dotazJeden($sql,[$sport["id_sport"],$sport["nazev_sportu"]])){
         return 0;
         }
       Db::vloz("sport",$sport);

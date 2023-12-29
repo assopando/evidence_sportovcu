@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 29. pro 2023, 17:05
+-- Vytvořeno: Pát 29. pro 2023, 17:06
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -194,7 +194,7 @@ CREATE TABLE `uzivatel` (
   `student` tinyint(1) NOT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `heslo` int(11) NOT NULL,
+  `heslo` varchar(50) NOT NULL,
   `opravneni` tinyint(1) NOT NULL,
   `jmeno` varchar(25) DEFAULT NULL,
   `prijmeni` varchar(25) DEFAULT NULL,

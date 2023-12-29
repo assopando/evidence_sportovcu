@@ -38,7 +38,7 @@ class ImportcsvKontroler extends Kontroler {
             echo "Chyba: Hlavička souboru neobsahuje očekávané klíče.";
             return;
         }
-    
+        $i=100;
         // Iterace přes zbývající řádky souboru
         while (!$file->eof()) {
             // Přečtení řádku
@@ -50,14 +50,16 @@ class ImportcsvKontroler extends Kontroler {
                 $datum = explode('.', str_replace(' ', '', $data[4]));
                 $novyFormat = $datum[2] . '-' . $datum[1] . '-' . $datum[0];
                 $uzivatel = [
+                    'id_uziv' => $i,
                     'jmeno' => iconv('Windows-1250', 'UTF-8', $data[0]),
                     'prijmeni' => iconv('Windows-1250', 'UTF-8', $data[1]),
                     'id_trid' => iconv('Windows-1250', 'UTF-8', $data[2]),
                     'isic' => iconv('Windows-1250', 'UTF-8', $data[3]),
-                    
+
                     'dat_nar' => iconv('Windows-1250', 'UTF-8', $novyFormat),
                     'pohlavi' => iconv('Windows-1250', 'UTF-8', $data[5]),
                 ];
+                $i++;
                 
 
                 // Převod na formát "yyyy:mm:dd"
@@ -96,4 +98,3 @@ class ImportcsvKontroler extends Kontroler {
     }
 }
 ?>
-

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 29. pro 2023, 16:16
+-- Vytvořeno: Pát 29. pro 2023, 17:05
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -43,17 +43,6 @@ CREATE TABLE `disciplina` (
   `id_disc` int(11) NOT NULL,
   `id_sport` int(11) NOT NULL,
   `nazev_disc` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `pohlavi`
---
-
-CREATE TABLE `pohlavi` (
-  `id_poh` int(11) NOT NULL,
-  `nazev_poh` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -202,7 +191,6 @@ CREATE TABLE `uroven` (
 CREATE TABLE `uzivatel` (
   `id_uziv` int(11) NOT NULL,
   `id_trid` varchar(3) DEFAULT NULL,
-  `id_poh` int(11) DEFAULT NULL,
   `student` tinyint(1) NOT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -210,7 +198,8 @@ CREATE TABLE `uzivatel` (
   `opravneni` tinyint(1) NOT NULL,
   `jmeno` varchar(25) DEFAULT NULL,
   `prijmeni` varchar(25) DEFAULT NULL,
-  `dat_nar` date DEFAULT NULL
+  `dat_nar` date DEFAULT NULL,
+  `pohlavi` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -230,12 +219,6 @@ ALTER TABLE `archiv`
 ALTER TABLE `disciplina`
   ADD PRIMARY KEY (`id_disc`),
   ADD KEY `fk_disc_sport` (`id_sport`) USING BTREE;
-
---
--- Indexy pro tabulku `pohlavi`
---
-ALTER TABLE `pohlavi`
-  ADD PRIMARY KEY (`id_poh`);
 
 --
 -- Indexy pro tabulku `pozice`
@@ -299,8 +282,7 @@ ALTER TABLE `uroven`
 --
 ALTER TABLE `uzivatel`
   ADD PRIMARY KEY (`id_uziv`),
-  ADD KEY `id_trid` (`id_trid`),
-  ADD KEY `id_poh` (`id_poh`);
+  ADD KEY `id_trid` (`id_trid`);
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -317,12 +299,6 @@ ALTER TABLE `archiv`
 --
 ALTER TABLE `disciplina`
   MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT pro tabulku `pohlavi`
---
-ALTER TABLE `pohlavi`
-  MODIFY `id_poh` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `pozice`
@@ -370,7 +346,7 @@ ALTER TABLE `uroven`
 -- AUTO_INCREMENT pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
-  MODIFY `id_uziv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id_uziv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- Omezení pro exportované tabulky
@@ -414,8 +390,7 @@ ALTER TABLE `sportuje`
 -- Omezení pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
-  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `uzivatel_ibfk_2` FOREIGN KEY (`id_poh`) REFERENCES `pohlavi` (`id_poh`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,7 @@
 <?php
 class ModelyPrispevek{
 
-  //funkce vrati vsechno z tabulky "prispevek"
+  //vrati vsechno z tabulky "prispevek"
     public function vratVsechnyPrispevky() {
         $sql = "
             SELECT *
@@ -13,7 +13,7 @@ class ModelyPrispevek{
 
 
 
-      /*funkce slouzi k pridani prispevku na nastenku do databaze, parametr bude pole, vyzadujici:
+      /*slouzi k pridani prispevku na nastenku do databaze, parametr bude pole, vyzadujici:
     id uzivatele (id_uziv)
     nazev_pris
     datum
@@ -33,7 +33,7 @@ class ModelyPrispevek{
     }//vrati 0 pokud v databazi prispevek uz je, vrati 1 pokud v databazi jeste neni a prida to tam
       
 
-    //funkce slouzi k odebrani prispevku z databaze, parametrem bude jen id prispevku z databaze(id_pris)
+    //slouzi k odebrani prispevku z databaze, parametrem bude jen id prispevku z databaze(id_pris)
     public function odeberPrispevek($id){
         $sql = "
           DELETE FROM prispevek

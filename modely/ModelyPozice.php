@@ -1,7 +1,7 @@
 <?php
 class ModelyPozice{
 
-  //funkce vrati vsechno z tabulky "pozice"
+  //vrati vsechno z tabulky "pozice"
     public function vratVsechnyPozice() {
         $sql = "
             SELECT *
@@ -13,10 +13,11 @@ class ModelyPozice{
 
 
 
-      /*funkce slouzi k pridani pozice do databaze, parametr bude pole, vyzadujici:
+      /*slouzi k pridani pozice do databaze, parametr bude pole, vyzadujici:
     id_poz
     nazev_poz*/
     public function pridejPozice($pozice) {
+      //kontrola id
         $sql = "
             SELECT id_poz
             FROM pozice
@@ -25,6 +26,7 @@ class ModelyPozice{
         if(Db::dotazJeden($sql,[$pozice["id_poz"]])){
         return 0;
         }
+        //kontrola nazvu
         $sql = "
             SELECT nazev_poz	
             FROM pozice
@@ -38,7 +40,7 @@ class ModelyPozice{
     }//vrati 0 pokud v uz databazi pozice uz je, vrati 1 pokud v databazi "pozice" jeste neni a prida tam
       
       
-    //funkce slouzi k odebrani pozice z databaze, parametrem bude jen id z databaze(id_poz)
+    //slouzi k odebrani pozice z databaze, parametrem bude jen id z databaze(id_poz)
     public function odeberPozice($id){
         $sql = "
           DELETE FROM pozice
@@ -51,12 +53,12 @@ class ModelyPozice{
     }//vrati 1 pokud v databazi pozice odebere, 0 pokud se akce nepodarila
 
 
-    /*funkce slouzi ke zmene sloupcu v tabulce "pozice", parametry:
+    /*slouzi ke zmene sloupcu v tabulce "pozice", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_poz"] => "Levé křídlo"
     $id - id z databaze(id_poz), čili id konkretni pozice
     */
     public function zmenPozici($hodnoty, $id){
-
+      //kontrola nazvu
       $sql = "
       SELECT nazev_poz
       FROM pozice

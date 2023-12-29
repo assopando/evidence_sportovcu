@@ -14,6 +14,7 @@ class ModelyTrida{
 
 
       /*funkce slouzi k pridani tridy do databaze, parametr bude pole, vyzadujici:
+    id_trid
     tridni ucitel
     zkratka_uc*/
     public function pridejTridu($trida) {

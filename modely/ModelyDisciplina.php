@@ -1,7 +1,7 @@
 <?php
 class ModelyDisciplina{
 
-  //funkce vrati vsechno z tabulky "disciplina"
+  //vrati vsechno z tabulky "disciplina"
     public function vratVsechnyDiscipliny() {
         $sql = "
             SELECT *
@@ -13,10 +13,11 @@ class ModelyDisciplina{
 
 
 
-      /*funkce slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:
+      /*slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:
     id_sport (pro atribut id_sport)
     nazev_disc*/
       public function pridejDisciplinu($disc) {
+      //kontrola id
         $sql = "
             SELECT id_disc
             FROM disciplina
@@ -25,6 +26,7 @@ class ModelyDisciplina{
         if(Db::dotazJeden($sql,[$disc["id_disc"]])){
         return 0;
         }
+        //kontrola nazvu
         $sql = "
             SELECT nazev_disc
             FROM disciplina
@@ -39,10 +41,10 @@ class ModelyDisciplina{
     //vrati 0 pokud v databazi disciplina uz je, vrati 1 pokud v databazi "disciplina" jeste neni a prida tam disciplinu
       
 
-    //funkce slouzi k odebrani discipliny z databaze, parametrem bude jen id z databaze(id_disc)
+    //slouzi k odebrani discipliny z databaze, parametrem bude jen id z databaze(id_disc)
     public function odeberDisciplinu($id){
         $sql = "
-          DELETE FROM Recenze
+          DELETE FROM disciplina
           where id_disc = ?
       ";
       if(Db::dotaz($sql,[$id])){
@@ -58,6 +60,7 @@ class ModelyDisciplina{
     $id - id z databaze(id_disc), čili id konkretni discipliny
     */
     public function zmenDisciplinu($hodnoty, $id){
+    //kontrola nazvu discipliny
           $sql = "
               SELECT nazev_disc
               FROM disciplina
@@ -66,6 +69,7 @@ class ModelyDisciplina{
           if(Db::dotazJeden($sql,[$hodnoty["nazev_disc"]])){
             return 0;
           }
+          
           $sql = "
           where id_disc = ?
           ";

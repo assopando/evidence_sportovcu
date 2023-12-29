@@ -1,7 +1,7 @@
 <?php
 class ModelySport{
 
-  //funkce vrati vsechno z tabulky "sport"
+  //vrati vsechno z tabulky "sport"
     public function vratVsechnySporty() {
         $sql = "
             SELECT *
@@ -13,10 +13,11 @@ class ModelySport{
 
 
 
-      /*funkce slouzi k pridani sportu do databaze, parametr bude pole, vyzadujici:
+      /*slouzi k pridani sportu do databaze, parametr bude pole, vyzadujici:
     id_sport
     nazev_sportu*/
     public function pridejSporty($sport) {
+      
         $sql = "
             SELECT id_sport
             FROM sport
@@ -38,7 +39,7 @@ class ModelySport{
     }//vrati 0 pokud v uz databazi sport uz je, vrati 1 pokud v databazi "sport" jeste neni a prida tam
       
       
-    //funkce slouzi k odebrani sportu z databaze, parametrem bude jen id z databaze(id_sport)
+    //slouzi k odebrani sportu z databaze, parametrem bude jen id z databaze(id_sport)
     public function odeberSport($id){
         $sql = "
           DELETE FROM sport
@@ -51,7 +52,7 @@ class ModelySport{
     }//vrati 1 pokud v databazi sport odebere, 0 pokud se akce nepodarila
 
 
-    /*funkce slouzi ke zmene sloupcu v tabulce "sport", parametry:
+    /*slouzi ke zmene sloupcu v tabulce "sport", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_sportu"] => "Atletika"
     $id - id z databaze(id_sport), čili id konkretniho sportu
     */

@@ -34,6 +34,7 @@ class Db {
 	  return $navrat->fetch();
 	}
 
+
 	// Spustí dotaz a vrátí všechny jeho řádky jako pole asociativních polí
   public static function dotazVsechny($dotaz, $parametry = array()) {
 		$navrat = self::$spojeni->prepare($dotaz);

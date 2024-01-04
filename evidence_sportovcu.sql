@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 29. pro 2023, 17:06
+-- Vytvořeno: Čtv 04. led 2024, 17:28
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -31,6 +31,18 @@ CREATE TABLE `archiv` (
   `id_arch` int(11) NOT NULL,
   `id_turn` int(11) NOT NULL,
   `popisek_arch` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `disc-uzivsoup`
+--
+
+CREATE TABLE `disc-uzivsoup` (
+  `id_disc-uzivsoup` int(11) NOT NULL,
+  `id_uzivsoup` int(11) NOT NULL,
+  `id_disc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -163,8 +175,7 @@ INSERT INTO `trida` (`id_trid`, `tridni_uc`, `zkratka_uc`) VALUES
 
 CREATE TABLE `turnaj` (
   `id_turn` int(11) NOT NULL,
-  `id_sportuje` int(11) DEFAULT NULL,
-  `nazev_soup` varchar(30) NOT NULL,
+  `nazev_tur` varchar(30) NOT NULL,
   `datum_zahajeni` date NOT NULL,
   `delka_dni` int(11) DEFAULT NULL,
   `misto_kon` varchar(30) NOT NULL,
@@ -194,12 +205,23 @@ CREATE TABLE `uzivatel` (
   `student` tinyint(1) NOT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `heslo` varchar(50) NOT NULL,
   `opravneni` tinyint(1) NOT NULL,
   `jmeno` varchar(25) DEFAULT NULL,
   `prijmeni` varchar(25) DEFAULT NULL,
   `dat_nar` date DEFAULT NULL,
   `pohlavi` varchar(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `uzivsoup`
+--
+
+CREATE TABLE `uzivsoup` (
+  `id_uzivsoup` int(11) NOT NULL,
+  `id_uziv` int(11) NOT NULL,
+  `id_soup` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -212,6 +234,14 @@ CREATE TABLE `uzivatel` (
 ALTER TABLE `archiv`
   ADD PRIMARY KEY (`id_arch`),
   ADD KEY `id_turn` (`id_turn`);
+
+--
+-- Indexy pro tabulku `disc-uzivsoup`
+--
+ALTER TABLE `disc-uzivsoup`
+  ADD PRIMARY KEY (`id_disc-uzivsoup`),
+  ADD KEY `id_uzivsoup` (`id_uzivsoup`),
+  ADD KEY `id_disc` (`id_disc`);
 
 --
 -- Indexy pro tabulku `disciplina`
@@ -268,8 +298,7 @@ ALTER TABLE `trida`
 -- Indexy pro tabulku `turnaj`
 --
 ALTER TABLE `turnaj`
-  ADD PRIMARY KEY (`id_turn`),
-  ADD KEY `id_sportuje` (`id_sportuje`);
+  ADD PRIMARY KEY (`id_turn`);
 
 --
 -- Indexy pro tabulku `uroven`
@@ -285,6 +314,14 @@ ALTER TABLE `uzivatel`
   ADD KEY `id_trid` (`id_trid`);
 
 --
+-- Indexy pro tabulku `uzivsoup`
+--
+ALTER TABLE `uzivsoup`
+  ADD PRIMARY KEY (`id_uzivsoup`),
+  ADD KEY `id_uziv` (`id_uziv`),
+  ADD KEY `id_soup` (`id_soup`);
+
+--
 -- AUTO_INCREMENT pro tabulky
 --
 
@@ -293,6 +330,12 @@ ALTER TABLE `uzivatel`
 --
 ALTER TABLE `archiv`
   MODIFY `id_arch` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `disc-uzivsoup`
+--
+ALTER TABLE `disc-uzivsoup`
+  MODIFY `id_disc-uzivsoup` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `disciplina`
@@ -349,6 +392,12 @@ ALTER TABLE `uzivatel`
   MODIFY `id_uziv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
+-- AUTO_INCREMENT pro tabulku `uzivsoup`
+--
+ALTER TABLE `uzivsoup`
+  MODIFY `id_uzivsoup` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Omezení pro exportované tabulky
 --
 
@@ -357,6 +406,13 @@ ALTER TABLE `uzivatel`
 --
 ALTER TABLE `archiv`
   ADD CONSTRAINT `archiv_ibfk_1` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Omezení pro tabulku `disc-uzivsoup`
+--
+ALTER TABLE `disc-uzivsoup`
+  ADD CONSTRAINT `disc-uzivsoup_ibfk_1` FOREIGN KEY (`id_uzivsoup`) REFERENCES `uzivsoup` (`id_uzivsoup`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `disc-uzivsoup_ibfk_2` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `disciplina`
@@ -374,7 +430,6 @@ ALTER TABLE `prispevek`
 -- Omezení pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  ADD CONSTRAINT `soupiska_ibfk_4` FOREIGN KEY (`id_sportuje`) REFERENCES `sportuje` (`id_sportuje`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `soupiska_ibfk_5` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -391,6 +446,13 @@ ALTER TABLE `sportuje`
 --
 ALTER TABLE `uzivatel`
   ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Omezení pro tabulku `uzivsoup`
+--
+ALTER TABLE `uzivsoup`
+  ADD CONSTRAINT `uzivsoup_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `uzivsoup_ibfk_2` FOREIGN KEY (`id_soup`) REFERENCES `soupiska` (`id_soup`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

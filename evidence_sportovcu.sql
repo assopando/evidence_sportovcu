@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 05. led 2024, 08:29
+-- Vytvořeno: Pát 05. led 2024, 10:36
 -- Verze serveru: 10.4.28-MariaDB
 -- Verze PHP: 8.2.4
 
@@ -24,13 +24,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `archiv`
+-- Struktura tabulky `akce`
 --
 
-CREATE TABLE `archiv` (
-  `id_arch` int(11) NOT NULL,
-  `id_turn` int(11) NOT NULL,
-  `popisek_arch` text NOT NULL
+CREATE TABLE `akce` (
+  `id_akce` int(11) NOT NULL,
+  `nazev_akce` varchar(30) NOT NULL,
+  `datum_zahajeni` date NOT NULL,
+  `delka_dni` int(11) DEFAULT NULL,
+  `misto_kon` varchar(30) NOT NULL,
+  `popisek_akce` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -41,8 +44,9 @@ CREATE TABLE `archiv` (
 
 CREATE TABLE `disc-ucast` (
   `id_disc-ucast` int(11) NOT NULL,
-  `id_uzivsoup` int(11) NOT NULL,
-  `id_disc` int(11) NOT NULL
+  `id_ucast` int(11) NOT NULL,
+  `id_disc` int(11) NOT NULL,
+  `vys_du` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -91,7 +95,8 @@ CREATE TABLE `prispevek` (
 CREATE TABLE `soupiska` (
   `id_soup` int(11) NOT NULL,
   `id_turn` int(11) NOT NULL,
-  `nazev_skupiny` varchar(30) NOT NULL
+  `nazev_skupiny` varchar(30) NOT NULL,
+  `vys_s` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -169,28 +174,14 @@ INSERT INTO `trida` (`id_trid`, `tridni_uc`, `zkratka_uc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `turnaj`
---
-
-CREATE TABLE `turnaj` (
-  `id_turn` int(11) NOT NULL,
-  `nazev_tur` varchar(30) NOT NULL,
-  `datum_zahajeni` date NOT NULL,
-  `delka_dni` int(11) DEFAULT NULL,
-  `misto_kon` varchar(30) NOT NULL,
-  `popisek_turn` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `ucastnik`
 --
 
 CREATE TABLE `ucastnik` (
   `id_ucast` int(11) NOT NULL,
   `id_uziv` int(11) NOT NULL,
-  `id_soup` int(11) NOT NULL
+  `id_soup` int(11) NOT NULL,
+  `vys_u` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -228,18 +219,17 @@ CREATE TABLE `uzivatel` (
 --
 
 --
--- Indexy pro tabulku `archiv`
+-- Indexy pro tabulku `akce`
 --
-ALTER TABLE `archiv`
-  ADD PRIMARY KEY (`id_arch`),
-  ADD KEY `id_turn` (`id_turn`);
+ALTER TABLE `akce`
+  ADD PRIMARY KEY (`id_akce`);
 
 --
 -- Indexy pro tabulku `disc-ucast`
 --
 ALTER TABLE `disc-ucast`
   ADD PRIMARY KEY (`id_disc-ucast`),
-  ADD KEY `id_uzivsoup` (`id_uzivsoup`),
+  ADD KEY `id_uzivsoup` (`id_ucast`),
   ADD KEY `id_disc` (`id_disc`);
 
 --
@@ -293,12 +283,6 @@ ALTER TABLE `trida`
   ADD PRIMARY KEY (`id_trid`);
 
 --
--- Indexy pro tabulku `turnaj`
---
-ALTER TABLE `turnaj`
-  ADD PRIMARY KEY (`id_turn`);
-
---
 -- Indexy pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
@@ -324,10 +308,10 @@ ALTER TABLE `uzivatel`
 --
 
 --
--- AUTO_INCREMENT pro tabulku `archiv`
+-- AUTO_INCREMENT pro tabulku `akce`
 --
-ALTER TABLE `archiv`
-  MODIFY `id_arch` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `akce`
+  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `disc-ucast`
@@ -372,12 +356,6 @@ ALTER TABLE `sportuje`
   MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pro tabulku `turnaj`
---
-ALTER TABLE `turnaj`
-  MODIFY `id_turn` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
@@ -400,16 +378,10 @@ ALTER TABLE `uzivatel`
 --
 
 --
--- Omezení pro tabulku `archiv`
---
-ALTER TABLE `archiv`
-  ADD CONSTRAINT `archiv_ibfk_1` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Omezení pro tabulku `disc-ucast`
 --
 ALTER TABLE `disc-ucast`
-  ADD CONSTRAINT `disc-ucast_ibfk_1` FOREIGN KEY (`id_uzivsoup`) REFERENCES `ucastnik` (`id_ucast`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `disc-ucast_ibfk_1` FOREIGN KEY (`id_ucast`) REFERENCES `ucastnik` (`id_ucast`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `disc-ucast_ibfk_2` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -428,7 +400,7 @@ ALTER TABLE `prispevek`
 -- Omezení pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  ADD CONSTRAINT `soupiska_ibfk_5` FOREIGN KEY (`id_turn`) REFERENCES `turnaj` (`id_turn`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `soupiska_ibfk_5` FOREIGN KEY (`id_turn`) REFERENCES `akce` (`id_akce`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `sportuje`

@@ -4,7 +4,7 @@ class UzivateleKontroler extends Kontroler {
 
         $this->pohled = "uzivatele";
 
-        $modelUzivatelu= new ModelyUzivatelu;
+        $modelUzivatelu= new ModelyUzivatel;
 
         $ucitele = $modelUzivatelu -> vratInfoVsechUcitelu();
 

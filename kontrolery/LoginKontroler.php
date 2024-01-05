@@ -2,7 +2,7 @@
 class LoginKontroler extends Kontroler {
   
    public function zpracuj($parametry) {
-     $spravceUzivatelu = new SpravceUzivatelu;
+     $spravceUzivatelu = new ModelyUzivatel;
      
      if (!empty($_POST)) {
         if ($spravceUzivatelu->prihlas($_POST)) {

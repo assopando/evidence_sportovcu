@@ -3,7 +3,7 @@ class PridelenidisciplinKontroler extends Kontroler  {
 
     public function zpracuj($parametry){
 
-          $modelyUzivatelu= new ModelyUzivatelu;
+          $modelyUzivatelu= new ModelyUzivatel;
         $modelyDisciplin= new ModelyDisciplina;
         $modelySportuje = new ModelySportuje;
 

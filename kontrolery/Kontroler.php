@@ -4,7 +4,7 @@ abstract class Kontroler {
     protected $pohled = ""; // název souboru s pohledem (bez přípony .phtml)
     protected $data = []; // pole dat pro sdílení mezi metodami kontroleru (např. pro předání z metody zpracuj do pohledu = vypisPohled())
     public function __construct() {
-        $spravceUzivatelu = new ModelyUzivatelu;
+        $spravceUzivatelu = new ModelyUzivatel;
         $this->prihlasenyUzivatel = 
             $spravceUzivatelu->vratPrihlasenehoUzivatele();
     }

@@ -18,7 +18,7 @@ class ImportcsvKontroler extends Kontroler {
                 echo "Chyba: " . $e->getMessage();
             }
         }
-        $modelyUzivatelu = new ModelyUzivatelu;
+        $modelyUzivatelu = new ModelyUzivatel;
         // Zde můžete přidat kód pro zobrazení stránky s formulářem pro import CSV souboru
         $this->pohled = "importcsv";  // Nastavte název pohledu dle vaší aplikace
       //  $this->data["uzivatele"]=$modelyUzivatelu->vratVsechnyUzivatele();
@@ -28,7 +28,7 @@ class ImportcsvKontroler extends Kontroler {
         // Otevření souboru pomocí SPLFileObject
         $file = new SplFileObject($csvFilePath, 'r');
     
-        $modelyUzivatelu = new ModelyUzivatelu;
+        $modelyUzivatelu = new ModelyUzivatel;
     
         // Přečtení prvního řádku (hlavičky)
         $header = $file->fgetcsv(';');

@@ -2,10 +2,10 @@
 class LoginKontroler extends Kontroler {
   
    public function zpracuj($parametry) {
-     $spravceUzivatelu = new ModelyUzivatel;
+     $modelyUzivatelu = new ModelyUzivatel;
      
      if (!empty($_POST)) {
-        if ($spravceUzivatelu->prihlas($_POST)) {
+        if ($modelyUzivatelu->prihlas($_POST)) {
             $this->pridejZpravu("Přihlášení bylo úspěšné.");
             $this->presmeruj("");
         }

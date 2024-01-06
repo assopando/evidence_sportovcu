@@ -4,6 +4,7 @@ class UcastnikKontroler extends Kontroler {
 
         $modelUcastnik= new ModelyUcastnik;
         $modelUzivatel= new ModelyUzivatel;
+        $modelSoupiska= new ModelySoupiska;
 
 
 
@@ -101,10 +102,14 @@ class UcastnikKontroler extends Kontroler {
 
 
         $this->pohled = "ucastnik";
+
         $ucastnik=$modelUcastnik->vratVsechnyUcastniky();
         $this->data["ucastnik"] = $ucastnik; 
         
         $uzivatel=$modelUzivatel->vratVsechnyUzivatele();
         $this->data["uzivatel"] = $uzivatel; 
+
+        $soupiska=$modelSoupiska->vratVsechnySoupisky();
+        $this->data["soupiska"] = $soupiska; 
     }
 }

@@ -46,15 +46,15 @@ class ModelyDisc_ucast{
         return 1;
       }
     return 0;
-    }//vrati 1 pokud v databazi ucastnika odebere, 0 pokud se akce nepodarila
+    }//vrati 1 pokud v databazi záznam odebere, 0 pokud se akce nepodarila
 
 
-    /*slouzi ke zmene sloupcu v tabulce "ucastnik", parametry:
+    /*slouzi ke zmene sloupcu v tabulce "disc_ucast", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_disc_ucast"] => 5
                                                                       ["id_ucast"] => 19
                                                                       ["id_disc"] => 5
                                                                       ["vys_du"] => "Rekord v behu na 1km - 21 sekund"
-    $id - id z databaze(id_disc_ucast), čili id konkretniho ucastnika
+    $id - id z databaze(id_disc_ucast), čili id konkretniho záznamu
     */
     public function zmenDisc_ucast($hodnoty, $id){
       $sql = "

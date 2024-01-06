@@ -48,17 +48,17 @@ class ModelyAkce{
         return 1;
       }
     return 0;
-    }//vrati 1 pokud v databazi ucastnika odebere, 0 pokud se akce nepodarila
+    }//vrati 1 pokud v databazi akce odebere, 0 pokud se akce nepodarila
 
 
-    /*slouzi ke zmene sloupcu v tabulce "ucastnik", parametry:
+    /*slouzi ke zmene sloupcu v tabulce "akce", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_akce"] => 5
                                                                       ["nazev_akce"] => "Vanocni turnaj"
                                                                       ["datum_zahajeni"] => 2025-12.22
                                                                       ["delka_dni"] => 
                                                                       ["misto_kon"] => "sddgedgfs"
                                                                       ["popisek_akce"] => ""htgdbxrtbgrsgsyrg"
-    $id - id z databaze(id_akce), čili id konkretniho ucastnika
+    $id - id z databaze(id_akce), čili id konkretni akci
     */
     public function zmenAkci($hodnoty, $id){
       $sql = "

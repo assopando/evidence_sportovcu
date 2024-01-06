@@ -24,7 +24,13 @@
         <?php endforeach; ?>
     </select>
     <label for="id_soup">ID Soupisky:</label>
-    <input type="number" name="id_soup" required>
+    <select name="id_soup">
+        <?php foreach ($this->data['soupiska'] as $soupiska): ?>
+            <option value="<?php echo $soupiska['id_soup']; ?>">
+                <?php echo $soupiska['nazev_skupiny']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
     <label for="vys_u">Shrnutí výsledku:</label>
     <input type="text" name="vys_u" >
     <button type="submit" name="pridej">Přidat záznam</button>
@@ -51,9 +57,16 @@
                     <?php endforeach; ?>
                 </select>
                 <br>
-                Soupiska: <?php echo $ucast['id_soup']; ?>
+                <label for="id_soup">Soupiska:</label>
                 <br>
-                <input type="hidden" name="id_soup" value="<?php echo $ucast['id_soup']; ?>">
+                <select name="id_soup">
+                    <?php foreach ($this->data['soupiska'] as $soupiska): ?>
+                        <option value="<?php echo $soupiska['id_soup']; ?>" <?php echo ($ucast['id_soup'] == $soupiska['id_soup']) ? 'selected' : ''; ?>>
+                            <?php echo $soupiska['nazev_skupiny']?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
                 <label for="vys_u">Shrnutí:</label>
                 <br>
                 <textarea name="vys_u" rows="5" cols="50">

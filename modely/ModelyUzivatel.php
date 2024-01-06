@@ -62,6 +62,7 @@ class ModelyUzivatel {
     }
 
     /*funkce slouzi k pridani studenta do uzivatele, parametr bude pole, vyzadujici:
+    id_uziv
     *id_trid
     student (true)
     *isic
@@ -70,10 +71,21 @@ class ModelyUzivatel {
     opravneni
     *jmeno
     *prijmeni
+    *dat_nar
+    *pohlavi
 
     * - nepovinny atribut
     */
     public function pridejStudenta($uzivatel) {
+      $sql = "
+            SELECT id_uziv
+            FROM uzivatel
+            where id_uziv = ?
+        ";
+        if(Db::dotazJeden($sql,[$uzivatel["id_uziv"]])){
+        return 0;
+        }
+
       $sql = "
           SELECT isic
           FROM uzivatel
@@ -97,6 +109,8 @@ class ModelyUzivatel {
     opravneni
     *jmeno
     *prijmeni
+    *dat_nar
+    *pohlavi
     
     * - nepovinny atribut
     */
@@ -137,7 +151,9 @@ class ModelyUzivatel {
                                                                       ["opravneni"] => 3
                                                                       ["jmeno"] =>"Sami"
                                                                       ["prijmeni"] =>"Fabi"
-    $id - id z databaze(id_user), čili id konkretniho uzivatele
+                                                                      ["dat_nar"] =>
+                                                                      ["pohlavi"] =>"ž"
+    $id - id z databaze(id_uziv), čili id konkretniho uzivatele
     */
       public function zmenUzivatele($hodnoty){
         $sql = "
@@ -154,17 +170,9 @@ class ModelyUzivatel {
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-/*
-      public function ziskejIdUzivatele(){
-        $sql = "SELECT id_uziv FROM uzivatel";
-        $id = Db::dotazJeden($sql, []);
-      return $id;
-      
-      }
-*/
 //vrati informace vsech ucitelu vsechny ucitele
-//Work in progress
     public function vratInfoVsechUcitelu(){
+      $data = array();
     for ($i = 0; $i < 100; $i++) {
       $sql = "SELECT id_uziv FROM uzivatel WHERE id_uziv = ?";
       $id = Db::dotazJeden($sql, [$i]);

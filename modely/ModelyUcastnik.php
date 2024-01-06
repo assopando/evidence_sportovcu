@@ -13,7 +13,7 @@ class ModelyUcastnik{
 
 
   //vrati vsechno z tabulky "ucastnik"
-    public function vratVsechnySporty() {
+    public function vratVsechnyUcastniky() {
         $sql = "
             SELECT *
             FROM ucastnik
@@ -25,11 +25,15 @@ class ModelyUcastnik{
 
 
       /*slouzi k pridani ucastnika do databaze, parametr bude pole, vyzadujici:
-    id_ucastnik
+    id_ucast
     id_uziv
-    id_soup*/
+    id_soup
+    *vys_u
+    
+    * - nepovinny atribut
+    
+    */
     public function pridejUcastnika($ucastnik) {
-      
         $sql = "
             SELECT id_ucast
             FROM ucastnik
@@ -37,14 +41,6 @@ class ModelyUcastnik{
         ";
         if(Db::dotazJeden($sql,[$ucastnik["id_ucast"]])){
         return 0;
-        }
-        $sql = "
-            SELECT nazev_sportu
-            FROM ucastnik
-            where nazev_sportu = ?
-        ";
-        if(Db::dotazJeden($sql,[$ucastnik["nazev_sportu"]])){
-          return 0;
         }
       Db::vloz("ucastnik",$ucastnik);
       return 1;
@@ -65,23 +61,13 @@ class ModelyUcastnik{
 
 
     /*slouzi ke zmene sloupcu v tabulce "ucastnik", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_ucastnik"] => "5"
-                                                                      ["id_uziv"] => "19"
-                                                                      ["id_soup"] => "5"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_ucast"] => 5
+                                                                      ["id_uziv"] => 19
+                                                                      ["id_soup"] => 5
+                                                                      ["vys_u"] => "Student x skoncil na 2. miste v y turnaji"
     $id - id z databaze(id_ucast), čili id konkretniho ucastnika
     */
     public function zmenUcastnika($hodnoty, $id){
-
-      $sql = "
-      SELECT nazev_sportu
-      FROM ucastnik
-      where nazev_sportu = ?
-      ";
-      if(Db::dotazJeden($sql,[$hodnoty["nazev_sportu"]])){
-        return 0;
-      }
-
-
       $sql = "
       where id_ucast = ?
       ";

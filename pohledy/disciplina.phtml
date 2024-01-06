@@ -15,8 +15,7 @@
 <form method="post">
     <label for="id_disc">ID disciplíny:</label>
     <input type="number" name="id_disc">
-    
-    <label for="id_sport">ID sportu:</label>
+    <label for="id_sport">Sport:</label>
     <select name="id_sport">
         <?php foreach ($this->data['sporty'] as $sport): ?>
             <option value="<?php echo $sport['id_sport']; ?>">

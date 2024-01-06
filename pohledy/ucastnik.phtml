@@ -1,0 +1,76 @@
+<h1>Přidání a Výpis všech účastí</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání sportu -->
+<form  method="post">
+    <label for="id_ucast">ID Záznamu:</label>
+    <input type="number" name="id_ucast" >
+    <label for="id_uziv">Sportovec:</label>
+    <select name="id_uziv">
+        <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
+            <option value="<?php echo $uzivatel['id_uziv']; ?>">
+                <?php echo $uzivatel['jmeno']," ", $uzivatel['prijmeni']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="id_soup">ID Soupisky:</label>
+    <input type="number" name="id_soup" required>
+    <label for="vys_u">Shrnutí výsledku:</label>
+    <input type="text" name="vys_u" >
+    <button type="submit" name="pridej">Přidat záznam</button>
+</form>
+
+
+
+<!-- Výpis všech účastníků -->
+
+<?php if (isset($this->data['ucastnik']) && !empty($this->data['ucastnik'])): ?>
+    <h2>Všechny účastí</h2>
+    <ul>
+    <?php foreach ($this->data['ucastnik'] as $ucast): ?>
+            <li>ID záznamu: <?php echo $ucast['id_ucast']; ?>
+            <form method="post">
+                <input type="hidden" name="id_ucast" value="<?php echo $ucast['id_ucast']; ?>">
+                <label for="id_uziv">Sportovec:</label>
+                <br>
+                <select name="id_uziv">
+                    <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
+                        <option value="<?php echo $uzivatel['id_uziv']; ?>" <?php echo ($ucast['id_uziv'] == $uzivatel['id_uziv']) ? 'selected' : ''; ?>>
+                            <?php echo $uzivatel['jmeno']," ", $uzivatel['prijmeni']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+                Soupiska: <?php echo $ucast['id_soup']; ?>
+                <br>
+                <input type="hidden" name="id_soup" value="<?php echo $ucast['id_soup']; ?>">
+                <label for="vys_u">Shrnutí:</label>
+                <br>
+                <textarea name="vys_u" rows="5" cols="50">
+                <?php echo $ucast['vys_u']; ?>
+                </textarea>
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_ucast" value="<?php echo $ucast['id_ucast']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
+            </li>
+            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné zúčastnění.</p>
+<?php endif; ?>
+
+

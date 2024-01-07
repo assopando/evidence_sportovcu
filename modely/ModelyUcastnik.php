@@ -1,17 +1,6 @@
 <?php
 class ModelyUcastnik{
 
-
-
-/*
-!!! Work in progress !!!
-*/
-
-
-
-
-
-
   //vrati vsechno z tabulky "ucastnik"
     public function vratVsechnyUcastniky() {
         $sql = "
@@ -61,8 +50,7 @@ class ModelyUcastnik{
 
 
     /*slouzi ke zmene sloupcu v tabulce "ucastnik", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_ucast"] => 5
-                                                                      ["id_uziv"] => 19
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_uziv"] => 19
                                                                       ["id_soup"] => 5
                                                                       ["vys_u"] => "Student x skoncil na 2. miste v y turnaji"
     $id - id z databaze(id_ucast), čili id konkretniho ucastnika

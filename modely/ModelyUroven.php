@@ -56,7 +56,6 @@ class ModelyUroven{
     $id - id z databaze(id_urov), čili id konkretni uroven
     */
     public function zmenUroven($hodnoty, $id){
-
       $sql = "
       SELECT nazev_urov
       FROM uroven

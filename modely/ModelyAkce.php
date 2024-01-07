@@ -52,8 +52,7 @@ class ModelyAkce{
 
 
     /*slouzi ke zmene sloupcu v tabulce "akce", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_akce"] => 5
-                                                                      ["nazev_akce"] => "Vanocni turnaj"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_akce"] => "Vanocni turnaj"
                                                                       ["datum_zahajeni"] => 2025-12.22
                                                                       ["delka_dni"] => 
                                                                       ["misto_kon"] => "sddgedgfs"

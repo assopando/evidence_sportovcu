@@ -47,8 +47,7 @@ class ModelySoupiska{
 
 
     /*slouzi ke zmene sloupcu v tabulce "soupiska", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_soup"] => 5
-                                                                      ["id_akce"] => 3
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_akce"] => 3
                                                                       ["nazev_skupiny"] => "Skupina A"
                                                                       ["vys_s"] => 
 

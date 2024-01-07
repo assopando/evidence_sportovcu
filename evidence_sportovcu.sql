@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 07. led 2024, 20:32
+-- Vytvořeno: Ned 07. led 2024, 20:59
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -109,7 +109,7 @@ CREATE TABLE `soupiska` (
   `id_soup` int(11) NOT NULL,
   `id_akce` int(11) NOT NULL,
   `nazev_skupiny` varchar(30) NOT NULL,
-  `vys_s` int(11) DEFAULT NULL
+  `vys_s` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `sport` (
 --
 
 INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
-(1, 'a'),
+(1, 'asd'),
 (2, 'b');
 
 -- --------------------------------------------------------
@@ -221,7 +221,7 @@ CREATE TABLE `ucastnik` (
 --
 
 INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`) VALUES
-(2, 101, 1, '                                                                                                                                                                                                                                                                        dasdas                                                                                                                                                                                                                                                            ');
+(2, 105, 1, '                                                                                                                                                                                                                                                                                                        dasdas                                                                                                                                                                                                                                                                                            ');
 
 -- --------------------------------------------------------
 

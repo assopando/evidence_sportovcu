@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 06. led 2024, 20:34
+-- Vytvořeno: Ned 07. led 2024, 20:32
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -51,7 +51,6 @@ INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `delka_dni`, `mis
 
 CREATE TABLE `disciplina` (
   `id_disc` int(11) NOT NULL,
-  `id_sport` int(11) NOT NULL,
   `nazev_disc` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -59,8 +58,8 @@ CREATE TABLE `disciplina` (
 -- Vypisuji data pro tabulku `disciplina`
 --
 
-INSERT INTO `disciplina` (`id_disc`, `id_sport`, `nazev_disc`) VALUES
-(3, 1, 'rsgdghd');
+INSERT INTO `disciplina` (`id_disc`, `nazev_disc`) VALUES
+(3, 'rsgdghd');
 
 -- --------------------------------------------------------
 
@@ -152,6 +151,18 @@ CREATE TABLE `sportuje` (
   `id_poz` int(11) DEFAULT NULL,
   `id_urov` int(11) DEFAULT NULL,
   `tym` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `sport_disc`
+--
+
+CREATE TABLE `sport_disc` (
+  `id_sport_disc` int(11) NOT NULL,
+  `id_sport` int(11) NOT NULL,
+  `id_disc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -267,8 +278,7 @@ ALTER TABLE `akce`
 -- Indexy pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  ADD PRIMARY KEY (`id_disc`),
-  ADD KEY `fk_disc_sport` (`id_sport`) USING BTREE;
+  ADD PRIMARY KEY (`id_disc`);
 
 --
 -- Indexy pro tabulku `disc_ucast`
@@ -314,6 +324,14 @@ ALTER TABLE `sportuje`
   ADD KEY `isic` (`id_stud`),
   ADD KEY `uroven` (`id_urov`),
   ADD KEY `pozice` (`id_poz`);
+
+--
+-- Indexy pro tabulku `sport_disc`
+--
+ALTER TABLE `sport_disc`
+  ADD PRIMARY KEY (`id_sport_disc`),
+  ADD KEY `id_disc` (`id_disc`),
+  ADD KEY `id_sport` (`id_sport`);
 
 --
 -- Indexy pro tabulku `trida`
@@ -395,6 +413,12 @@ ALTER TABLE `sportuje`
   MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pro tabulku `sport_disc`
+--
+ALTER TABLE `sport_disc`
+  MODIFY `id_sport_disc` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
@@ -415,12 +439,6 @@ ALTER TABLE `uzivatel`
 --
 -- Omezení pro exportované tabulky
 --
-
---
--- Omezení pro tabulku `disciplina`
---
-ALTER TABLE `disciplina`
-  ADD CONSTRAINT `disciplina_ibfk_1` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `disc_ucast`
@@ -449,6 +467,13 @@ ALTER TABLE `sportuje`
   ADD CONSTRAINT `sportuje_ibfk_5` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_6` FOREIGN KEY (`id_poz`) REFERENCES `pozice` (`id_poz`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_7` FOREIGN KEY (`id_urov`) REFERENCES `uroven` (`id_urov`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Omezení pro tabulku `sport_disc`
+--
+ALTER TABLE `sport_disc`
+  ADD CONSTRAINT `sport_disc_ibfk_1` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sport_disc_ibfk_2` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `ucastnik`

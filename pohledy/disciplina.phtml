@@ -15,15 +15,6 @@
 <form method="post">
     <label for="id_disc">ID disciplíny:</label>
     <input type="number" name="id_disc">
-    <label for="id_sport">Sport:</label>
-    <select name="id_sport">
-        <?php foreach ($this->data['sporty'] as $sport): ?>
-            <option value="<?php echo $sport['id_sport']; ?>">
-                <?php echo $sport['nazev_sportu']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    
     <label for="nazev_disc">Název Disciplíny:</label>
     <input type="text" name="nazev_disc" required>
     
@@ -38,11 +29,10 @@
     <h2>Všechny disciplíny</h2>
     <ul>
     <?php foreach ($this->data['discipliny'] as $disc): ?>
-            <li>ID: <?php echo $disc['id_disc']; ?>, <br> ID sportu: <?php echo $disc['id_sport']; ?> <br>Název: <?php echo $disc['nazev_disc']; ?>
+            <li>ID: <?php echo $disc['id_disc']; ?>, <br>Název: <?php echo $disc['nazev_disc']; ?>
 
             <form method="post">
             <input type="hidden" name="editovana_disciplina_id" value="<?php echo $disc['id_disc']; ?>">
-            <input type="hidden" name="editovany_sport_id" value="<?php echo $disc['id_sport']; ?>">
             <label for="novy_nazev_discipliny">Nový název disciplíny:</label>
             <input type="text" name="novy_nazev_discipliny" >
             <button type="submit" name="ulozit">Uložit</button>

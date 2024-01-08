@@ -40,8 +40,6 @@ class DisciplinaKontroler extends Kontroler {
         else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
             
             $hodnoty= [
-                'id_disc' => $_POST['editovana_disciplina_id'],
-                'id_sport' => $_POST['editovany_sport_id'],
                 'nazev_disc' => $_POST['novy_nazev_discipliny'],
                 
             ];

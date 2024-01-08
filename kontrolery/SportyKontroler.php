@@ -20,6 +20,8 @@ class SportyKontroler extends Kontroler {
 
             $pridejSport= $modelSporty->pridejSporty($sport);
 
+            echo $pridejSport;
+
             if ($pridejSport === 1) {
                 // Sport byl úspěšně přidán
                 $this->pridejZpravu("Sport byl úspěšně přidán.");
@@ -43,7 +45,6 @@ class SportyKontroler extends Kontroler {
         else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
             
             $hodnoty= [
-                'id_sport' => $_POST['editovany_sport_id'],
                 'nazev_sportu' => $_POST['novy_nazev_sportu'],
                 
             ];

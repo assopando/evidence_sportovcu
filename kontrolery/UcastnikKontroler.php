@@ -48,7 +48,6 @@ class UcastnikKontroler extends Kontroler {
         else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
             
             $hodnoty= [
-                'id_ucast' => $_POST['id_ucast'],
                 'id_uziv' => $_POST['id_uziv'],
                 'id_soup' => $_POST['id_soup'],
                 'vys_u' => $_POST['vys_u'],

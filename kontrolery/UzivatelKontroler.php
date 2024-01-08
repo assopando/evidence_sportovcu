@@ -2,7 +2,7 @@
 class UzivatelKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
-        $this->pohled = "uzivatel";
+        $this->pohled = "uzivatele";
 
         $modelUzivatel= new ModelyUzivatel;
 

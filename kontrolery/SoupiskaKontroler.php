@@ -1,39 +1,41 @@
 <?php
-class DisciplinaKontroler extends Kontroler {
+class SoupiskaKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
         $modelDisciplin= new ModelyDisciplina();
-        $modelSporty= new ModelySport();
+        $modelSoupiska= new ModelySoupiska();
+        $modelAkce = new ModelyAkce();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
            
            
-            $discipliny = [
-                'id_disc' => $_POST['id_disc'],
-                'id_sport' => $_POST['id_sport'],
-                'nazev_disc' => $_POST['nazev_disc'],
+            $soupiska = [
+                'id_soup' => $_POST['id_soup'],
+                'id_akce' => $_POST['id_akce'],
+                'nazev_skupiny' => $_POST['nazev_soupisky'],
+                'vys_s' => $_POST['vys_s'],
                
             ];
 
-            $pridejDisc= $modelDisciplin->pridejDisciplinu($discipliny);
+            $pridejSoup= $modelSoupiska->pridejSoupisku($soupiska);
 
-            if ($pridejDisc === 1) {
+            if ($pridejSoup === 1) {
                 // Disciplina  byla úspěšně přidán
-                $this->pridejZpravu("Disciplína byla úspěšně přidán.");
-                $this->presmeruj("disciplina");
+                $this->pridejZpravu("Soupiska byla úspěšně přidán.");
+                $this->presmeruj("soupiska");
                 
                 exit;
-            } else if ($pridejDisc === 0) {
+            } else if ($pridejSoup === 0) {
                 // Disciplína již existuje
-                $this->pridejZpravu("Disciplína již existuje!");
-                $this->presmeruj("disciplina");
+                $this->pridejZpravu("Soupiska již existuje!");
+                $this->presmeruj("soupiska");
                 exit;
                 
             } else {
                 // Nějaká jiná chyba
                 // Můžete zde zobrazit chybovou hlášku uživateli
-                $this->pridejZpravu("Chyba při přidání disciplíny.");
-                $this->presmeruj("disciplina");
+                $this->pridejZpravu("Chyba při přidání soupisky.");
+                $this->presmeruj("soupiska");
                 exit;
             }
         }
@@ -91,11 +93,11 @@ class DisciplinaKontroler extends Kontroler {
         
 
 
-        $this->pohled = "disciplina";
-        $discipliny=$modelDisciplin->vratVsechnyDiscipliny();
-        $this->data["discipliny"] = $discipliny; 
+        $this->pohled = "soupiska";
+        $akce=$modelAkce->vratVsechnyAkce();
+        $this->data["akce"] = $akce; 
         
-        $sporty=$modelSporty->vratVsechnySporty();
-        $this->data["sporty"] = $sporty; 
+        $soupiska=$modelSoupiska->vratVsechnySoupisky();
+        $this->data["soupiska"] = $soupiska; 
     }
 }

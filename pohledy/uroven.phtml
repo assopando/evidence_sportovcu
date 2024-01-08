@@ -1,0 +1,48 @@
+<h1>Přidaní úrovní pro sportovce</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání pozic -->
+<form  method="post">
+    <label for="id_urov">ID urovne:</label>
+    <input type="number" name="id_urov" >
+    <label for="nazev_urov">Název urovne:</label>
+    <input type="text" name="nazev_urov" required>
+    <button type="submit" name="pridej">Přidat uroven</button>
+</form>
+
+
+
+<!-- Výpis všech sportů -->
+
+<?php if (isset($this->data['urov']) && !empty($this->data['urov'])): ?>
+    <h2>Všechny urovne</h2>
+    <ul>
+    <?php foreach ($this->data['urov'] as $urov): ?>
+            <li>ID: <?php echo $urov['id_urov']; ?>, Název: <?php echo $urov['nazev_urov']; ?>
+            <form method="post">
+            <input type="hidden" name="editovana_uroven_id" value="<?php echo $urov['id_urov']; ?>">
+            <label for="novy_nazev_urovne">Nový název urovne:</label>
+            <input type="text" name="novy_nazev_urovne" required>
+            <button type="submit" name="ulozit">Uložit</button>
+</form>
+                <form method="post">
+                    <input type="hidden" name="smazana_uroven_id" value="<?php echo $urov['id_urov']; ?>">
+                    <button type="submit" name="smazat">Smazat</button>
+                </form>
+            </li>
+            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné urovne.</p>
+<?php endif; ?>

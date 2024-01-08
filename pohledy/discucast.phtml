@@ -1,0 +1,95 @@
+<h1>Přidání a Výpis všech disc_ucast</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání disc_ucast -->
+<form  method="post">
+    <label for="id_disc_ucast">ID Záznamu:</label>
+    <input type="number" name="id_disc_ucast" >
+    <label for="id_ucast">Ucastnik:</label>
+    <select name="id_ucast">
+        <?php foreach ($this->data['ucastnik'] as $ucastnik): ?>
+            <option value="<?php echo $ucastnik['id_ucast']; ?>">
+                <?php echo $ucastnik['id_ucast'] ?> 
+                
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="id_disc">ID disciplin:</label>
+    <select name="id_disc">
+        <?php foreach ($this->data['disc'] as $disc): ?>
+            <option value="<?php echo $disc['id_disc']; ?>">
+                <?php echo $disc['nazev_disc']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="vys_du">Shrnutí výsledku(nevim):</label>
+    <input type="text" name="vys_du" >
+    <button type="submit" name="pridej">Přidat záznam</button>
+</form>
+
+
+
+<!-- Výpis všech discucast -->
+
+<?php if (isset($this->data['discucast']) && !empty($this->data['discucast'])): ?>
+    <h2>Všechny discucast</h2>
+    <ul>
+    <?php foreach ($this->data['discucast'] as $discucast): ?>
+        <li>ID záznamu: <?php echo $discucast['id_disc_ucast']; ?>
+            <form method="post">
+                <input type="hidden" name="id_disc_ucast" value="<?php echo $discucast['id_disc_ucast']; ?>">
+
+                <!-- Výběr ID ucastnika -->
+                <label for="id_ucast">ID ucastnika:</label>
+                <br>
+                <select name="id_ucast">
+                    <?php foreach ($this->data['ucastnik'] as $ucastnik): ?>
+                        <option value="<?php echo $ucastnik['id_ucast']; ?>" <?php echo ($discucast['id_ucast'] == $ucastnik['id_ucast']) ? 'selected' : ''; ?>>
+                            <?php echo $ucastnik['id_ucast']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+
+                <!-- Výběr ID discipliny -->
+                <label for="id_disc">ID discipliny:</label>
+                <br>
+                <select name="id_disc">
+                    <?php foreach ($this->data['disc'] as $disciplina): ?>
+                        <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($discucast['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
+                        <?php echo $disciplina['id_disc']," ", $disciplina['nazev_disc']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+
+                <!-- Vstup pro Shrnutí výsledku -->
+                <label for="vys_du">Shrnutí:</label>
+                <br>
+                <textarea name="vys_du" rows="5" cols="50"><?php echo $discucast['vys_du']; ?></textarea>
+
+                <!-- Tlačítka pro Uložení a Smazání -->
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_disc_ucast" value="<?php echo $discucast['id_disc_ucast']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné disc_ucast.</p>
+<?php endif; ?>
+
+

@@ -1,0 +1,76 @@
+<h1>Přidání a Výpis všech soupisek</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání soupisek -->
+<form  method="post">
+    <label for="id_soup">ID Soupisky:</label>
+    <input type="number" name="id_soup" >
+    <label for="id_akce">ID Akce</label>
+    <select name="id_akce">
+        <?php foreach ($this->data['akce'] as $akce): ?>
+            <option value="<?php echo $akce['id_akce']; ?>">
+                <?php echo $akce['nazev_akce']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="nazev_soupisky">Nazev soupisky  :</label>
+    <input type="text" name="nazev_soupisky" >
+    <label for="vys_s">Vys s:</label>
+    <input type="text" name="vys_s" >
+    <button type="submit" name="pridej">Přidat záznam</button>
+</form>
+
+
+
+<!-- Výpis všech účastníků -->
+
+<?php if (isset($this->data['soupiska']) && !empty($this->data['soupiska'])): ?>
+    <h2>Všechny soupisky</h2>
+    <ul>
+    <?php foreach ($this->data['soupiska'] as $soup): ?>
+            <li>ID záznamu: <?php echo $soup['id_soup']; ?>
+            <form method="post">
+                <input type="hidden" name="id_soup" value="<?php echo $soup['id_soup']; ?>">
+                <label for="id_akce">ID akce</label>
+                <br>
+                <select name="id_akce">
+                    <?php foreach ($this->data['akce'] as $akce): ?>
+                        <option value="<?php echo $akce['id_akce']; ?>" <?php echo ($soup['id_akce'] == $akce['id_akce']) ? 'selected' : ''; ?>>
+                            <?php echo $akce['id_akce']," ", $akce['nazev_akce']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+                <label for="nazev_soupisky">Nazev soupisky:</label>
+                <input type="text" name="nazev_soupisky" value="<?php echo $soup['nazev_skupiny']; ?>">
+                <br>
+                <label for="vys_s">Vysledek soupisky</label>
+                <br>
+                <textarea name="vys_s" rows="5" cols="50">
+                <?php echo $soup['vys_s']; ?>
+                </textarea>
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_soup" value="<?php echo $soup['id_soup']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
+            </li>
+            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné zúčastnění.</p>
+<?php endif; ?>
+
+

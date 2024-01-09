@@ -19,6 +19,7 @@ class ModelySportuje {
       *pozice
       *tym
       *uroven
+      *rekord
 
       * - nepovinny atribut
       */
@@ -55,6 +56,7 @@ class ModelySportuje {
                                                                       ["pozice"] => "leve kridlo"
                                                                       ["tym"] => "Baník"
                                                                       ["uroven"] => "Celostátní liga U19"
+                                                                      ["rekord"] => 5
     $id - id z databaze(id_sportuje), čili id konkretniho řádku
     */
     public function zmenSportuje($hodnoty, $id){

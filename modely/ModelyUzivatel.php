@@ -111,6 +111,7 @@ class ModelyUzivatel {
     *prijmeni
     *dat_nar
     *pohlavi
+    *komentar_uziv
     
     * - nepovinny atribut
     */
@@ -153,6 +154,7 @@ class ModelyUzivatel {
                                                                       ["prijmeni"] =>"Fabi"
                                                                       ["dat_nar"] =>
                                                                       ["pohlavi"] =>"ž"
+                                                                      ["komentar_uziv"] =>"Vyborný atlet"
     $id - id z databaze(id_uziv), čili id konkretniho uzivatele
     */
       public function zmenUzivatele($hodnoty){

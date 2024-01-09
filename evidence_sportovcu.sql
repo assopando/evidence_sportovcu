@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 09. led 2024, 19:16
+-- Vytvořeno: Úte 09. led 2024, 23:13
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -85,6 +85,13 @@ CREATE TABLE `pozice` (
   `nazev_poz` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Vypisuji data pro tabulku `pozice`
+--
+
+INSERT INTO `pozice` (`id_poz`, `nazev_poz`) VALUES
+(1, 'leve kridlo');
+
 -- --------------------------------------------------------
 
 --
@@ -151,7 +158,7 @@ CREATE TABLE `sportuje` (
   `id_poz` int(11) DEFAULT NULL,
   `id_urov` int(11) DEFAULT NULL,
   `tym` varchar(25) DEFAULT NULL,
-  `rekord` int(11) DEFAULT NULL
+  `rekord` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -234,6 +241,13 @@ CREATE TABLE `uroven` (
   `id_urov` int(11) NOT NULL,
   `nazev_urov` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `uroven`
+--
+
+INSERT INTO `uroven` (`id_urov`, `nazev_urov`) VALUES
+(1, 'celostatni');
 
 -- --------------------------------------------------------
 
@@ -388,7 +402,7 @@ ALTER TABLE `disc_ucast`
 -- AUTO_INCREMENT pro tabulku `pozice`
 --
 ALTER TABLE `pozice`
-  MODIFY `id_poz` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_poz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `prispevek`
@@ -412,7 +426,7 @@ ALTER TABLE `sport`
 -- AUTO_INCREMENT pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport_disc`
@@ -430,7 +444,7 @@ ALTER TABLE `ucastnik`
 -- AUTO_INCREMENT pro tabulku `uroven`
 --
 ALTER TABLE `uroven`
-  MODIFY `id_urov` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_urov` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `uzivatel`

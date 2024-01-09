@@ -11,7 +11,7 @@
 
 <?php endif; ?>
 
-<!-- Formulář pro přidání sportu -->
+<!-- Formulář pro přidání ucastniku -->
 <form  method="post">
     <label for="id_ucast">ID Záznamu:</label>
     <input type="number" name="id_ucast" >
@@ -23,7 +23,7 @@
             </option>
         <?php endforeach; ?>
     </select>
-    <label for="id_soup">ID Soupisky:</label>
+    <label for="id_soup">Soupisky:</label>
     <select name="id_soup">
         <?php foreach ($this->data['soupiska'] as $soupiska): ?>
             <option value="<?php echo $soupiska['id_soup']; ?>">

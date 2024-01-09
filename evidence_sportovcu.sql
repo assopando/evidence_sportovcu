@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 07. led 2024, 20:59
+-- Vytvořeno: Úte 09. led 2024, 19:07
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -150,7 +150,8 @@ CREATE TABLE `sportuje` (
   `id_stud` int(11) NOT NULL,
   `id_poz` int(11) DEFAULT NULL,
   `id_urov` int(11) DEFAULT NULL,
-  `tym` varchar(25) DEFAULT NULL
+  `tym` varchar(25) DEFAULT NULL,
+  `rekord` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -250,19 +251,20 @@ CREATE TABLE `uzivatel` (
   `jmeno` varchar(25) DEFAULT NULL,
   `prijmeni` varchar(25) DEFAULT NULL,
   `dat_nar` date DEFAULT NULL,
-  `pohlavi` varchar(1) DEFAULT NULL
+  `pohlavi` varchar(1) DEFAULT NULL,
+  `komentar` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `student`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
-(100, 'I4B', 0, 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M'),
-(101, 'I4B', 0, 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M'),
-(102, 'I4B', 0, 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M'),
-(105, 'I4B', 1, NULL, NULL, 1, 'samson', 'fabi', NULL, NULL),
-(106, 'I3B', 1, NULL, NULL, 1, 'nula', 'donald', NULL, NULL);
+INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `student`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar`) VALUES
+(100, 'I4B', 0, 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
+(101, 'I4B', 0, 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
+(102, 'I4B', 0, 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL),
+(105, 'I4B', 1, NULL, NULL, 1, 'samson', 'fabi', NULL, NULL, NULL),
+(106, 'I3B', 1, NULL, NULL, 1, 'nula', 'donald', NULL, NULL, NULL);
 
 --
 -- Indexy pro exportované tabulky

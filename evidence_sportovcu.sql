@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 09. led 2024, 19:07
+-- Vytvořeno: Úte 09. led 2024, 19:16
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -252,14 +252,14 @@ CREATE TABLE `uzivatel` (
   `prijmeni` varchar(25) DEFAULT NULL,
   `dat_nar` date DEFAULT NULL,
   `pohlavi` varchar(1) DEFAULT NULL,
-  `komentar` text DEFAULT NULL
+  `komentar_uziv` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `student`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar`) VALUES
+INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `student`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar_uziv`) VALUES
 (100, 'I4B', 0, 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
 (101, 'I4B', 0, 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
 (102, 'I4B', 0, 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL),

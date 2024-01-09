@@ -16,9 +16,9 @@ class ModelySportuje {
       id_sportuje
       id_disc (id discipliny)
       id_stud (id_uzivatele)
-      *pozice
+      *id_poz
+      *id_urov
       *tym
-      *uroven
       *rekord
 
       * - nepovinny atribut
@@ -53,9 +53,9 @@ class ModelySportuje {
     /*funkce slouzi ke zmene sloupcu v tabulce "sportuje", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["id_disc"] => 3
                                                                       ["id_stud"] => 2
-                                                                      ["pozice"] => "leve kridlo"
+                                                                      ["id_poz"] => 5
+                                                                      ["id_urov"] => 9
                                                                       ["tym"] => "Baník"
-                                                                      ["uroven"] => "Celostátní liga U19"
                                                                       ["rekord"] => 5
     $id - id z databaze(id_sportuje), čili id konkretniho řádku
     */

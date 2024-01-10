@@ -6,15 +6,19 @@ class PridelenidisciplinKontroler extends Kontroler  {
         $modelyUzivatelu= new ModelyUzivatel;
         $modelyDisciplin= new ModelyDisciplina;
         $modelySportuje = new ModelySportuje;
+        $modelyPozice= new ModelyPozice;
+        $modelyUroven= new ModelyUroven;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
             // Zpracujte data z formuláře
            // $id_sportuje = $_POST['id_sportuje'];
             $id_disc = $_POST['id_disc'];
             $id_stud = $_POST['id_uziv'];
-            $pozice = isset($_POST['pozice']) ? $_POST['pozice'] : null;
+            $pozice = isset($_POST['id_poz']) ? $_POST['id_poz'] : null;
             $tym = isset($_POST['tym']) ? $_POST['tym'] : null;
-            $uroven = isset($_POST['uroven']) ? $_POST['uroven'] : null;
+            $uroven = isset($_POST['id_urov']) ? $_POST['id_urov'] : null;
+            
+             
 
             // Validace a další zpracování dat, pokud je to potřeba
 
@@ -24,9 +28,10 @@ class PridelenidisciplinKontroler extends Kontroler  {
                // 'id_sportuje' => $id_sportuje,
                 'id_disc' => $id_disc,
                 'id_stud' => $id_stud,
-                'pozice' => $pozice,
+                'id_poz' => $pozice,
                 'tym' => $tym,
-                'uroven' => $uroven,
+                'id_urov' => $uroven,
+                'rekord' => $_POST['rekord'],
             ]);
 
             // Zpracování výsledku a přesměrování nebo zobrazení odpovědi uživateli
@@ -54,6 +59,11 @@ class PridelenidisciplinKontroler extends Kontroler  {
         $this->pohled="pridelenidisciplin";
         $this->data["studenti"]= $modelyUzivatelu->vratVsechnyUzivatele();
         $this->data["disc"]= $modelyDisciplin->vratVsechnyDiscipliny();
+        $pozice=$modelyPozice->vratVsechnyPozice();
+        $this->data["pozice"] = $pozice;
+
+        $uroven=$modelyUroven->vratVsechnyUroven();
+        $this->data["uroven"] = $uroven;
 
     }
 

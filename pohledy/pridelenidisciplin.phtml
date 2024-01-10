@@ -13,10 +13,11 @@
 <table>
     <thead>
         <tr>
-            <th data-colname="id_trid" data-order="desc">Class ID &#9650</th>
+            <th data-colname="id_trid" data-order="desc">Třída &#9650</th>
             <th data-colname="isic" data-order="desc">ISIC &#9650</th>
-            <th data-colname="jmeno" data-order="desc">Name &#9650</th>
-            <th data-colname="prijmeni" data-order="desc">Surname &#9650</th>
+            <th data-colname="jmeno" data-order="desc">Jméno &#9650</th>
+            <th data-colname="prijmeni" data-order="desc">Příjmení &#9650</th>
+            <th data-colname="rekord" data-order="desc">Rekord &#9650</th>
             
         </tr>
     </thead>
@@ -67,6 +68,7 @@
                             <td>${data[i].isic}</td>
                             <td>${data[i].jmeno}</td>
                             <td>${data[i].prijmeni}</td>
+                            
                             <td><button onclick="showForm(${i})">Přidat hodnoty</button></td>
                        </tr>`;
             table.innerHTML += row;
@@ -108,14 +110,29 @@
         <?php endforeach; ?>
     </select>
             
-            <label for="pozice">Pozice:</label>
-            <input type="text" id="pozice" name="pozice">
+            <label for="id_poz">Pozice:</label>
+            <select name="id_poz">
+        <?php foreach ($this->data['pozice'] as $pozice): ?>
+            <option value="<?php echo $pozice['id_poz']; ?>" >
+                <?php echo $pozice['nazev_poz']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
             <label for="tym">Tým:</label>
             <input type="text" id="tym" name="tym">
 
-            <label for="uroven">Úroveň:</label>
-            <input type="text" id="uroven" name="uroven">
+            <label for="id_urov">Úroveň:</label>
+            <select name="id_urov">
+        <?php foreach ($this->data['uroven'] as $uroven): ?>
+            <option value="<?php echo $uroven['id_urov']; ?>" >
+                <?php echo $uroven['nazev_urov']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+            <label for="rekord">Rekord :</label>
+            <input type="number" id="rekord" name="rekord" step="0.01">
 
             <input type="submit" value="Přidat hodnoty" name="pridej">
         </form>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportovci</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <style>
+        #sportovciTable {
+            text-align: center; /* Zarovnání obsahu tabulky na střed */
+        }
+    </style>
+</head>
+<body>
+
+    <table id="sportovciTable">
+        <thead>
+            <tr>
+                
+                <th>ID Studenta</th>
+                <th>ID Disciplíny</th>
+                <th>ID Pozice</th>
+                <th>ID Úrovně</th>
+                <th>Tým</th>
+                <th>Rekord</th>
+            </tr>
+            <tr class="filters">
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="ID_studenta">      
+                </th>
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="ID_Discipliny">       
+                </th>
+                
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="ID_pozice">       
+                </th>
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="ID_urovne">       
+                </th>
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="tym">       
+                </th>
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="rekord">       
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data získaná z $this->data["sportuje"] půjdou sem -->
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    // Získání dat z PHP proměnné $this->data["sportuje"]
+    var sportujeData = <?php echo json_encode($this->data["sportuje"]); ?>;
+    var sportovciData = <?php echo json_encode($this->data["sportovci"]); ?>;
+    var DisciplinyData = <?php echo json_encode($this->data["disc"]); ?>;
+    var PoziceData = <?php echo json_encode($this->data["poz"]); ?>;
+    var UrovenData = <?php echo json_encode($this->data["urov"]); ?>;
+
+    // Inicializace DataTables
+    var table = $('#sportovciTable').DataTable({
+        orderCellsTop: true,
+        fixedHeader: true,
+        initComplete: function () {
+            var api = this.api();
+
+            // Přidání textových polí nad každým sloupcem pro filtrování sloupců
+            api
+                .columns()
+                .eq(0)
+                .each(function (colIdx) {
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                    $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})';
+
+                            var cursorPosition = this.selectionStart;
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                                .setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                    });
+
+            // Přidání textových polí nad každým řádkem pro filtrování řádků
+           // $('.filters').append('<th><input type="text" placeholder="Filter Row" id="rowFilter"></th>');
+
+            // Filtrování řádků podle hodnoty v textovém poli nad řádkem
+            $('#rowFilter').on('keyup change', function () {
+                var filterValue = $(this).val();
+                table.rows().search(filterValue).draw();
+            });
+        },
+    });
+
+    // Naplnění tabulky daty
+    sportovciData.forEach(function(sportovec) {
+        var jmenoPrijmeni = "";
+        var disc = "";
+        var nazevPozice = "";
+        var nazevUroven = "";
+       
+        sportujeData.forEach(function(jedinec) {
+            if (jedinec.id_uziv == sportovec.id_stud) {
+                jmenoPrijmeni = jedinec.jmeno + " " + jedinec.prijmeni;
+                
+            }
+            
+        });
+
+        DisciplinyData.forEach(function(disc) {
+            if (disc.id_disc == sportovec.id_disc) {
+                nazevDiscipliny = disc.nazev_disc;
+            }
+            
+        });
+
+        PoziceData.forEach(function(poz) {
+            if (poz.id_poz == sportovec.id_poz) {
+                nazevPozice = poz.nazev_poz;
+            }
+            
+        });
+
+        UrovenData.forEach(function(urov) {
+            if (urov.id_urov == sportovec.id_urov) {
+                nazevUroven = urov.nazev_urov;
+                
+            }
+            
+        });
+
+
+
+        table.row.add([
+            jmenoPrijmeni,
+            nazevDiscipliny,
+            nazevPozice,
+            //sportovec.id_urov,
+            nazevUroven,
+            sportovec.tym,
+            sportovec.rekord
+        ]).draw();
+    });
+});
+    </script>
+</body>
+</html>

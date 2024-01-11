@@ -1,33 +1,39 @@
 <h1>Přidání a Výpis všech "Sportuje"</h1>
 
 <!-- Výpis zpráv -->
-<?php if (!empty($this->zpravy)): ?>
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
     <ul>
         <?php foreach ($this->zpravy as $zprava): ?>
-            <li><?= $zprava; ?></li>
+            <li><?php echo $zprava; ?></li>
         <?php endforeach; ?>
     </ul>
+
+
 <?php endif; ?>
 
 <!-- Formulář pro přidání "sportuje" -->
-<?php $sportuje = $this->data['sportuje'] ?? []; ?>
 
-<form method="post">
+<?php $sportuje = isset($this->data['sportuje']) ? $this->data['sportuje'] : [];?>
+
+
+<form  method="post">
     <label for="id_sportuje">ID Záznamu:</label>
-    <input type="number" name="id_sportuje">
+    <input type="number" name="id_sportuje" >
 
     <label for="id_disc">Disciplina:</label>
     <select name="id_disc">
         <?php foreach ($this->data['disciplina'] as $disciplina): ?>
-            <option value="<?= $disciplina['id_disc']; ?>"><?= $disciplina['nazev_disc']; ?></option>
+            <option value="<?php echo $disciplina['id_disc']; ?>">
+                <?php echo $disciplina['nazev_disc']?>
+            </option>
         <?php endforeach; ?>
     </select>
 
     <label for="id_stud">Student:</label>
     <select name="id_stud">
         <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
-            <option value="<?= $uzivatel['id_uziv']; ?>">
-                <?= $uzivatel['jmeno'] . ' ' . $uzivatel['prijmeni']; ?>
+            <option value="<?php echo $uzivatel['id_uziv']; ?>">
+                <?php echo $uzivatel['jmeno']," ",$uzivatel['prijmeni']?>
             </option>
         <?php endforeach; ?>
     </select>
@@ -35,98 +41,109 @@
     <label for="id_poz">Pozice:</label>
     <select name="id_poz">
         <?php foreach ($this->data['pozice'] as $pozice): ?>
-            <option value="<?= $pozice['id_poz']; ?>"><?= $pozice['nazev_poz']; ?></option>
+            <option value="<?php echo $pozice['id_poz']; ?>">
+                <?php echo $pozice['nazev_poz']?>
+            </option>
         <?php endforeach; ?>
     </select>
 
     <label for="id_urov">Úroven:</label>
     <select name="id_urov">
         <?php foreach ($this->data['uroven'] as $uroven): ?>
-            <option value="<?= $uroven['id_urov']; ?>"><?= $uroven['nazev_urov']; ?></option>
+            <option value="<?php echo $uroven['id_urov']; ?>">
+                <?php echo $uroven['nazev_urov']?>
+            </option>
         <?php endforeach; ?>
     </select>
 
     <label for="tym">Tým:</label>
-    <input type="text" name="tym">
+    <input type="text" name="tym" >
 
     <label for="rekord">Rekord</label>
-    <input type="number" name="rekord" step="0.01">
+    <input type="number" name="rekord" step="0.01" >
 
     <button type="submit" name="pridej">Přidat záznam</button>
 </form>
 
+
+
+
 <!-- Výpis všech účastníků -->
-<?php if (!empty($this->data['sportuje'])): ?>
-    <h2>Všechny účasti</h2>
+<?php if (isset($this->data['sportuje']) && !empty($this->data['sportuje'])): ?>
+    <h2>Všechny účastí</h2>
     <ul>
-        <?php foreach ($this->data['sportuje'] as $sport): ?>
-            <li>ID záznamu: <?= $sport['id_sportuje']; ?>
-                <form method="post">
-                    <input type="hidden" name="id_sportuje" value="<?= $sport['id_sportuje']; ?>">
-                    <label for="id_disc">Disciplina:</label>
-                    <br>
-                    <select name="id_disc">
-                        <?php foreach ($this->data['disciplina'] as $disciplina): ?>
-                            <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($disciplina['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
-                                <?php echo $disciplina['nazev_disc']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <br>
-                    <label for="id_stud">Sportovec:</label>
-                    <br>
-                    <select name="id_stud">
-                        <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
-                            <option value="<?php echo $uzivatel['id_uziv']; ?>" <?php echo ($sportuje['id_stud'] == $uzivatel['id_uziv']) ? 'selected' : ''; ?>>
-                                <?php echo $uzivatel['jmeno']," ", $uzivatel['prijmeni']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <br>
+    <?php foreach ($this->data['sportuje'] as $sportuje): ?>
+            <li>ID záznamu: <?php echo $sportuje['id_sportuje']; ?>
+            <form method="post">
+                <input type="hidden" name="id_sportuje" value="<?php echo $sportuje['id_sportuje']; ?>">
+                <label for="id_disc">Disciplina:</label>
+                <br>
+                <select name="id_disc">
+                    <?php foreach ($this->data['disciplina'] as $disciplina): ?>
+                        <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($disciplina['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
+                            <?php echo $disciplina['nazev_disc']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+                <label for="id_stud">Sportovec:</label>
+                <br>
+                <select name="id_stud">
+                    <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
+                        <option value="<?php echo $uzivatel['id_uziv']; ?>" <?php echo ($sportuje['id_stud'] == $uzivatel['id_uziv']) ? 'selected' : ''; ?>>
+                            <?php echo $uzivatel['jmeno']," ", $uzivatel['prijmeni']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
 
-                    <label>Třída:</label>
-                        <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
-                            <?php echo ($sportuje['id_stud'] == $uzivatel['id_uziv']) ?  $uzivatel['id_trid']: '';?>
-                        <?php endforeach; ?>
+                <label>Třída:</label>
+                    <?php foreach ($this->data['uzivatel'] as $uzivatel): ?>
+                        <?php echo ($sportuje['id_stud'] == $uzivatel['id_uziv']) ?  $uzivatel['id_trid']: '';?>
+                    <?php endforeach; ?>
 
-                    <br>
-                    <label for="id_poz">Pozice:</label>
-                    <br>
-                    <select name="id_poz">
-                        <?php foreach ($this->data['pozice'] as $pozice): ?>
-                            <option value="<?php echo $pozice['id_poz']; ?>" <?php echo ($sportuje['id_poz'] == $pozice['id_poz']) ? 'selected' : ''; ?>>
-                                <?php echo $pozice['nazev_poz']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <br>
-                    <label for="id_poz">Uroven:</label>
-                    <br>
-                    <select name="id_urov">
-                        <?php foreach ($this->data['uroven'] as $uroven): ?>
-                            <option value="<?php echo $uroven['id_urov']; ?>" <?php echo ($sportuje['id_urov'] == $uroven['id_urov']) ? 'selected' : ''; ?>>
-                                <?php echo $uroven['nazev_urov']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <br>
-                    <label for="tym">Tým: </label><?php echo $sportuje['tym']; ?>
-                    <br>
-                    <input type="text" id="tym"><br>
-                    <br>
-                    <label for="rekord">Rekord: </label><?php echo $sportuje['rekord']; ?>
-                    <br>
-                    <input type="number" id="rekord" step="0.01"><br>
+                <br>
+                <label for="id_poz">Pozice:</label>
+                <br>
+                <select name="id_poz">
+                    <?php foreach ($this->data['pozice'] as $pozice): ?>
+                        <option value="<?php echo $pozice['id_poz']; ?>" <?php echo ($sportuje['id_poz'] == $pozice['id_poz']) ? 'selected' : ''; ?>>
+                            <?php echo $pozice['nazev_poz']?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+                <label for="id_poz">Uroven:</label>
+                <br>
+                <select name="id_urov">
+                    <?php foreach ($this->data['uroven'] as $uroven): ?>
+                        <option value="<?php echo $uroven['id_urov']; ?>" <?php echo ($sportuje['id_urov'] == $uroven['id_urov']) ? 'selected' : ''; ?>>
+                            <?php echo $uroven['nazev_urov']?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+                <label for="tym">Tým: </label><?php echo $sportuje['tym']; ?>
+                <br>
+                <input type="text" id="tym"><br>
+                <br>
+                <label for="rekord">Rekord: </label><?php echo $sportuje['rekord']; ?>
+                <br>
+                <input type="number" id="rekord" step="0.01"><br>
 
-                    <button type="submit" name="ulozit">Uložit</button>
-                </form>
-                <form method="post">
-                    <input type="hidden" name="id_sportuje" value="<?= $sport['id_sportuje']; ?>">
-                    <button type="submit" name="smazat">Smazat</button>
-                </form>
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_sportuje" value="<?php echo $sportuje['id_sportuje']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
             </li>
+            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
         <?php endforeach; ?>
     </ul>
 <?php else: ?>
     <p>Nejsou k dispozici žádné "sportuje".</p>
 <?php endif; ?>
+
+
+

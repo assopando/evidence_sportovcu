@@ -1,48 +1,46 @@
 <?php
-class DiscucastKontroler extends Kontroler {
+class AkcediscKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
-        $modelUcastnik= new ModelyUcastnik;
-        //$modelUzivatel= new ModelyUzivatel;
-        $modelDisciplina = new ModelyDisciplina;
-        $modelAkcedisc= new ModelyAkce_disc;
-        $modelDiscucast= new ModelyDisc_ucast;
 
+
+        $modelAkcedisc = new ModelyAkce_disc;
+        $modelAkce = new ModelyAkce;
+        $modelDisciplin = new ModelyDisciplina;
 
 
         // Zpracování formuláře
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
             // Zde by mělo dojít k zpracování formuláře
             // a volání metody pridejUcastnika z vaší třídy
-            $discucast = [
-                'id_disc_ucast' => $_POST['id_disc_ucast'],
-                'id_ucast' => $_POST['id_ucast'],
+            $akcedisc = [
+                'id_akce_disc' => $_POST['id_akce_disc'],
+                'id_akce' => $_POST['id_akce'],
                 'id_disc' => $_POST['id_disc'],
-                'vys_du' => $_POST['vys_du'],
                 // Další potřebné údaje
             ];
 
-            $pridejDiscucast= $modelDiscucast->pridejDisc_ucast($discucast);
+            $pridejAkcedisc= $modelAkcedisc->pridejAkce_disc($akcedisc);
 
-            echo $pridejDiscucast;
+            echo $pridejAkcedisc;
 
-            if ($pridejDiscucast === 1) {
+            if ($pridejAkcedisc === 1) {
                 // Záznam byl úspěšně přidán
                 $this->pridejZpravu("Záznam byl úspěšně přidán.");
-                $this->presmeruj("discucast");
+                $this->presmeruj("akcedisc");
                 
                 exit;
-            } else if ($pridejDiscucast === 0) {
+            } else if ($pridejAkcedisc === 0) {
                 // Záznam již existuje
                 $this->pridejZpravu("Záznam již existuje!");
-                $this->presmeruj("discucast");
+                $this->presmeruj("akcedisc");
                 exit;
                 
             } else {
                 // Nějaká jiná chyba
                 // Můžete zde zobrazit chybovou hlášku uživateli
                 $this->pridejZpravu("Chyba při přidání záznamu.");
-                $this->presmeruj("discucast");
+                $this->presmeruj("akcedisc");
                 exit;
             }
         }
@@ -50,21 +48,19 @@ class DiscucastKontroler extends Kontroler {
         else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
             
             $hodnoty= [
-                'id_disc_ucast' => $_POST['id_disc_ucast'],
-                'id_ucast' => $_POST['id_ucast'],
+                'id_akce' => $_POST['id_akce'],
                 'id_disc' => $_POST['id_disc'],
-                'vys_du' => $_POST['vys_du'],
                 // Další potřebné údaje
                 
             ];
 
 
-            $editDiscucas= $modelDiscucast->zmenDisc_ucast($hodnoty, $_POST['id_disc_ucast']);
+            $editAkcedisc= $modelAkcedisc->zmenAkce_disc($hodnoty, $_POST['id_akce_disc']);
 
-            if ($editDiscucas === 1) {
+            if ($editAkcedisc === 1) {
                 // Záznam byl úspěšně editován
                 $this->pridejZpravu("Záznamu byla úspěšně editována.");
-                $this->presmeruj("discucast");
+                $this->presmeruj("akcedisc");
                 
                 exit;
             } 
@@ -73,20 +69,20 @@ class DiscucastKontroler extends Kontroler {
                 // Můžete zde zobrazit chybovou hlášku uživateli
                 $this->pridejZpravu("Chyba při editaci záznamu.");
                 
-                $this->presmeruj("discucast");
+                $this->presmeruj("akcedisc");
                 exit;   
             } 
             }
             else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['smazat']))   {
             
                 
-                $smazDiscucast= $modelDiscucast->odeberDisc_ucast($_POST['id_disc_ucast']);
+                $smazAkcedisc= $modelAkcedisc->odeberAkce_disc($_POST['id_akce_disc']);
             
     
-                if ($smazDiscucast === 1) {
+                if ($smazAkcedisc === 1) {
                     // Sport byl úspěšně editován
                     $this->pridejZpravu("Záznamu byl úspěšně smazán.");
-                    $this->presmeruj("discucast");
+                    $this->presmeruj("akcedisc");
                     
                     exit;
                 } 
@@ -95,7 +91,7 @@ class DiscucastKontroler extends Kontroler {
                     // Můžete zde zobrazit chybovou hlášku uživateli
                     $this->pridejZpravu("Chyba při smazání záznamu.");
                     
-                    $this->presmeruj("discucast");
+                    $this->presmeruj("akcedisc");
                     exit;   
                 } 
                 }
@@ -103,18 +99,19 @@ class DiscucastKontroler extends Kontroler {
         
 
 
-        $this->pohled = "discucast";
+        $this->pohled = "akcedisc";
+        
+        $akcedisc =  $modelAkcedisc->vratVsechnyAkce_disc();
+        $this->data["akcedisc"] = $akcedisc;
 
-        $ucastnik=$modelUcastnik->vratVsechnyUcastniky();
-        $this->data["ucastnik"] = $ucastnik; 
+        $akce=$modelAkce->vratVsechnyAkce();
+        $this->data["akce"] = $akce; 
 
-        $disc = $modelDisciplina->vratVsechnyDiscipliny();
-        $this->data["disc"] = $disc;
+        $disc=$modelDisciplin->vratVsechnyDiscipliny();
+        $this->data["disc"] = $disc; 
 
-        $akcedisc=$modelAkcedisc->vratVsechnyAkce_disc();
-        $this->data["akcedisc"] = $akcedisc; 
 
-        $discucast =  $modelDiscucast->vratVsechnyDisc_ucast();
-        $this->data["discucast"] = $discucast;
+
+
     }
 }

@@ -10,6 +10,7 @@ class DisciplinaKontroler extends Kontroler {
            
             $discipliny = [
                 'id_disc' => $_POST['id_disc'],
+                'id_sport' => $_POST['id_sport'],
                 'nazev_disc' => $_POST['nazev_disc'],
                
             ];
@@ -39,7 +40,9 @@ class DisciplinaKontroler extends Kontroler {
         else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
             
             $hodnoty= [
+                'id_sport' => $_POST['id_sport'],
                 'nazev_disc' => $_POST['novy_nazev_discipliny'],
+                
             ];
 
             $editDisc= $modelDisciplin->zmenDisciplinu($hodnoty, $_POST['editovana_disciplina_id']);
@@ -91,5 +94,7 @@ class DisciplinaKontroler extends Kontroler {
         $discipliny=$modelDisciplin->vratVsechnyDiscipliny();
         $this->data["discipliny"] = $discipliny; 
         
+        $sporty=$modelSporty->vratVsechnySporty();
+        $this->data["sporty"] = $sporty; 
     }
 }

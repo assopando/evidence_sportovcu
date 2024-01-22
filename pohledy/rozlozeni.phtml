@@ -5,70 +5,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP evidence sportovcu</title>
+    <link rel="stylesheet" href="<?php $_SERVER["DOCUMENT_ROOT"] ?> /pohledy/styly.css">
+    <title>MP evidence sportovců</title>
 </head>
 <body>
     <header>
-        <div>MP evidence sportovcu</div>
-        <?php if ($this->prihlasenyUzivatel) { ?>
+        <div class="header-content">
+            <div class="logo">
+                <a href="uvod">
+                    <img src="fotky/logo.jpg" alt="Logo">
+                </a>
+            </div>
+            
+            <div class="mobile-menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-            <?= $this->prihlasenyUzivatel["jmeno"] ?>
-            <?= $this->prihlasenyUzivatel["prijmeni"] ?>
-            <a href="odhlaseni">Odhlásit se</a>
+            <div class="prihlaseni-odhlaseni">
+                <?php if ($this->prihlasenyUzivatel) { ?>
+                    <a href="odhlaseni">Odhlásit se</a>
+                <?php } else { ?>
+                    <a href="login">Přihlásit se</a>
+                <?php } ?>
+            </div>
 
-        <?php } else { ?>
-
-            <a href="login">Přihlásit se</a>
-        
-        <?php } ?>
-    </header>
-    <nav>
-        <ul>
+            <nav>
+            <ul>
             <li><a href="uvod">Úvod</a></li>
-            <h2>Pridavani do databaze</h2>
+            
             <li><a href="disciplina">Disciplina</a></li>
             <li><a href="sporty">Sporty</a></li>
             <li><a href="chyba">Chyba</a></li>
             <li><a href="ucastnik">Účastník</a></li>
             <li><a href="pozice">Pozice</a></li>
             <li><a href="uroven">Uroven</a></li>
-            <li><a href="discucast">disc_ucaas</a></li>
+            <li><a href="discucast">disc_ucast</a></li>
+            <li><a href="akcedisc">akce_disc</a></li>
             <li><a href="soupiska">Soupiska</a></li>
-            <li><a href="sportuje">Sportuje</a></li> 
-        </ul>
+             
+       
 
-        <ul>
-            <h2>Importy</h2>
+       
+            
             <li><a href="importcsv">Import žáku do db</a></li>
             <li><a href="tridy">Třídy</a></li>
-        </ul>
-        <ul>
-            <h2>Ostatni</h2>
+        
+        
+            
             <li><a href="akce">Vytvoreni Akcí</a></li>
             <li><a href="pridelenidisciplin">Přidelení žáku k disciplínam</a></li>
-        </ul>
-        <ul>
-            <h2>Vypisy</h2>
+        
+        
+            
             <li><a href="uzivatel">Učitelé</a></li>
             <li><a href="sportovci">Sportovci</a></li>
-        </ul>
-
-        <ul>
-            <h2>Ldap</h2>
+       
+            
             <li><a href="ldap">ldap</a></li>
         </ul>
+            </nav>
+        </div>
+    </header>
 
-    <div class="zpravy">
+    <section class="zpravy">
         <?php foreach ($zpravy as $zprava) { ?>
             <div><?= $zprava ?></div>
         <?php } ?>
-    </div>
+    </section>
 
-    </nav>
-    <?php
-        $this->kontroler->vypisPohled();
-    ?>
+    <main>
+        <?php
+            $this->kontroler->vypisPohled();
+        ?>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            var nav = document.querySelector('nav');
+            nav.classList.toggle('show-menu');
+        }
+    </script>
 </body>
-
-
 </html>

@@ -1,0 +1,88 @@
+<h1>Přidání a Výpis všech akce_disc</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání akce_disc -->
+<form  method="post">
+    <label for="id_akce_disc">ID Záznamu:</label>
+    <input type="number" name="id_akce_disc" >
+    <label for="id_akce">Akce:</label>
+    <select name="id_akce">
+        <?php foreach ($this->data['akce'] as $akce): ?>
+            <option value="<?php echo $akce['id_akce']; ?>">
+                <?php echo $akce['nazev_akce'] ?> 
+                
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="id_disc">ID disciplin:</label>
+    <select name="id_disc">
+        <?php foreach ($this->data['disc'] as $disc): ?>
+            <option value="<?php echo $disc['id_disc']; ?>">
+                <?php echo $disc['nazev_disc']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <button type="submit" name="pridej">Přidat záznam</button>
+</form>
+
+
+
+<!-- Výpis všech akcedisc -->
+
+<?php if (isset($this->data['akcedisc']) && !empty($this->data['akcedisc'])): ?>
+    <h2>Všechny akcedisc</h2>
+    <ul>
+    <?php foreach ($this->data['akcedisc'] as $akcedisc): ?>
+        <li>ID záznamu: <?php echo $akcedisc['id_akce_disc']; ?>
+            <form method="post">
+                <input type="hidden" name="id_akce_disc" value="<?php echo $akcedisc['id_akce_disc']; ?>">
+
+                <!-- Výběr akce -->
+                <label for="id_akce">Akce:</label>
+                <br>
+                <select name="id_akce">
+                    <?php foreach ($this->data['akce'] as $akce): ?>
+                        <option value="<?php echo $akce['id_akce']; ?>" <?php echo ($akcedisc['id_akce'] == $akce['id_akce']) ? 'selected' : ''; ?>>
+                            <?php echo $akce['nazev_akce']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+
+                <!-- Výběr ID discipliny -->
+                <label for="id_disc">ID discipliny:</label>
+                <br>
+                <select name="id_disc">
+                    <?php foreach ($this->data['disc'] as $disciplina): ?>
+                        <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($akcedisc['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
+                        <?php echo $disciplina['id_disc']," ", $disciplina['nazev_disc']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
+
+                <!-- Tlačítka pro Uložení a Smazání -->
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_disc_ucast" value="<?php echo $akcedisc['id_akce_disc']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné akcedisc.</p>
+<?php endif; ?>
+
+

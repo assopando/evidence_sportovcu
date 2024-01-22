@@ -1,0 +1,182 @@
+<?php 
+
+use LdapRecord\Query\Builder;
+use LdapRecord\Models\ActiveDirectory\User;
+use LdapRecord\Models\Entry;
+use LdapRecord\Container;
+use LdapRecord\Connection;
+use LdapRecord\Models\ActiveDirectory\Group;
+use Dotenv\Dotenv;
+
+    $connection = new Connection([
+        'hosts' => ['192.168.1.31'],
+        'username' => 's.fabisz.st@testovaci.local',
+        'password' => '',
+        'base_dn' => 'dc=testovaci,dc=local',
+        'port' => 389,
+    ]);
+    
+    $connection->connect();
+    Container::addConnection($connection, 'ldap'); // Přidejte připojení do kontejneru s názvem 'ldap'
+
+    try {
+        $connection->connect();
+    
+        echo "Successfully connected!";
+        echo "<br>";
+        
+    } catch (\LdapRecord\Auth\BindException $e) {
+        $error = $e->getDetailedError();
+    
+        echo $error->getErrorCode();
+        echo $error->getErrorMessage();
+        echo $error->getDiagnosticMessage();
+    }
+
+    
+   
+
+    
+    
+
+
+    // ...
+    $modelyUzivatelu = new ModelyUzivatel;
+
+        // Sestavte dotaz pro získání jmen a příjmení všech uživatelů v organizační jednotce SpseiUsers
+        $users = User::on('ldap')->select('givenName', 'sn','mail')->in('OU=SpseiUsers,dc=testovaci,dc=local')->get();
+        foreach ($users as $user) {
+            $ldapEmail = $user->mail[0];
+            
+          // var_dump($user);
+            //var_dump($ldapEmail);
+        
+            // Najděte uživatele v databázi podle jména a příjmení
+            //var_dump($user->givenName[0]);
+           // var_dump($user->sn[0]);
+            $existingUser = Db::dotazJeden("SELECT * FROM uzivatel WHERE jmeno = ? AND prijmeni = ?", [$user->givenName[0], $user->sn[0]]);
+            
+        
+            if ($existingUser) {
+                // Aktualizujte e-mail v databázi
+                $hodnoty = [
+                    "id_uziv" => $existingUser["id_uziv"],
+                    "email" => $ldapEmail,
+                    
+                ];
+        
+                $zmenaVDb = $modelyUzivatelu->zmenUzivatele($hodnoty);
+        
+                if ($zmenaVDb === 1) {
+                    echo "E-mail uživatele " . $user->givenName[0] . " úspěšně aktualizován na $ldapEmail.<br>";
+                } else {
+                    echo "Chyba při aktualizaci e-mailu uživatele " . $user->givenName[0] ." ". $user->sn[0] . ".<br>";
+                }
+            } else {
+                echo "Uživatel " . $user->givenName[0] . " nenalezen v databázi.<br>";
+            }
+        }
+
+        ?>
+        <h2>Přihlášení uživatele</h2>
+<form method="post">
+    <div>
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" required>
+    </div>
+    <div>
+        <label for="heslo">Heslo</label>
+        <input type="password" name="heslo" id="heslo" required>
+    </div>
+    <input type="submit" value="Přihlásit se">
+</form>
+
+<?php 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve submitted email and password
+    $submittedEmail = $_POST['email'];
+    $submittedPassword = $_POST['heslo'];
+
+    // Authenticate the user against LDAP
+    try {
+        // Find the user in LDAP by email
+        $user = User::on('ldap')->where('mail', '=', $submittedEmail)->firstOrFail();
+
+        // Attempt authentication
+        
+        if ($connection->auth()->attempt($user->getDn(), $submittedPassword)) {
+            // User has been successfully authenticated.
+            echo "User successfully authenticated. Email: " . $user->mail[0];
+        } else {
+            // Check if the email is incorrect
+            $userByEmail = User::on('ldap')->where('mail', '=', $submittedEmail)->first();
+            if ($userByEmail) {
+                // Email is correct, but password is incorrect
+                echo "Incorrect password";
+            } 
+        }
+    } catch (\Exception $e) {
+        //echo "An error occurred: " . $e->getMessage();
+        echo "Špatně zadaný email";
+    }
+}
+
+
+
+        // Vypisujte jmena a prijmeni uzivatelu
+       /* foreach ($users as $user) {
+            echo "Jméno: " . $user->cn[0] . "<br>";
+            echo "Příjmení: " . $user->sn[0] . "<br>";
+            echo "Email: " . $user->mail[0] . "<br>";
+            echo "------------------------<br>";
+                                    }*/
+
+    
+
+
+   /* $modUz = new ModelyUzivatelu;
+        $uzivatele = $modUz->vratVsechnyUzivatele(); // Použijte odpovídající funkci pro načtení uživatelů z databáze
+
+        foreach ($uzivatele as $dbUzivatel) {
+            // Získání jména a příjmení uživatele z databáze
+            $jmeno = $dbUzivatel['jmeno'];
+            $prijmeni = $dbUzivatel['prijmeni'];
+
+            //echo "$jmeno $prijmeni";
+        
+            // Vyhledejte uživatele v LDAP podle jména a příjmení
+            $ldapUzivatel = User::query()->where('name', $jmeno)->where('surname', $prijmeni)->first();
+        
+            // Získání e-mailu, pokud byl uživatel nalezen v LDAP
+            if ($ldapUzivatel) {
+                $ldapEmail = $ldapUzivatel->getEmail();
+                echo "LDAP Email pro $jmeno $prijmeni: $ldapEmail";
+            } else {
+                echo "Uživatel $jmeno $prijmeni nebyl nalezen v LDAP.";
+            }
+        }*/
+        
+
+
+ 
+ 
+ 
+    /*   $users = User::query()->select(["givenName","mail"])
+    ->where('givenName', '=', "Samuel")
+    ->where('sn', '=', "Fabisz")
+    ->where('memberof', '=', 'CN=trida_i4b,OU=SpseiGroups,DC=testovaci,DC=local')
+    ->get();
+
+    $count = $users->count(); //kontroluju jestli nejsou dva zaci v jedne tride se stejnym jmenem
+    echo "-----------" . $count . "---------";
+
+   // var_dump($users);*/
+
+
+   
+
+
+  
+
+    

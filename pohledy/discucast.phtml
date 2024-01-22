@@ -26,13 +26,18 @@
     </select>
     <label for="id_disc">ID disciplin:</label>
     <select name="id_disc">
-        <?php foreach ($this->data['disc'] as $disc): ?>
-            <option value="<?php echo $disc['id_disc']; ?>">
-                <?php echo $disc['nazev_disc']?>
+        <?php foreach ($this->data['akcedisc'] as $akcedisc): ?>
+            <option value="<?php echo $akcedisc['id_disc']; ?>">
+                <?php
+                    foreach ($this->data['disc'] as $disc):
+                    if($akcedisc['id_disc'] == $disc['id_disc']){
+                    echo $disc['nazev_disc'];
+                    }
+                    endforeach; ?>
             </option>
         <?php endforeach; ?>
     </select>
-    <label for="vys_du">Shrnutí výsledku(nevim):</label>
+    <label for="vys_du">Shrnutí výsledku:</label>
     <input type="text" name="vys_du" >
     <button type="submit" name="pridej">Přidat záznam</button>
 </form>
@@ -65,9 +70,14 @@
                 <label for="id_disc">ID discipliny:</label>
                 <br>
                 <select name="id_disc">
-                    <?php foreach ($this->data['disc'] as $disciplina): ?>
-                        <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($discucast['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
-                        <?php echo $disciplina['id_disc']," ", $disciplina['nazev_disc']; ?>
+                    <?php foreach ($this->data['akcedisc'] as $akcedisc): ?>
+                        <option value="<?php echo $akcedisc['id_disc']; ?>" <?php echo ($discucast['id_disc'] == $akcedisc['id_disc']) ? 'selected' : ''; ?>>
+                        <?php
+                        foreach ($this->data['disc'] as $disc):
+                        if($akcedisc['id_disc'] == $disc['id_disc']){
+                        echo $disc['nazev_disc'];
+                        }
+                        endforeach; ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

@@ -7,13 +7,12 @@ class ModelyUzivatel {
          SELECT *
          FROM uzivatel
          WHERE email = ?
-          AND heslo = ?
         ";
 
       $uzivatel = Db::dotazJeden($sql, 
           [
             $prihlasovaciUdaje["email"],
-        $this->vratHashHesla($prihlasovaciUdaje["heslo"])
+        //$this->vratHashHesla($prihlasovaciUdaje["heslo"])
           ]  
       );
           
@@ -41,9 +40,9 @@ class ModelyUzivatel {
           return $_SESSION["uzivatel"];
         else
           return false;    
-
     }
     
+/*
     private function vratHashHesla($heslo) {
     
         return hash("sha256", $heslo);
@@ -51,7 +50,7 @@ class ModelyUzivatel {
 
 
     }
-
+*/
     public function vratVsechnyUzivatele() {
       $sql = "
           SELECT *
@@ -67,7 +66,6 @@ class ModelyUzivatel {
     student (true)
     *isic
     *email
-    heslo
     opravneni
     *jmeno
     *prijmeni
@@ -105,7 +103,6 @@ class ModelyUzivatel {
     student (false)
     *isic - null
     *email
-    heslo
     opravneni
     *jmeno
     *prijmeni
@@ -148,7 +145,6 @@ class ModelyUzivatel {
                                                                       ["student"] => true
                                                                       ["isic"] => "4df56154sef612564"
                                                                       ["email"] => "s.fabisz.st@spseiostrava.cz"
-                                                                      ["heslo"] => "fotbal123"
                                                                       ["opravneni"] => 3
                                                                       ["jmeno"] =>"Sami"
                                                                       ["prijmeni"] =>"Fabi"

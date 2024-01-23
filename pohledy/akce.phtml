@@ -1,1 +1,78 @@
 <h1>Vytvoreni Akce</h1>
+
+<!-- Výpis zpráv -->
+<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+    <ul>
+        <?php foreach ($this->zpravy as $zprava): ?>
+            <li><?php echo $zprava; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+
+<?php endif; ?>
+
+<!-- Formulář pro přidání akce -->
+<form  method="post">
+    <label for="id_akce">ID Záznamu: </label>
+    <input type="number" name="id_akce" >
+    <!-- Nazev akce -->
+    <label for="nazev_akce">Nazev: </label>
+    <input type="text" name="nazev_akce" >
+    <!-- Datum -->
+    <label for="datum_zahajeni">Datum zahajeni: </label>
+    <input type="date" name="datum_zahajeni" >
+    <!-- Delka dni -->   
+    <label for="delka_dni">Delka dni: </label>
+    <input type="number" name="delka_dni" >
+    <!-- Misto konani -->
+    <label for="misto_kon">Misto konani: </label>
+    <input type="text" name="misto_kon" >
+    <!-- Popis akce -->
+    <label for="popisek_akce">Popis: </label>
+    <textarea name="popisek_akce" rows="4" cols="50"></textarea>
+    <button type="submit" name="pridej">Přidat záznam</button>
+</form>
+
+
+
+<!-- Výpis všech akce -->
+
+<?php if (isset($this->data['akce']) && !empty($this->data['akce'])): ?>
+    <h2>Všechny akce</h2>
+    <ul>
+    <?php foreach ($this->data['akce'] as $akce): ?>
+        <li>ID záznamu: <?php echo $akce['id_akce']; ?>
+            <form method="post">
+                <input type="hidden" name="id_akce" value="<?php echo $akce['id_akce']; ?>">
+                <!-- Nazev akce -->
+                <label for="nazev_akce">Nazev: </label>
+                <input type="text" name="nazev_akce" value="<?php echo $akce['nazev_akce']; ?>">
+                <!-- Datum -->
+                <label for="datum_zahajeni">Datum zahajeni: </label>
+                <input type="date" name="datum_zahajeni" value="<?php echo $akce['datum_zahajeni']; ?>">
+                <!-- Delka dni -->   
+                <label for="delka_dni">Delka dni: </label>
+                <input type="number" name="delka_dni" value="<?php echo $akce['delka_dni']; ?>">
+                <!-- Misto konani -->
+                <label for="misto_kon">Misto konani: </label>
+                <input type="text" name="misto_kon" value="<?php echo $akce['misto_kon']; ?>">
+                <!-- Popis akce -->
+                <label for="popisek_akce">Popis: </label>
+                <textarea name="popisek_akce" rows="4" cols="50">
+                <?php echo $akce['popisek_akce']; ?>
+                </textarea>
+                <!-- Tlačítka pro Uložení a Smazání -->
+                <button type="submit" name="ulozit">Uložit</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="id_akce" value="<?php echo $akce['id_akce']; ?>">
+                <button type="submit" name="smazat">Smazat</button>
+            </form>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nejsou k dispozici žádné akce.</p>
+<?php endif; ?>
+
+

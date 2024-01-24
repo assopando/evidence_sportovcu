@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 21. led 2024, 17:57
+-- Vytvořeno: Stř 24. led 2024, 20:09
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -31,7 +31,7 @@ CREATE TABLE `akce` (
   `id_akce` int(11) NOT NULL,
   `nazev_akce` varchar(30) NOT NULL,
   `datum_zahajeni` date NOT NULL,
-  `delka_dni` int(11) DEFAULT NULL,
+  `datum_konce` date DEFAULT NULL,
   `misto_kon` varchar(30) NOT NULL,
   `popisek_akce` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -40,8 +40,9 @@ CREATE TABLE `akce` (
 -- Vypisuji data pro tabulku `akce`
 --
 
-INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `delka_dni`, `misto_kon`, `popisek_akce`) VALUES
-(1, 'thrgfdztrgf', '2024-01-17', NULL, 'oikujhgfbuijzhgf', 'dsagzjrhtgrfjuzhtgzthgfv');
+INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `misto_kon`, `popisek_akce`) VALUES
+(1, 'thrgfdztrgf', '2024-01-17', '0000-00-00', 'oikujhgfbuijzhgf', '               mic check jedna dva               '),
+(2, 'druha akce', '2024-01-26', NULL, 'hngfbvcfgbv', 'cdfvdf');
 
 -- --------------------------------------------------------
 
@@ -55,6 +56,14 @@ CREATE TABLE `akce_disc` (
   `id_disc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Vypisuji data pro tabulku `akce_disc`
+--
+
+INSERT INTO `akce_disc` (`id_akce_disc`, `id_akce`, `id_disc`) VALUES
+(1, 1, 1),
+(2, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -66,6 +75,14 @@ CREATE TABLE `disciplina` (
   `id_sport` int(11) NOT NULL,
   `nazev_disc` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `disciplina`
+--
+
+INSERT INTO `disciplina` (`id_disc`, `id_sport`, `nazev_disc`) VALUES
+(1, 2, 'a'),
+(2, 1, 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -79,6 +96,13 @@ CREATE TABLE `disc_ucast` (
   `id_disc` int(11) NOT NULL,
   `vys_du` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `disc_ucast`
+--
+
+INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALUES
+(1, 2, 1, 'dasd');
 
 -- --------------------------------------------------------
 
@@ -252,7 +276,6 @@ INSERT INTO `uroven` (`id_urov`, `nazev_urov`) VALUES
 CREATE TABLE `uzivatel` (
   `id_uziv` int(11) NOT NULL,
   `id_trid` varchar(3) DEFAULT NULL,
-  `student` tinyint(1) NOT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `opravneni` tinyint(1) NOT NULL,
@@ -267,12 +290,12 @@ CREATE TABLE `uzivatel` (
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `student`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar_uziv`) VALUES
-(100, 'I4B', 0, 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
-(101, 'I4B', 0, 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
-(102, 'I4B', 0, 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL),
-(105, 'I4B', 1, NULL, NULL, 1, 'samson', 'fabi', NULL, NULL, NULL),
-(106, 'I3B', 1, NULL, NULL, 1, 'nula', 'donald', NULL, NULL, NULL);
+INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar_uziv`) VALUES
+(100, 'I4B', 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
+(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
+(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL),
+(105, 'I4B', NULL, NULL, 1, 'samson', 'fabi', NULL, NULL, NULL),
+(106, 'I3B', NULL, NULL, 1, 'nula', 'donald', NULL, NULL, NULL);
 
 --
 -- Indexy pro exportované tabulky
@@ -379,13 +402,13 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `akce`
 --
 ALTER TABLE `akce`
-  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pro tabulku `akce_disc`
 --
 ALTER TABLE `akce_disc`
-  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pro tabulku `disciplina`
@@ -397,7 +420,7 @@ ALTER TABLE `disciplina`
 -- AUTO_INCREMENT pro tabulku `disc_ucast`
 --
 ALTER TABLE `disc_ucast`
-  MODIFY `id_disc_ucast` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_disc_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `pozice`

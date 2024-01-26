@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akce</title>
+
+
+</head>
+<body>
+
 <h1>Vytvoreni Akce</h1>
 
 <!-- Výpis zpráv -->
@@ -22,7 +33,7 @@
     <label for="datum_zahajeni">Datum zahajeni: </label>
     <input type="date" name="datum_zahajeni" >
     <!-- Delka dni -->   
-    <label for="datum_konce">Delka dni: </label>
+    <label for="datum_konce">Datum konce: </label>
     <input type="date" name="datum_konce" >
     <!-- Misto konani -->
     <label for="misto_kon">Misto konani: </label>
@@ -32,18 +43,65 @@
     <textarea name="popisek_akce" rows="4" cols="50"></textarea>
 
         <!-- Formulář pro přidání akce_disc -->
-        <label for="id_disc">ID disciplin:</label>
-        <select name="id_disc">
-            <?php foreach ($this->data['disc'] as $disc): ?>
-                <option value="<?php echo $disc['id_disc']; ?>">
-                    <?php echo $disc['nazev_disc']?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-            
+        <label for="id_disc">Disciplina:</label>
+        <div class="divAkceDisc">
+            <button class="btnDisc">Přidat disciplinu (max 10)&nbsp; 
+                <span style="font-size:16px; font-weight:bold;">+ </span>
+            </button>
+            <div>
+                <select name="id_disc">
+                    <?php foreach ($this->data['disc'] as $disc): ?>
+                        <option value="<?php echo $disc['id_disc']; ?>">
+                            <?php echo $disc['nazev_disc']?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" id="pocet" name="pocet">
     <!-- Tlačítka pro Přidání -->
-    <button type="submit" name="pridej">Přidat záznam</button>
+    <button type="submit" class="pridej" name="pridej">Přidat záznam</button>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    var max_fields = 10;
+    var wrapper = $(".divAkceDisc");
+    var button = $(".btnDisc");
+
+    var pocet = 1;
+
+    $(button).click(function(e) {
+        e.preventDefault();
+        if (pocet < max_fields) {
+            pocet++;
+            var selectHTML = '<div><select name="id_disc">';
+            <?php foreach ($this->data['disc'] as $disc): ?>
+                selectHTML += '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>';
+            <?php endforeach; ?>
+            selectHTML += '</select><a href="#" class="odebrat">Odebrat</a></div>';
+            $(wrapper).append(selectHTML);
+        } else {
+            alert('Maximalně 10 disciplín');
+        }
+    });
+
+    $(document).on("click", ".odebrat", function(e) {
+        e.preventDefault();
+        $(this).parent('div').remove();
+        pocet--;
+    });
+    $(document).on("click", ".pridej", function(e) {
+        e.preventDefault();
+        console.log($('.pocet').text(pocet));
+    });
+});
+
+</script>
+
+
 
 
 
@@ -70,9 +128,7 @@
                 <input type="text" name="misto_kon" value="<?php echo $akce['misto_kon']; ?>">
                 <!-- Popis akce -->
                 <label for="popisek_akce">Popis: </label>
-                <textarea name="popisek_akce" rows="4" cols="50">
-                <?php echo $akce['popisek_akce']; ?>
-                </textarea>
+                <textarea name="popisek_akce" rows="4" cols="50"><?php echo $akce['popisek_akce']; ?></textarea>
                 <!-- Tlačítka pro Uložení a Smazání -->
                 <button type="submit" name="ulozit">Uložit</button>
             </form>
@@ -137,3 +193,7 @@
 <?php else: ?>
     <p>Nejsou k dispozici žádné akcedisc.</p>
 <?php endif; ?>
+
+
+</body>
+</html>

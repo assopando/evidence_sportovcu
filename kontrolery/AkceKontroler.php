@@ -14,7 +14,7 @@ class AkceKontroler extends Kontroler {
                     'id_akce' => $_POST['id_akce'],
                     'nazev_akce' => $_POST['nazev_akce'],
                     'datum_zahajeni' => $_POST['datum_zahajeni'],
-                    'delka_dni' => $_POST['delka_dni'],
+                    'datum_konce' => $_POST['datum_konce'],
                     'misto_kon' => $_POST['misto_kon'],
                     'popisek_akce' => $_POST['popisek_akce'],
                     // Další potřebné údaje
@@ -50,7 +50,7 @@ class AkceKontroler extends Kontroler {
                     'id_akce' => $_POST['id_akce'],
                     'nazev_akce' => $_POST['nazev_akce'],
                     'datum_zahajeni' => $_POST['datum_zahajeni'],
-                    'delka_dni' => $_POST['delka_dni'],
+                    'datum_konce' => $_POST['datum_konce'],
                     'misto_kon' => $_POST['misto_kon'],
                     'popisek_akce' => $_POST['popisek_akce'],
                     // Další potřebné údaje

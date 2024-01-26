@@ -63,7 +63,6 @@ class ModelyUzivatel {
     /*funkce slouzi k pridani studenta do uzivatele, parametr bude pole, vyzadujici:
     id_uziv
     *id_trid
-    student (true)
     *isic
     *email
     opravneni
@@ -75,6 +74,7 @@ class ModelyUzivatel {
     * - nepovinny atribut
     */
     public function pridejStudenta($uzivatel) {
+      if($uzivatel["opravneni"]==1){
       $sql = "
             SELECT id_uziv
             FROM uzivatel
@@ -94,13 +94,14 @@ class ModelyUzivatel {
       }
     Db::vloz("uzivatel",$uzivatel);
     return 1;
+      }
+      else return 2;                      //dodelat returny v kontrolerech
     }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam studenta
 
 
     /*funkce slouzi k pridani ucitele do uzivatelu, parametr bude pole, vyzadujici:
     id_uziv
     *id_trid - null
-    student (false)
     *isic - null
     *email
     opravneni
@@ -113,6 +114,7 @@ class ModelyUzivatel {
     * - nepovinny atribut
     */
     public function pridejUcitele($uzivatel) {
+      if($uzivatel["opravneni"]!=1){
       $sql = "
           SELECT id_uziv
           FROM uzivatel
@@ -123,6 +125,8 @@ class ModelyUzivatel {
       }
     Db::vloz("uzivatel",$uzivatel);
     return 1;
+      }
+      else return 2;
     }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam ucitele
 
     
@@ -142,7 +146,6 @@ class ModelyUzivatel {
 
     /*funkce slouzi ke zmene sloupcu v tabulce "uzivatel", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_trid"] =>
-                                                                      ["student"] => true
                                                                       ["isic"] => "4df56154sef612564"
                                                                       ["email"] => "s.fabisz.st@spseiostrava.cz"
                                                                       ["opravneni"] => 3

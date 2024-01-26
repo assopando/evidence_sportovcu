@@ -17,7 +17,7 @@ class ModelyAkce{
     id_akce 
     nazev_akce
     datum_zahajeni
-    *delka_dni
+    *datum_konce
     misto_kon
     popisek_akce
     
@@ -54,7 +54,7 @@ class ModelyAkce{
     /*slouzi ke zmene sloupcu v tabulce "akce", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_akce"] => "Vanocni turnaj"
                                                                       ["datum_zahajeni"] => 2025-12.22
-                                                                      ["delka_dni"] => 
+                                                                      ["datum_konce"] => 
                                                                       ["misto_kon"] => "sddgedgfs"
                                                                       ["popisek_akce"] => ""htgdbxrtbgrsgsyrg"
     $id - id z databaze(id_akce), čili id konkretni akci

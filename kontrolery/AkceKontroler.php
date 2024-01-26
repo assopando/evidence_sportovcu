@@ -4,6 +4,8 @@ class AkceKontroler extends Kontroler {
 
 
             $modelAkce= new ModelyAkce;
+            $modelAkcedisc = new ModelyAkce_disc;
+            $modelDisciplin = new ModelyDisciplina;
     
     
             // Zpracování formuláře
@@ -42,6 +44,43 @@ class AkceKontroler extends Kontroler {
                     $this->presmeruj("akce");
                     exit;
                 }
+
+
+
+                $akcedisc = [
+                    'id_akce_disc' => $_POST['id_akce_disc'],
+                    'id_akce' => $_POST['id_akce'],
+                    'id_disc' => $_POST['id_disc'],
+                    // Další potřebné údaje
+                ];
+    
+                $pridejAkcedisc= $modelAkcedisc->pridejAkce_disc($akcedisc);
+    
+                echo $pridejAkcedisc;
+    
+                if ($pridejAkcedisc === 1) {
+                    // Záznam byl úspěšně přidán
+                    $this->pridejZpravu("Záznam byl úspěšně přidán.");
+                    $this->presmeruj("akcedisc");
+                    
+                    exit;
+                } else if ($pridejAkcedisc === 0) {
+                    // Záznam již existuje
+                    $this->pridejZpravu("Záznam již existuje!");
+                    $this->presmeruj("akcedisc");
+                    exit;
+                    
+                } else {
+                    // Nějaká jiná chyba
+                    // Můžete zde zobrazit chybovou hlášku uživateli
+                    $this->pridejZpravu("Chyba při přidání záznamu.");
+                    $this->presmeruj("akcedisc");
+                    exit;
+                }
+
+
+
+
             }
     
             else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
@@ -105,6 +144,12 @@ class AkceKontroler extends Kontroler {
     
             $akce=$modelAkce->vratVsechnyAkce();
             $this->data["akce"] = $akce; 
+
+            $akcedisc =  $modelAkcedisc->vratVsechnyAkce_disc();
+            $this->data["akcedisc"] = $akcedisc; 
+
+            $disc=$modelDisciplin->vratVsechnyDiscipliny();
+            $this->data["disc"] = $disc; 
     
 
 

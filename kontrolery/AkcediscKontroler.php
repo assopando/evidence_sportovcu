@@ -111,7 +111,7 @@ class AkcediscKontroler extends Kontroler {
         $this->data["disc"] = $disc; 
 
 
-*/
+
 
 
 
@@ -121,7 +121,7 @@ $modelDisciplin = new ModelyDisciplina;
 
 
 // Zpracování formuláře
-/*
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
     // Zde by mělo dojít k zpracování formuláře
     // a volání metody pridejUcastnika z vaší třídy

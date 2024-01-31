@@ -11,6 +11,18 @@ class ModelyAkce_disc{
         return $akce_disc;
     }
 
+    //vrati posledni id v databazi
+    public function vratPosledniId() {
+        $sql = "
+            SELECT id_akce_disc
+            FROM akce_disc
+            ORDER BY id_akce_disc DESC
+            LIMIT 1;
+        ";
+        $result = Db::dotazJeden($sql);
+        return $result['id_akce_disc'];
+    }
+
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:
     id_akce_disc
@@ -22,11 +34,11 @@ class ModelyAkce_disc{
     */
     public function pridejAkce_disc($akce_disc) {
         $sql = "
-            SELECT id_akce
+            SELECT id_akce_disc
             FROM akce_disc
-            where id_akce = ?
+            where id_akce_disc = ?
         ";
-        if(Db::dotazJeden($sql,[$akce_disc["id_akce"]])){
+        if(Db::dotazJeden($sql,[$akce_disc["id_akce_disc"]])){
         return 0;
         }
       Db::vloz("akce_disc",$akce_disc);

@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Akce</title>
-
-
 </head>
 <body>
-
 <h1>Vytvoreni Akce</h1>
 
 <!-- Výpis zpráv -->
@@ -18,90 +15,85 @@
             <li><?php echo $zprava; ?></li>
         <?php endforeach; ?>
     </ul>
-
-
 <?php endif; ?>
 
 <!-- Formulář pro přidání akce -->
-<form  method="post">
-    <label for="id_akce">ID Záznamu: </label>
-    <input type="number" name="id_akce" >
+<form method="post">
     <!-- Nazev akce -->
     <label for="nazev_akce">Nazev: </label>
-    <input type="text" name="nazev_akce" >
+    <input type="text" name="nazev_akce">
     <!-- Datum -->
     <label for="datum_zahajeni">Datum zahajeni: </label>
-    <input type="date" name="datum_zahajeni" >
+    <input type="date" name="datum_zahajeni">
     <!-- Delka dni -->   
     <label for="datum_konce">Datum konce: </label>
-    <input type="date" name="datum_konce" >
+    <input type="date" name="datum_konce">
     <!-- Misto konani -->
     <label for="misto_kon">Misto konani: </label>
-    <input type="text" name="misto_kon" >
+    <input type="text" name="misto_kon">
     <!-- Popis akce -->
     <label for="popisek_akce">Popis: </label>
     <textarea name="popisek_akce" rows="4" cols="50"></textarea>
-
-        <!-- Formulář pro přidání akce_disc -->
-        <label for="id_disc">Disciplina:</label>
-        <div class="divAkceDisc">
-            <button class="btnDisc">Přidat disciplinu (max 10)&nbsp; 
-                <span style="font-size:16px; font-weight:bold;">+ </span>
-            </button>
-            <div>
-                <select name="id_disc">
-                    <?php foreach ($this->data['disc'] as $disc): ?>
-                        <option value="<?php echo $disc['id_disc']; ?>">
-                            <?php echo $disc['nazev_disc']?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+    <!-- Disciplina -->
+    <label for="id_disc">Disciplina:</label>
+    <div class="divAkceDisc">
+        <!-- Pridání dalšich disciplín -->
+        <button class="btnDisc">Přidat disciplinu (max 10)&nbsp; 
+            <span style="font-size:16px; font-weight:bold;">+ </span> <!-- Vzhled se muze zmenit -->
+        </button>
+        <!-- Zákldní combobox -->
+        <div>
+            <select name="id_disc[]" class="select">
+                <?php foreach ($this->data['disc'] as $disc):?>
+                    <option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <input type="hidden" id="pocet" name="pocet">
+        <!-- Blok kde budou dynamcké comboboxy -->
+        <div id="combobox-blok"></div>
+    </div>
     <!-- Tlačítka pro Přidání -->
-    <button type="submit" class="pridej" name="pridej">Přidat záznam</button>
+    <button type="submit" name="pridej">Přidat záznam</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    var max_fields = 10;
-    var wrapper = $(".divAkceDisc");
-    var button = $(".btnDisc");
+    var max_pocet = 10;
+    var wrapper = $("#combobox-blok");
+    var btn = $(".btnDisc");
 
     var pocet = 1;
 
-    $(button).click(function(e) {
+    // Applynuti select2 na základní combobox
+    $('.select').select2({dropdownAutoWidth : true});
+
+    $(btn).click(function(e) {
         e.preventDefault();
-        if (pocet < max_fields) {
+        if (pocet < max_pocet) {
             pocet++;
-            var selectHTML = '<div><select name="id_disc">';
-            <?php foreach ($this->data['disc'] as $disc): ?>
-                selectHTML += '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>';
-            <?php endforeach; ?>
-            selectHTML += '</select><a href="#" class="odebrat">Odebrat</a></div>';
-            $(wrapper).append(selectHTML);
+            var dynamCombobox = '<div><select name="id_disc[]" class="select">' +
+                '<?php foreach ($this->data['disc'] as $disc): ?>' +
+                    '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>' +
+                '<?php endforeach; ?>' +
+            '</select><a href="#" class="odebrat">Odebrat</a></div>';
+            $(wrapper).append(dynamCombobox);
+
+            // Applynuti select2 na dynamické comboboxy
+            $('.select').select2({dropdownAutoWidth : true}); //{dropdownAutoWidth : true} se muze odstranit, je to jen docasna esteticka uprava
         } else {
             alert('Maximalně 10 disciplín');
         }
     });
-
     $(document).on("click", ".odebrat", function(e) {
         e.preventDefault();
         $(this).parent('div').remove();
         pocet--;
     });
-    $(document).on("click", ".pridej", function(e) {
-        e.preventDefault();
-        console.log($('.pocet').text(pocet));
-    });
 });
-
 </script>
-
-
 
 
 
@@ -193,6 +185,7 @@ $(document).ready(function() {
 <?php else: ?>
     <p>Nejsou k dispozici žádné akcedisc.</p>
 <?php endif; ?>
+
 
 
 </body>

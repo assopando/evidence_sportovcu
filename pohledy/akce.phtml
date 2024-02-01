@@ -43,7 +43,7 @@
         </button>
         <!-- Zákldní combobox -->
         <div>
-            <select name="id_disc[]" class="select">
+            <select name="id_disc[]" class="select" style="width: 100%">
                 <?php foreach ($this->data['disc'] as $disc):?>
                     <option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>
                 <?php endforeach; ?>
@@ -74,7 +74,7 @@ $(document).ready(function() {
         e.preventDefault();
         if (pocet < max_pocet) {
             pocet++;
-            var dynamCombobox = '<div><select name="id_disc[]" class="select">' +
+            var dynamCombobox = '<div><select name="id_disc[]" class="select" style="width: 100%">' +
                 '<?php foreach ($this->data['disc'] as $disc): ?>' +
                     '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>' +
                 '<?php endforeach; ?>' +

@@ -93,9 +93,10 @@ class ModelyUzivatel {
       return 0;
       }
     Db::vloz("uzivatel",$uzivatel);
+    
     return 1;
       }
-      else return 2;                      //dodelat returny v kontrolerech
+      else return 2;
     }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam studenta
 
 

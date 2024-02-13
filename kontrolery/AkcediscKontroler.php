@@ -226,5 +226,8 @@ $this->data["disc"] = $disc;
 
 
 */
+
+$this->pohled = "akcedisc";
+
     }
 }

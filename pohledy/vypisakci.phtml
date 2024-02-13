@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Links</title>
+</head>
+<body>
+
+
+<!-- Display the list of links -->
+<ul>
+    <?php foreach ($this->data["akce"] as $akce): ?>
+        <li>
+            <a href="akce?ia=<?php echo $akce['id_akce']; ?>">
+                <?php echo $akce['nazev_akce']; ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+</body>
+</html>

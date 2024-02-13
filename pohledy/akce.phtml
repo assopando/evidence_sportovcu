@@ -1,192 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akce</title>
-</head>
-<body>
-<h1>Vytvoreni Akce</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #edit {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
 
-<!-- Výpis zpráv -->
-<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
-    <ul>
-        <?php foreach ($this->zpravy as $zprava): ?>
-            <li><?php echo $zprava; ?></li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
-
-<!-- Formulář pro přidání akce -->
-<form method="post">
-    <!-- Nazev akce -->
-    <label for="nazev_akce">Nazev: </label>
-    <input type="text" name="nazev_akce">
-    <!-- Datum -->
-    <label for="datum_zahajeni">Datum zahajeni: </label>
-    <input type="date" name="datum_zahajeni">
-    <!-- Delka dni -->   
-    <label for="datum_konce">Datum konce: </label>
-    <input type="date" name="datum_konce">
-    <!-- Misto konani -->
-    <label for="misto_kon">Misto konani: </label>
-    <input type="text" name="misto_kon">
-    <!-- Popis akce -->
-    <label for="popisek_akce">Popis: </label>
-    <textarea name="popisek_akce" rows="4" cols="50"></textarea>
-    <!-- Disciplina -->
-    <label for="id_disc">Disciplina:</label>
-    <div class="divAkceDisc">
-        <!-- Pridání dalšich disciplín -->
-        <button class="btnDisc">Přidat disciplinu (max 10)&nbsp; 
-            <span style="font-size:16px; font-weight:bold;">+ </span> <!-- Vzhled se muze zmenit -->
-        </button>
-        <!-- Zákldní combobox -->
-        <div>
-            <select name="id_disc[]" class="select" style="width: 100%">
-                <?php foreach ($this->data['disc'] as $disc):?>
-                    <option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>
+        <!-- Výpis zpráv -->
+        <?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+            <ul>
+                <?php foreach ($this->zpravy as $zprava): ?>
+                    <li><?php echo $zprava; ?></li>
                 <?php endforeach; ?>
-            </select>
+            </ul>
+        <?php endif; ?>
+
+        <h1><?php echo $konkretniakce['nazev_akce'];?></h1>
+        <!-- tlačítko pro přepínaní mezi vypisem a editem -->
+        <button id="switch">Switch</button> 
+
+        <!-- Vypis -->
+        <div id="vypis">
+            <?php echo '<p>'.$konkretniakce['popisek_akce'].'</p>';?>
+            <label>Datum zahajeni: </label>
+            <input type="date" value="<?php echo $konkretniakce['datum_zahajeni']; ?>">
+            <!-- Delka dni -->   
+            <label>Datum konce: </label>
+            <input type="date" value="<?php echo $konkretniakce['datum_konce']; ?>">
+            <label>Misto konani: </label>
+            <?php echo $konkretniakce['misto_kon']; ?>
+            <div>
+                <label>Disciplíny:</label>
+                <?php foreach ($this->data['akcedisc'] as $ad):
+                    if($ad['id_akce'] == $konkretniakce['id_akce']){
+                        foreach ($this->data['disc'] as $disc): 
+                            if($ad['id_disc'] == $disc['id_disc']){
+                                    echo $disc['nazev_disc']."<br>";
+                        }
+                        endforeach;
+                    }
+                endforeach; ?>
+            </div>
         </div>
-        <!-- Blok kde budou dynamcké comboboxy -->
-        <div id="combobox-blok"></div>
-    </div>
-    <!-- Tlačítka pro Přidání -->
-    <button type="submit" name="pridej">Přidat záznam</button>
-</form>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-$(document).ready(function() {
-    var max_pocet = 10;
-    var wrapper = $("#combobox-blok");
-    var btn = $(".btnDisc");
-
-    var pocet = 1;
-
-    // Applynuti select2 na základní combobox
-    $('.select').select2({dropdownAutoWidth : true});
-
-    $(btn).click(function(e) {
-        e.preventDefault();
-        if (pocet < max_pocet) {
-            pocet++;
-            var dynamCombobox = '<div><select name="id_disc[]" class="select" style="width: 100%">' +
-                '<?php foreach ($this->data['disc'] as $disc): ?>' +
-                    '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>' +
-                '<?php endforeach; ?>' +
-            '</select><a href="#" class="odebrat">Odebrat</a></div>';
-            $(wrapper).append(dynamCombobox);
-
-            // Applynuti select2 na dynamické comboboxy
-            $('.select').select2({dropdownAutoWidth : true}); //{dropdownAutoWidth : true} se muze odstranit, je to jen docasna esteticka uprava
-        } else {
-            alert('Maximalně 10 disciplín');
-        }
-    });
-    $(document).on("click", ".odebrat", function(e) {
-        e.preventDefault();
-        $(this).parent('div').remove();
-        pocet--;
-    });
-});
-</script>
-
-
-
-<!-- Výpis všech akce -->
-
-<?php if (isset($this->data['akce']) && !empty($this->data['akce'])): ?>
-    <h2>Všechny akce</h2>
-    <ul>
-    <?php foreach ($this->data['akce'] as $akce): ?>
-        <li>ID záznamu: <?php echo $akce['id_akce']; ?>
+        <!-- Edit -->
+        <div id="edit">
+            
+            <h2>Edit akce</h2>
             <form method="post">
-                <input type="hidden" name="id_akce" value="<?php echo $akce['id_akce']; ?>">
+
+    <!-- Edit akce-->     
+
+                <h2>Akce</h2>
                 <!-- Nazev akce -->
                 <label for="nazev_akce">Nazev: </label>
-                <input type="text" name="nazev_akce" value="<?php echo $akce['nazev_akce']; ?>">
+                <input type="text" name="nazev_akce" value="<?php echo $konkretniakce['nazev_akce']; ?>">
                 <!-- Datum -->
                 <label for="datum_zahajeni">Datum zahajeni: </label>
-                <input type="date" name="datum_zahajeni" value="<?php echo $akce['datum_zahajeni']; ?>">
+                <input type="date" name="datum_zahajeni" value="<?php echo $konkretniakce['datum_zahajeni']; ?>">
                 <!-- Delka dni -->   
                 <label for="datum_konce">Delka dni: </label>
-                <input type="date" name="datum_konce" value="<?php echo $akce['datum_konce']; ?>">
+                <input type="date" name="datum_konce" value="<?php echo $konkretniakce['datum_konce']; ?>">
                 <!-- Misto konani -->
                 <label for="misto_kon">Misto konani: </label>
-                <input type="text" name="misto_kon" value="<?php echo $akce['misto_kon']; ?>">
+                <input type="text" name="misto_kon" value="<?php echo $konkretniakce['misto_kon']; ?>">
                 <!-- Popis akce -->
                 <label for="popisek_akce">Popis: </label>
-                <textarea name="popisek_akce" rows="4" cols="50"><?php echo $akce['popisek_akce']; ?></textarea>
-                <!-- Tlačítka pro Uložení a Smazání -->
-                <button type="submit" name="ulozit">Uložit</button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="id_akce" value="<?php echo $akce['id_akce']; ?>">
-                <button type="submit" name="smazat">Smazat</button>
-            </form>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-<?php else: ?>
-    <p>Nejsou k dispozici žádné akce.</p>
-<?php endif; ?>
+                <textarea name="popisek_akce" rows="4" cols="50"><?php echo $konkretniakce['popisek_akce']; ?></textarea>
 
+    <!-- Edit akcedisc -->
 
-<h1>akce disc</h1>
+                <?php if (isset($this->data['disc']) && !empty($this->data['disc'])): ?>
+                <h2>Disciplíny</h2>
+                    <div class="divAkceDisc">
+                        <!-- Tlačítko pro pridání dalšich disciplín -->
+                        <button class="btnDisc">Přidat disciplinu (max 10)&nbsp; 
+                            <span style="font-size:16px; font-weight:bold;">+ </span> <!-- Vzhled se muze zmenit -->
+                        </button>
+                        <!-- Blok kde budou dynamcké comboboxy -->
+                        <div id="combobox-blok"></div>
+                    </div>
 
-<!-- Výpis všech akcedisc -->
+    <!-- Výběr Discipliny -->
 
-<?php if (isset($this->data['akcedisc']) && !empty($this->data['akcedisc'])): ?>
-    <h2>Všechny akcedisc</h2>
-    <ul>
-    <?php foreach ($this->data['akcedisc'] as $akcedisc): ?>
-        <li>ID záznamu: <?php echo $akcedisc['id_akce_disc']; ?>
-            <form method="post">
-                <input type="hidden" name="id_akce_disc" value="<?php echo $akcedisc['id_akce_disc']; ?>">
-
-                <!-- Výběr akce -->
-                <label for="id_akce">Akce:</label>
-                <br>
-                <select name="id_akce">
-                    <?php foreach ($this->data['akce'] as $akce): ?>
-                        <option value="<?php echo $akce['id_akce']; ?>" <?php echo ($akcedisc['id_akce'] == $akce['id_akce']) ? 'selected' : ''; ?>>
-                            <?php echo $akce['nazev_akce']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <br>
-
-                <!-- Výběr ID discipliny -->
-                <label for="id_disc">ID discipliny:</label>
-                <br>
-                <select name="id_disc">
-                    <?php foreach ($this->data['disc'] as $disciplina): ?>
-                        <option value="<?php echo $disciplina['id_disc']; ?>" <?php echo ($akcedisc['id_disc'] == $disciplina['id_disc']) ? 'selected' : ''; ?>>
-                        <?php echo $disciplina['id_disc']," ", $disciplina['nazev_disc']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <br>
+                <label for="cb_del">Pro smazání vybraných disciplín</label>
+                <button type="submit" name="cb_smazat">Smazat</button>
+                <?php foreach ($this->data['akcedisc'] as $ad):?>
+                    <?php if ($ad['id_akce'] == $konkretniakce['id_akce']){?>
+                        <input type="hidden" name="edit_id_ad[]" value="<?php echo $ad['id_akce_disc']; ?>">
+                        <input type="checkbox" name="selected_disc[]" value="<?php echo $ad['id_akce_disc']; ?>">
+                        <select name="edit_id_disc[]" class="editselect" style="width: 100%">
+                        <?php foreach ($this->data['disc'] as $disc):?>
+                            <option value="<?php echo $disc['id_disc']; ?>" <?php echo ($ad['id_disc'] == $disc['id_disc']) ? 'selected' : ''; ?>>
+                                <?php echo $disc['nazev_disc']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                        </select>
+                <?php } endforeach; ?>
 
                 <!-- Tlačítka pro Uložení a Smazání -->
                 <button type="submit" name="ulozit">Uložit</button>
+                <button type="submit" name="cele_smazat">Smazat</button>
             </form>
-            <form method="post">
-                <input type="hidden" name="id_disc_ucast" value="<?php echo $akcedisc['id_akce_disc']; ?>">
-                <button type="submit" name="smazat">Smazat</button>
-            </form>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-<?php else: ?>
-    <p>Nejsou k dispozici žádné akcedisc.</p>
-<?php endif; ?>
+        </div>
 
+        <?php else: ?>
+            <p>Nejsou k dispozici žádný záznam.</p>
+        <?php endif; ?>
 
+        <!-- javascript (Combobox) -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            var max_pocet = 10;
+            var wrapper = $("#combobox-blok");
+            var btn = $(".btnDisc");
 
-</body>
+            var pocet = 0;
+
+            // Applynuti select2 na vypsané disciplíny
+            $('.editselect').select2({dropdownAutoWidth : true});
+
+            $(btn).click(function(e) {
+                e.preventDefault();
+                if (pocet < max_pocet) {
+                    pocet++;
+                    var dynamCombobox = '<div><select name="pridat_id_disc[]" class="select" style="width: 100%">' +
+                        '<?php foreach ($this->data['disc'] as $disc): ?>' +
+                            '<option value="<?= $disc['id_disc']; ?>"><?= $disc['nazev_disc']; ?></option>' +
+                        '<?php endforeach; ?>' +
+                    '</select><a href="#" class="odebrat">Odebrat</a></div>';
+                    $(wrapper).append(dynamCombobox);
+
+                    // Applynuti select2 na dynamické comboboxy
+                    $('.select').select2({dropdownAutoWidth : true}); //{dropdownAutoWidth : true} se muze odstranit, je to jen docasna esteticka uprava
+                } else {
+                    alert('Maximalně 10 disciplín');
+                }
+            });
+            $(document).on("click", ".odebrat", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                pocet--;
+            });
+        });
+        </script>
+
+        <!-- javascript (Switch) -->
+        <script>
+            $(document).ready(function() {
+                var vypis = $("#vypis");
+                var edit = $("#edit");
+
+                $("#switch").click(function() {
+                    if (vypis.css("display") === "block") {
+                        vypis.css("display", "none");
+                        edit.css("display", "block");
+                    } else {
+                        vypis.css("display", "block");
+                        edit.css("display", "none");
+                    }
+                });
+            });
+        </script>
+
+    </body>
 </html>

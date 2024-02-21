@@ -41,8 +41,8 @@ CREATE TABLE `akce` (
 --
 
 INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `misto_kon`, `popisek_akce`) VALUES
-(1, 'thrgfdztrgf', '2024-01-17', '0000-00-00', 'oikujhgfbuijzhgf', '               mic check jedna dva               '),
-(2, 'druha akce', '2024-01-26', NULL, 'hngfbvcfgbv', 'cdfvdf');
+(1, 'Fotbalový turnaj 3. ročníků', '2024-01-17', '2024-1_20', 'Ostrava', 'Fotbalový turnaj 3. ročníků pořádáný městem Ostrava o pohár Primátora Ostravy, konaný na hale ŠŠTD'),
+(2, 'Volejbalový turnaj', '2024-01-26', 2024-1-30, 'Opava', 'Krajské kolo Volejbalovské ligy středních škol');
 
 -- --------------------------------------------------------
 
@@ -81,8 +81,8 @@ CREATE TABLE `disciplina` (
 --
 
 INSERT INTO `disciplina` (`id_disc`, `id_sport`, `nazev_disc`) VALUES
-(1, 2, 'a'),
-(2, 1, 'asdasd');
+(1, 2, 'hokej'),
+(2, 1, 'fotbal');
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ CREATE TABLE `soupiska` (
 --
 
 INSERT INTO `soupiska` (`id_soup`, `id_akce`, `nazev_skupiny`, `vys_s`) VALUES
-(1, 1, 'poilkujznhgbfvdc', NULL);
+(1, 1, 'soupiska na fotbal', NULL);
 
 -- --------------------------------------------------------
 
@@ -172,8 +172,8 @@ CREATE TABLE `sport` (
 --
 
 INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
-(1, 'asd'),
-(2, 'b');
+(1, 'míčové'),
+(2, 'zimní');
 
 -- --------------------------------------------------------
 
@@ -293,9 +293,8 @@ CREATE TABLE `uzivatel` (
 INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar_uziv`) VALUES
 (100, 'I4B', 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
 (101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
-(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL),
-(105, 'I4B', NULL, NULL, 1, 'samson', 'fabi', NULL, NULL, NULL),
-(106, 'I3B', NULL, NULL, 1, 'nula', 'donald', NULL, NULL, NULL);
+(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL);
+
 
 --
 -- Indexy pro exportované tabulky

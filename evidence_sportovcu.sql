@@ -41,8 +41,8 @@ CREATE TABLE `akce` (
 --
 
 INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `misto_kon`, `popisek_akce`) VALUES
-(1, 'Fotbalový turnaj 3. ročníků', '2024-01-17', '2024-1_20', 'Ostrava', 'Fotbalový turnaj 3. ročníků pořádáný městem Ostrava o pohár Primátora Ostravy, konaný na hale ŠŠTD'),
-(2, 'Volejbalový turnaj', '2024-01-26', 2024-1-30, 'Opava', 'Krajské kolo Volejbalovské ligy středních škol');
+(1, 'Fotbalový turnaj 3. ročníků', '2024-01-17', '2024-1-20', 'Ostrava', 'Fotbalový turnaj 3. ročníků pořádáný městem Ostrava o pohár Primátora Ostravy, konaný na hale ŠŠTD'),
+(2, 'Volejbalový turnaj', '2024-01-26', '2024-1-30', 'Opava', 'Krajské kolo Volejbalovské ligy středních škol');
 
 -- --------------------------------------------------------
 

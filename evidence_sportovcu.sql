@@ -247,7 +247,7 @@ CREATE TABLE `ucastnik` (
 --
 
 INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`) VALUES
-(2, 105, 1, '                                                                                                                                                                                                                                                                                                        dasdas                                                                                                                                                                                                                                                                                            ');
+(2, 100, 1, '                                                                                                                                                                                                                                                                                                        dasdas                                                                                                                                                                                                                                                                                            ');
 
 -- --------------------------------------------------------
 

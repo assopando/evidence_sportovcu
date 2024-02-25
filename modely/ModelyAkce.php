@@ -12,16 +12,10 @@ class ModelyAkce{
       }
 
 
-    //vrati posledni id v tabulce
-    public function vratPosledniId() {
-      $sql = "
-          SELECT id_akce
-          FROM akce_disc
-          ORDER BY id_akce DESC
-          LIMIT 1;
-      ";
-      $result = Db::dotazJeden($sql);
-      return $result['id_akce'];
+      //vrati posledni id v tabulce
+      public function vratPosledniId() {
+        return Db::idPoslednihoVlozeneho();
+
   }
 
 

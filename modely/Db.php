@@ -9,8 +9,7 @@ class Db {
 	// Výchozí nastavení ovladače
   private static $nastaveni = array(
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-		PDO::ATTR_EMULATE_PREPARES => false, 
-	  	PDO::MYSQL_ATTR_FOUND_ROWS => true					//https://www.php.net/manual/en/pdostatement.rowcount.php#104930 osetreni chyby pri nezmeneni zaznamu
+		PDO::ATTR_EMULATE_PREPARES => false,
 	);
 
 	// Připojí se k databázi pomocí daných údajů

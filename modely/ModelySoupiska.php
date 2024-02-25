@@ -11,6 +11,12 @@ class ModelySoupiska{
         return $soupiska;
       }
 
+            //vrati posledni id v tabulce
+            public function vratPosledniId() {
+              return Db::idPoslednihoVlozeneho();
+    
+        }
+
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:
     id_soup 
     id_akce
@@ -20,6 +26,7 @@ class ModelySoupiska{
     * - nepovinny atribut
     */
     public function pridejSoupisku($soupiska) {
+      /*
         $sql = "
             SELECT id_soup
             FROM soupiska
@@ -27,6 +34,14 @@ class ModelySoupiska{
         ";
         if(Db::dotazJeden($sql,[$soupiska["id_soup"]])){
         return 0;
+        }*/
+        $sql = "
+            SELECT nazev_skupiny
+            FROM soupiska
+            where nazev_skupiny = ?
+        ";
+        if(Db::dotazJeden($sql,[$soupiska["nazev_skupiny"]])){
+          return 0;
         }
       Db::vloz("soupiska",$soupiska);
       return 1;

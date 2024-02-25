@@ -11,6 +11,12 @@ class ModelyUcastnik{
         return $ucastnik;
       }
 
+      //vrati posledni id v tabulce
+      public function vratPosledniId() {
+          return Db::idPoslednihoVlozeneho();
+
+    }
+
 
 
       /*slouzi k pridani ucastnika do databaze, parametr bude pole, vyzadujici:

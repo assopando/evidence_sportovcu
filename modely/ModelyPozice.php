@@ -12,6 +12,12 @@ class ModelyPozice{
       }
 
 
+      //vrati posledni id v tabulce
+      public function vratPosledniId() {
+        return Db::idPoslednihoVlozeneho();
+
+  }
+
 
       /*slouzi k pridani pozice do databaze, parametr bude pole, vyzadujici:
     id_poz

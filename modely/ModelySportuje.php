@@ -11,6 +11,12 @@ class ModelySportuje {
       }
 
 
+            //vrati posledni id v tabulce
+            public function vratPosledniId() {
+              return Db::idPoslednihoVlozeneho();
+    
+        }
+
 
       /*funkce slouzi k pridani hodnot do databaze, parametr bude pole, vyzadujici:
       id_sportuje

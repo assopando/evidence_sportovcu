@@ -11,6 +11,12 @@ class ModelyUroven{
         return $uroven;
       }
 
+            //vrati posledni id v tabulce
+            public function vratPosledniId() {
+              return Db::idPoslednihoVlozeneho();
+    
+        }
+
 
 
       /*funkce slouzi k pridani urovne do databaze, parametr bude pole, vyzadujici:

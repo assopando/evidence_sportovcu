@@ -12,6 +12,12 @@ class ModelyPrispevek{
       }
 
 
+            //vrati posledni id v tabulce
+            public function vratPosledniId() {
+              return Db::idPoslednihoVlozeneho();
+    
+        }
+
 
       /*slouzi k pridani prispevku na nastenku do databaze, parametr bude pole, vyzadujici:
     id uzivatele (id_uziv)

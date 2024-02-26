@@ -11,11 +11,16 @@ class ModelyUroven{
         return $uroven;
       }
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_urov
+              FROM uroven
+              ORDER BY id_urov DESC
+              LIMIT 1";
+      
+      $uroven = Db::dotazJeden($sql);
+      return $uroven['id_urov'];
+    }
 
 
 

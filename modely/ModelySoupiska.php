@@ -9,13 +9,18 @@ class ModelySoupiska{
         ";
         $soupiska = Db::dotazVsechny($sql);
         return $soupiska;
-      }
+    }
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_soup
+              FROM soupiska
+              ORDER BY id_soup DESC
+              LIMIT 1";
+      
+      $soupiska = Db::dotazJeden($sql);
+      return $soupiska['id_soup'];
+    }
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:
     id_soup 

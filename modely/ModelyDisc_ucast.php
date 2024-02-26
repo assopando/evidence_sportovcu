@@ -12,11 +12,16 @@ class ModelyDisc_ucast{
       }
 
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-        return Db::idPoslednihoVlozeneho();
-
-  }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_disc_ucast
+              FROM disc_ucast
+              ORDER BY id_disc_ucast DESC
+              LIMIT 1";
+      
+      $disc_ucast = Db::dotazJeden($sql);
+      return $disc_ucast['id_disc_ucast'];
+    }
 
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:

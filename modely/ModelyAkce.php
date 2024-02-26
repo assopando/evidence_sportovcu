@@ -1,7 +1,7 @@
 <?php
 class ModelyAkce{
 
-  //vrati vsechno z tabulky "akce"
+    //vrati vsechno z tabulky "akce"
     public function vratVsechnyAkce() {
         $sql = "
             SELECT *
@@ -12,14 +12,19 @@ class ModelyAkce{
       }
 
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-        return Db::idPoslednihoVlozeneho();
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_akce
+              FROM akce
+              ORDER BY id_akce DESC
+              LIMIT 1";
+      
+      $akce = Db::dotazJeden($sql);
+      return $akce['id_akce'];
+    } 
 
-  }
 
-
-      /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:
+    /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:
     id_akce 
     nazev_akce
     datum_zahajeni

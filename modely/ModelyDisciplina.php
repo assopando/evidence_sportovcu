@@ -11,13 +11,19 @@ class ModelyDisciplina{
         return $disciplina;
       }
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-        return Db::idPoslednihoVlozeneho();
-
-  }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_disc
+              FROM disciplina
+              ORDER BY id_disc DESC
+              LIMIT 1";
+      
+      $disciplina = Db::dotazJeden($sql);
+      return $disciplina['id_disc'];
+    }
 
       /*slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:
+    id_disc
     id_sport (pro atribut id_sport)
     nazev_disc*/
       public function pridejDisciplinu($disc) {

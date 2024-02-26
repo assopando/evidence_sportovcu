@@ -11,11 +11,16 @@ class ModelySportuje {
       }
 
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
+      //vrati posledni id v tabulce
+      public function vratPosledniId() {
+        $sql = "SELECT id_sportuje
+                FROM sportuje
+                ORDER BY id_sportuje DESC
+                LIMIT 1";
+        
+        $sportuje = Db::dotazJeden($sql);
+        return $sportuje['id_sportuje'];
+      }
 
 
       /*funkce slouzi k pridani hodnot do databaze, parametr bude pole, vyzadujici:

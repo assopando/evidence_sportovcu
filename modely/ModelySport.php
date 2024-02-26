@@ -12,11 +12,16 @@ class ModelySport{
       }
 
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_sport
+              FROM sport
+              ORDER BY id_sport DESC
+              LIMIT 1";
+      
+      $sport = Db::dotazJeden($sql);
+      return $sport['id_sport'];
+    }
 
 
 

@@ -12,14 +12,20 @@ class ModelyPrispevek{
       }
 
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_pris
+              FROM prispevek
+              ORDER BY id_pris DESC
+              LIMIT 1";
+      
+      $prispevek = Db::dotazJeden($sql);
+      return $prispevek['id_pris'];
+    }
 
 
       /*slouzi k pridani prispevku na nastenku do databaze, parametr bude pole, vyzadujici:
+    id_pris
     id uzivatele (id_uziv)
     nazev_pris
     datum

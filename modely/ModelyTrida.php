@@ -11,12 +11,6 @@ class ModelyTrida{
         return $trida;
       }
 
-            //vrati posledni id v tabulce
-            public function vratPosledniId() {
-              return Db::idPoslednihoVlozeneho();
-    
-        }
-
 
       /*funkce slouzi k pridani tridy do databaze, parametr bude pole, vyzadujici:
     id_trid

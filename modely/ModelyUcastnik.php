@@ -11,12 +11,16 @@ class ModelyUcastnik{
         return $ucastnik;
       }
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-          return Db::idPoslednihoVlozeneho();
-
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_ucast
+              FROM ucastnik
+              ORDER BY id_ucast DESC
+              LIMIT 1";
+      
+      $ucastnik = Db::dotazJeden($sql);
+      return $ucastnik['id_ucast'];
     }
-
 
 
       /*slouzi k pridani ucastnika do databaze, parametr bude pole, vyzadujici:

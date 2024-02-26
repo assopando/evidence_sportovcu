@@ -12,11 +12,16 @@ class ModelyPozice{
       }
 
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-        return Db::idPoslednihoVlozeneho();
-
-  }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_poz
+              FROM pozice
+              ORDER BY id_poz DESC
+              LIMIT 1";
+      
+      $pozice = Db::dotazJeden($sql);
+      return $pozice['id_poz'];
+    }
 
 
       /*slouzi k pridani pozice do databaze, parametr bude pole, vyzadujici:

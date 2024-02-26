@@ -11,11 +11,16 @@ class ModelyAkce_disc{
         return $akce_disc;
     }
 
-      //vrati posledni id v tabulce
-      public function vratPosledniId() {
-        return Db::idPoslednihoVlozeneho();
-
-  }
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_akce_disc
+              FROM akce_disc
+              ORDER BY id_akce_disc DESC
+              LIMIT 1";
+      
+      $akce_disc = Db::dotazJeden($sql);
+      return $akce_disc['id_akce_disc'];
+    }
 
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:

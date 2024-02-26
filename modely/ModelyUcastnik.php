@@ -19,7 +19,8 @@ class ModelyUcastnik{
               LIMIT 1";
       
       $ucastnik = Db::dotazJeden($sql);
-      return $ucastnik['id_ucast'];
+      if ($ucastnik === false) return 1;
+      else return $ucastnik['id_ucast'];
     }
 
 

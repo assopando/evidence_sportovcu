@@ -20,7 +20,7 @@ class ModelyPrispevek{
               LIMIT 1";
       
       $prispevek = Db::dotazJeden($sql);
-      if ($prispevek === false) return 1;
+      if ($prispevek === false) return 0;
       else return $prispevek['id_pris'];
     }
 

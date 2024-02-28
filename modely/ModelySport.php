@@ -20,7 +20,7 @@ class ModelySport{
               LIMIT 1";
       
       $sport = Db::dotazJeden($sql);
-      if ($sport === false) return 1;
+      if ($sport === false) return 0;
       else return $sport['id_sport'];
     }
 

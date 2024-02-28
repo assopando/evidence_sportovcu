@@ -19,7 +19,7 @@ class ModelySportuje {
                 LIMIT 1";
         
         $sportuje = Db::dotazJeden($sql);
-        if ($sportuje === false) return 1;
+        if ($sportuje === false) return 0;
         else return $sportuje['id_sportuje'];
       }
 

@@ -19,7 +19,7 @@ class ModelyDisciplina{
               LIMIT 1";
       
       $disciplina = Db::dotazJeden($sql);
-      if ($disciplina === false) return 1;
+      if ($disciplina === false) return 0;
       else return $disciplina['id_disc'];
     }
 

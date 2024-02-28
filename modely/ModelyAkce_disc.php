@@ -19,7 +19,7 @@ class ModelyAkce_disc{
               LIMIT 1";
       
       $akce_disc = Db::dotazJeden($sql);
-      if ($akce_disc === false) return 1;
+      if ($akce_disc === false) return 0;
       else return $akce_disc['id_akce_disc'];
     }
   

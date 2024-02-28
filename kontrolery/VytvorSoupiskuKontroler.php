@@ -29,7 +29,6 @@ class VytvorSoupiskuKontroler extends Kontroler {
         }
 
 
-
          // Zpracování formuláře
          if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridejSoupiskaUcastnik'])) {
             // Kontrola jesli to jsou sportovci v poli
@@ -102,13 +101,18 @@ class VytvorSoupiskuKontroler extends Kontroler {
                     // Můžete zde zobrazit chybovou hlášku uživateli
                     $this->pridejZpravu("Chyba při přidání soupisky.");
                 }
-
             }
-            //$this->presmeruj("uvod");                               //doplnit na prideleni k ucastnikum discipliny
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridejSoupiskaUcastnik'])) {
+            
+            foreach ($ucastnici as $uziv) {
+                $poleDisc = $_POST[$uziv];
+                var_dump($poleDisc);
+            
+        }
 
-
+    }
 
         $this->data["konkretniakce"] = $konkretniakce;
 

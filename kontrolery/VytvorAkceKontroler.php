@@ -51,7 +51,7 @@ class VytvorAkceKontroler extends Kontroler {
                     foreach ($disc as $selectedDisc) {
 
                         $akcedisc = [
-                            'id_akce_disc' => $akce_discId,
+                            'id_akce_disc' => $akce_discId++,
                             'id_akce' => $akceId,
                             'id_disc' => $selectedDisc,
                             // Další potřebné údaje
@@ -61,7 +61,6 @@ class VytvorAkceKontroler extends Kontroler {
                         
                         //pridani zaznamu do databaze(akce_disc), poté následné zajištění nastavení ID
                         $pridejAkcedisc= $modelAkcedisc->pridejAkce_disc($akcedisc);
-                        $akce_discId+=1;
 
                         if ($pridejAkcedisc === 1) {
                             // Záznam byl úspěšně přidán
@@ -76,7 +75,9 @@ class VytvorAkceKontroler extends Kontroler {
                         }
                     }
                 }
-                $this->presmeruj("vytorakce");
+                //$this->presmeruj("vytorakce");
+                header("Location: akce?ia=".$akce['id_akce']);
+                
             }
 
 
@@ -100,7 +101,7 @@ class VytvorAkceKontroler extends Kontroler {
                 if ($editAkce === 1) {
                     // Záznam byl úspěšně editován
                     $this->pridejZpravu("Záznamu byla úspěšně editována.");
-                    $this->presmeruj("vytorakce");
+                    //header("akce?ia=".$hodnoty['id_akce']);
                     
                     exit;
                 } 
@@ -130,7 +131,7 @@ class VytvorAkceKontroler extends Kontroler {
                         // Můžete zde zobrazit chybovou hlášku uživateli
                         $this->pridejZpravu("Chyba při smazání záznamu.");
                         
-                        $this->presmeruj("vytorakce");
+                        //header("akce?ia=".$hodnoty['id_akce']);
                         exit;   
                     } 
                     }

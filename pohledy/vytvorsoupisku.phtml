@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+
+        <h1>Generování soupisky</h1>
+
+        <!-- Výpis zpráv -->
+        <?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
+            <ul>
+                <?php foreach ($this->zpravy as $zprava): ?>
+                    <li><?php echo $zprava; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+
+        <div id="soupiskaUcastnik">
+            <!-- Formulář pro přidání soupisek -->
+            <form  method="post">
+                <!--sekce tabulky "soupiska"-->
+                <h1><?php echo $konkretniakce['nazev_akce']; ?> </h1>
+                <label for="nazev_soupisky">Název soupisky:</label>
+                <input required type="text" name="nazev_soupisky" >
+                <!--sekce tabulky "ucastnik"-->
+                <h2>Účastník </h2>
+                <div>
+                    <select required name="id_uziv[]" class="uziv" style="width: 100%" multiple>
+                        <?php foreach ($this->data['uziv'] as $uziv):?>
+                            <option value="<?= $uziv['id_uziv']; ?>"><?= $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button type="submit" name="pridejSoupiskaUcastnik">Přidat záznam</button>
+            </form>
+        </div>
+
+        <div id="disciplina">
+            <form>
+                <h2>Přiřazení disciplíny</h2>
+                <div>
+                    <?php 
+                        foreach ($this->data['ucast'] as $ucast){ 
+                            if($soupiska['id_soup']==$ucast['id_soup']){
+                                foreach ($this->data['uziv'] as $uziv){
+                                    if($uziv['id_uziv'] == $ucast['id_uziv']) {
+                                ?> 
+                                        <lable><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </lable> 
+                                        <br>
+                                        <select name="disc_uziv_<?php echo $ucast['id_uziv']; ?>[]" class="disc" style="width: 100%" multiple>
+                                            <?php 
+                                                foreach ($this->data['disc'] as $disc){
+                                                    foreach($this->data['ad'] as $ad){
+                                                        if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
+                                                            <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
+                                            <?php 
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                    <?php 
+                                    }
+                                }
+                            }    
+                        } 
+                    ?>
+                </div>
+
+                <button type="submit" name="priradDiscipliny">Uložit</button>
+            </form>
+        </div>
+
+
+
+        
+
+        <!-- javascript a jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- javascript (Combobox) -->
+        <script>    
+            $(document).ready(function() {
+                // Applynuti select2 na vypsané disciplíny
+                $('.uziv').select2({
+                    dropdownAutoWidth : true,
+                    placeholder: "-- Výběr sportovců --"
+                });
+
+                $('.disc').select2({
+                    dropdownAutoWidth : true,
+                    placeholder: "-- Výběr disciplín --"
+                });
+            });
+        </script>
+
+         <!-- javascript (Phases) -->
+         <script>
+            $(document).ready(function() {
+                var su = $("#soupiskaUcastnik");
+                var d = $("#disciplina");
+
+
+                    if (<?php echo intval($faze)?> == 0) {
+                        su.css("display", "block");
+                        d.css("display", "none");
+                    } else {
+                        su.css("display", "none");
+                        d.css("display", "block");
+                    }
+
+            });
+        </script>
+
+    </body>
+</html>

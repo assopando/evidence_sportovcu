@@ -42,33 +42,37 @@
             <form>
                 <h2>Přiřazení disciplíny</h2>
                 <div>
-                    <?php 
-                        foreach ($this->data['ucast'] as $ucast){ 
-                            if($soupiska['id_soup']==$ucast['id_soup']){
-                                foreach ($this->data['uziv'] as $uziv){
-                                    if($uziv['id_uziv'] == $ucast['id_uziv']) {
-                                ?> 
-                                        <lable><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </lable> 
-                                        <br>
-                                        <select name="disc_uziv_<?php echo $ucast['id_uziv']; ?>[]" class="disc" style="width: 100%" multiple>
-                                            <?php 
-                                                foreach ($this->data['disc'] as $disc){
-                                                    foreach($this->data['ad'] as $ad){
-                                                        if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
-                                                            <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
-                                            <?php 
-                                                        }
-                                                    }
-                                                }
-                                            ?>
-                                        </select>
-                    <?php 
+                    <?php
+                    foreach ($this->data['ucast'] as $ucast){
+                        if(!($soupiska['id_soup']==$ucast['id_soup'])) {
+                            break;
+                        }
+
+                        foreach ($this->data['uziv'] as $uziv){
+                            if(!($uziv['id_uziv'] == $ucast['id_uziv'])) {
+                                continue;  
+                            }
+                            ?> 
+                            
+                            <lable><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </lable>
+                            <br>
+                            <select name="<?php echo $ucast['id_uziv']; ?>[]" class="disc" style="width: 100%" multiple><?php
+                            foreach ($this->data['disc'] as $disc){
+                                foreach($this->data['ad'] as $ad){
+                                    if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
+                                        <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
+                                    <?php
                                     }
                                 }
-                            }    
-                        } 
+                            }
+                            ?>
+                            </select>
+                        <?php
+                        }
+                    }
                     ?>
                 </div>
+
 
                 <button type="submit" name="priradDiscipliny">Uložit</button>
             </form>

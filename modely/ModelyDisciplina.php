@@ -19,7 +19,8 @@ class ModelyDisciplina{
               LIMIT 1";
       
       $disciplina = Db::dotazJeden($sql);
-      return $disciplina['id_disc'];
+      if ($disciplina === false) return 1;
+      else return $disciplina['id_disc'];
     }
 
       /*slouzi k pridani discipliny do databaze, parametr bude pole, vyzadujici:

@@ -20,7 +20,8 @@ class ModelyDisc_ucast{
               LIMIT 1";
       
       $disc_ucast = Db::dotazJeden($sql);
-      return $disc_ucast['id_disc_ucast'];
+      if ($disc_ucast === false) return 1;
+      else return $disc_ucast['id_disc_ucast'];
     }
 
 

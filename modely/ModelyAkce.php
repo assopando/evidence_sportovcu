@@ -20,7 +20,8 @@ class ModelyAkce{
               LIMIT 1";
       
       $akce = Db::dotazJeden($sql);
-      return $akce['id_akce'];
+      if ($akce === false) return 1;
+      else return $akce['id_akce'];
     } 
 
 

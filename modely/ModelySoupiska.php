@@ -19,7 +19,8 @@ class ModelySoupiska{
               LIMIT 1";
       
       $soupiska = Db::dotazJeden($sql);
-      return $soupiska['id_soup'];
+      if ($soupiska === false) return 0;
+      else return $soupiska['id_soup'];
     }
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:

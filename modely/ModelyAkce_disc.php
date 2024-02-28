@@ -19,8 +19,10 @@ class ModelyAkce_disc{
               LIMIT 1";
       
       $akce_disc = Db::dotazJeden($sql);
-      return $akce_disc['id_akce_disc'];
+      if ($akce_disc === false) return 1;
+      else return $akce_disc['id_akce_disc'];
     }
+  
 
 
       /*slouzi k pridani záznamu do databaze, parametr bude pole, vyzadujici:

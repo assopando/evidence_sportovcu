@@ -19,7 +19,8 @@ class ModelyUroven{
               LIMIT 1";
       
       $uroven = Db::dotazJeden($sql);
-      return $uroven['id_urov'];
+      if ($uroven === false) return 1;
+      else return $uroven['id_urov'];
     }
 
 

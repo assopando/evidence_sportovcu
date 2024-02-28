@@ -20,7 +20,8 @@ class ModelyPozice{
               LIMIT 1";
       
       $pozice = Db::dotazJeden($sql);
-      return $pozice['id_poz'];
+      if ($pozice === false) return 1;
+      else return $pozice['id_poz'];
     }
 
 

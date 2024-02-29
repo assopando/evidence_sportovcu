@@ -20,24 +20,24 @@
             </ul>
         <?php endif; ?>
 
-        <h1><?php echo $konkretniakce['nazev_akce'];?></h1>
+        <h1><?php echo $konkretniAkce['nazev_akce'];?></h1>
         <!-- tlačítko pro přepínaní mezi vypisem a editem -->
         <button id="switch">Switch</button> 
 
         <!-- Vypis -->
         <div id="vypis">
-            <?php echo '<p>'.$konkretniakce['popisek_akce'].'</p>';?>
+            <?php echo '<p>'.$konkretniAkce['popisek_akce'].'</p>';?>
             <label>Datum zahajeni: </label>
-            <input type="date" value="<?php echo $konkretniakce['datum_zahajeni']; ?>">
+            <input type="date" value="<?php echo $konkretniAkce['datum_zahajeni']; ?>">
             <!-- Delka dni -->   
             <label>Datum konce: </label>
-            <input type="date" value="<?php echo $konkretniakce['datum_konce']; ?>">
+            <input type="date" value="<?php echo $konkretniAkce['datum_konce']; ?>">
             <label>Misto konani: </label>
-            <?php echo $konkretniakce['misto_kon']; ?>
+            <?php echo $konkretniAkce['misto_kon']; ?>
             <div>
                 <label>Disciplíny:</label>
                 <?php foreach ($this->data['akcedisc'] as $ad):
-                    if($ad['id_akce'] == $konkretniakce['id_akce']){
+                    if($ad['id_akce'] == $konkretniAkce['id_akce']){
                         foreach ($this->data['disc'] as $disc): 
                             if($ad['id_disc'] == $disc['id_disc']){
                                     echo $disc['nazev_disc']."<br>";
@@ -46,10 +46,27 @@
                     }
                 endforeach; ?>
             </div>
+            
+            <div>
+                <a href="vytvorsoupisku?ia=<?php echo $konkretniAkce['id_akce']; ?>"><button type="button">+</button></a>
+                <h2>Soupisky</h2>
+                <ul>
+                    <?php foreach ($this->data["soup"] as $soup): ?>
+                        <li>
+                            
+                            <?php if($soup['id_akce']==$konkretniAkce['id_akce']){ ?>
+                                <a href="soupiska?is=<?php echo $soup['id_soup']; ?>">
 
-            <a href="soupiska"><button type="button">+</button></a>
-
+                            <?php echo $soup['nazev_skupiny'];}
+                                 ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
+
+        
 
         <!-- Edit -->
         <div id="edit">
@@ -62,23 +79,22 @@
                 <h2>Akce</h2>
                 <!-- Nazev akce -->
                 <label for="nazev_akce">Nazev: </label>
-                <input type="text" name="nazev_akce" value="<?php echo $konkretniakce['nazev_akce']; ?>">
+                <input type="text" name="nazev_akce" value="<?php echo $konkretniAkce['nazev_akce']; ?>">
                 <!-- Datum -->
                 <label for="datum_zahajeni">Datum zahajeni: </label>
-                <input type="date" name="datum_zahajeni" value="<?php echo $konkretniakce['datum_zahajeni']; ?>">
+                <input type="date" name="datum_zahajeni" value="<?php echo $konkretniAkce['datum_zahajeni']; ?>">
                 <!-- Delka dni -->   
                 <label for="datum_konce">Delka dni: </label>
-                <input type="date" name="datum_konce" value="<?php echo $konkretniakce['datum_konce']; ?>">
+                <input type="date" name="datum_konce" value="<?php echo $konkretniAkce['datum_konce']; ?>">
                 <!-- Misto konani -->
                 <label for="misto_kon">Misto konani: </label>
-                <input type="text" name="misto_kon" value="<?php echo $konkretniakce['misto_kon']; ?>">
+                <input type="text" name="misto_kon" value="<?php echo $konkretniAkce['misto_kon']; ?>">
                 <!-- Popis akce -->
                 <label for="popisek_akce">Popis: </label>
-                <textarea name="popisek_akce" rows="4" cols="50"><?php echo $konkretniakce['popisek_akce']; ?></textarea>
+                <textarea name="popisek_akce" rows="4" cols="50"><?php echo $konkretniAkce['popisek_akce']; ?></textarea>
 
     <!-- Edit akcedisc -->
 
-                <?php if (isset($this->data['disc']) && !empty($this->data['disc'])): ?>
                 <h2>Disciplíny</h2>
                     <div class="divAkceDisc">
                         <!-- Tlačítko pro pridání dalšich disciplín -->
@@ -94,7 +110,7 @@
                 <label for="cb_del">Pro smazání vybraných disciplín</label>
                 <button type="submit" name="cb_smazat">Smazat</button>
                 <?php foreach ($this->data['akcedisc'] as $ad):?>
-                    <?php if ($ad['id_akce'] == $konkretniakce['id_akce']){?>
+                    <?php if ($ad['id_akce'] == $konkretniAkce['id_akce']){?>
                         <input type="hidden" name="edit_id_ad[]" value="<?php echo $ad['id_akce_disc']; ?>">
                         <input type="checkbox" name="selected_disc[]" value="<?php echo $ad['id_akce_disc']; ?>">
                         <select name="edit_id_disc[]" class="editselect" style="width: 100%">
@@ -112,14 +128,12 @@
             </form>
         </div>
 
-        <?php else: ?>
-            <p>Nejsou k dispozici žádný záznam.</p>
-        <?php endif; ?>
-
-        <!-- javascript (Combobox) -->
+        <!-- javascript a jquery -->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- javascript (Combobox + dynamický select disciplín) -->
         <script>
         $(document).ready(function() {
             var max_pocet = 10;

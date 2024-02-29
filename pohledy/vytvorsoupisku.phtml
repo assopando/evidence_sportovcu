@@ -39,7 +39,7 @@
         </div>
 
         <div id="disciplina">
-            <form>
+            <form method="post">
                 <h2>Přiřazení disciplíny</h2>
                 <div>
                     <?php
@@ -51,11 +51,10 @@
                             if(!($uziv['id_uziv'] == $ucast['id_uziv'])) {
                                 continue;  
                             }
-                            ?> 
-                            
+                            ?>
+                            <input type="hidden" name="id_ucastnika[]" value="<?= $ucast['id_ucast'] ?>"> 
                             <label><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </label>
-                            <br>
-                            <select name="ucastnici[<?php echo $ucast['id_uziv']; ?>][]" class="disc" style="width: 100%" multiple><?php
+                            <select name="ucastnici[<?= $ucast['id_ucast'] ?>][]" class="disc" style="width: 100%" multiple><?php
                             foreach ($this->data['disc'] as $disc){
                                 foreach($this->data['ad'] as $ad){
                                     if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
@@ -65,14 +64,12 @@
                                 }
                             }
                             ?>
-                            </select>
+                            </select><br>
                         <?php
                         }
                     }
                     ?>
                 </div>
-
-
                 <button type="submit" name="priradDiscipliny">Uložit</button>
             </form>
         </div>

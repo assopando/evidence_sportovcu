@@ -44,9 +44,9 @@ class ModelySoupiska{
         $sql = "
             SELECT nazev_skupiny
             FROM soupiska
-            where nazev_skupiny = ?
+            where nazev_skupiny = ? and  id_akce = ?
         ";
-        if(Db::dotazJeden($sql,[$soupiska["nazev_skupiny"]])){
+        if(Db::dotazJeden($sql,[$soupiska["nazev_skupiny"], $soupiska["id_akce"]])){
           return 0;
         }
       Db::vloz("soupiska",$soupiska);

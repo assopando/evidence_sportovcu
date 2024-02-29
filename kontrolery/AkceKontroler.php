@@ -7,11 +7,12 @@ class AkceKontroler extends Kontroler {
         $modelAkce= new ModelyAkce;
         $modelAkcedisc = new ModelyAkce_disc;
         $modelDisciplin = new ModelyDisciplina;
+        $modelSoupiska = new ModelySoupiska;
 
         $akce=$modelAkce->vratVsechnyAkce();
         foreach($akce as $a){
             if($idTetoAkce == $a["id_akce"]){
-                $konkretniakce= [
+                $konkretniAkce= [
                     'id_akce' => $a["id_akce"],
                     'nazev_akce' => $a['nazev_akce'],
                     'datum_zahajeni' => $a['datum_zahajeni'],
@@ -36,7 +37,7 @@ class AkceKontroler extends Kontroler {
                 //Průchod pole
                 foreach ($disc as $selectedDisc) {
                     $akcedisc = [
-                        'id_akce_disc' => $akce_discId,
+                        'id_akce_disc' => $akce_discId++,
                         'id_akce' => $idTetoAkce,
                         'id_disc' => $selectedDisc,
                         // Další potřebné údaje
@@ -56,9 +57,6 @@ class AkceKontroler extends Kontroler {
                         // Můžete zde zobrazit chybovou hlášku uživateli
                         $this->pridejZpravu("Chyba při přidání záznamu.");
                     }
-
-                    $akce_discId+=1;
-
                 }
             }
 
@@ -135,7 +133,7 @@ class AkceKontroler extends Kontroler {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cele_smazat'])) {
             foreach ($akcedisc as $ad){
-                if ($ad['id_akce'] == $konkretniakce){
+                if ($ad['id_akce'] == $konkretniAkce){
 
                     $smazAkcedisc= $modelAkcedisc->odeberAkce_disc($ad['id_akce_disc']);
 
@@ -170,13 +168,16 @@ class AkceKontroler extends Kontroler {
         
     
 
-        $this->data["konkretniakce"] = $konkretniakce;
+        $this->data["konkretniAkce"] = $konkretniAkce;
 
         $akcedisc =  $modelAkcedisc->vratVsechnyAkce_disc();
         $this->data["akcedisc"] = $akcedisc;
 
         $disc=$modelDisciplin->vratVsechnyDiscipliny();
-        $this->data["disc"] = $disc; 
+        $this->data["disc"] = $disc;
+        
+        $soup=$modelSoupiska->vratVsechnySoupisky();
+        $this->data["soup"] = $soup; 
 
 
         $this->pohled = "akce";

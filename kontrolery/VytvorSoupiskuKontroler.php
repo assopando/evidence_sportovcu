@@ -2,9 +2,10 @@
 class VytvorSoupiskuKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
-        $idTetoAkce=$_GET['ia'];
+        $idTetoAkce = $_GET['ia'];
         $faze = 0;
-        $soupiska=null;
+        $soupiska = null;
+        $soupiskaId = null;
 
 
         $modelAkce= new ModelyAkce;
@@ -13,6 +14,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
         $modelUcastnik = new ModelyUcastnik;
         $modelDisciplina = new ModelyDisciplina;
         $modelAkce_disc = new ModelyAkce_disc;
+        $modelDiscucast = new ModelyDisc_ucast;
 
         $akce=$modelAkce->vratVsechnyAkce();
         foreach($akce as $a){
@@ -34,12 +36,12 @@ class VytvorSoupiskuKontroler extends Kontroler {
             // Kontrola jesli to jsou sportovci v poli
             if (isset($_POST['id_uziv']) && is_array($_POST['id_uziv'])) {                   
                 $ucastnici = $_POST['id_uziv'];
-                $SoupiskaId = $modelSoupiska->vratPosledniId() +1;
+                $soupiskaId = $modelSoupiska->vratPosledniId() +1;
 
                 // Zde by mělo dojít k zpracování formuláře
                 // a volání metody pridejUcastnika z vaší třídy
                 $soupiska = [
-                    'id_soup' => $SoupiskaId,
+                    'id_soup' => $soupiskaId,
                     'id_akce' => $konkretniakce["id_akce"],
                     'nazev_skupiny' => $_POST['nazev_soupisky'],
                     // Další potřebné údaje
@@ -47,7 +49,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
 
                 //pridani zaznamu do databaze(soupiska)
                 $pridejSoupisku = $modelSoupiska->pridejSoupisku($soupiska);
-                //$pridejSoupisku = 1;              
+                //$pridejSoupisku = 1;                      // vyuzivano behem debugovaní            
  
 
                 if ($pridejSoupisku === 1) {
@@ -57,28 +59,27 @@ class VytvorSoupiskuKontroler extends Kontroler {
 //------------------ Dělící čara mezi soupiska a ucastnik ---------------------------------------
 
                     //zjištění podledního ID v tabulce
-                    $ucastnik_Id = $modelUcastnik->vratPosledniId()+1;
+                    $ucastnikId = $modelUcastnik->vratPosledniId()+1;
                     
                     //Průchod pole
                     foreach ($ucastnici as $selectedUziv) {
 
                         $ucastnik = [
-                            'id_ucast' => $ucastnik_Id++,
+                            'id_ucast' => $ucastnikId++,
                             'id_uziv' => $selectedUziv,
-                            'id_soup' => $SoupiskaId,
+                            'id_soup' => $soupiskaId,
                             // Další potřebné údaje
                         ];
                         
-                        //pridani zaznamu do databaze(ucastnik), poté následné zajištění nastavení ID
-                        $pridejUcastnik[]= $modelUcastnik->pridejUcastnika($ucastnik);
-                        //$pridejUcastnik[] = [1,1];
+                        //pridani zaznamu do databaze(ucastnik)
+                        $pridejUcastnik[] = $modelUcastnik->pridejUcastnika($ucastnik);
                     
                     }
+                    
                     if (!in_array(0,$pridejUcastnik)) {
                             // Záznam byl úspěšně přidán
-                            $this->pridejZpravu("Ucastníci byli úspěšně přidány.");
-                            $faze = 1;
-                            //header("Refresh:0"); 
+                            $this->pridejZpravu("Ucastnik/ci byli úspěšně přidány.");
+                            $faze = 1;                          //v vytvorsoupisku.phtml se prepne na "2. fází" - přiřazování disciplín
 
                         } else if (in_array(0,$pridejUcastnik)) {
                             // Záznam již existuje
@@ -88,9 +89,19 @@ class VytvorSoupiskuKontroler extends Kontroler {
                             // Můžete zde zobrazit chybovou hlášku uživateli
                             $this->pridejZpravu("Chyba při přidání záznamu.");
                         }
-                
+                        
+                        /*
+                        if (in_array(0,$pridejUcastnik)) {
+                            return;
 
-//------------------ Dělící čara mezi soupiska a ucastnik ---------------------------------------
+                        
+                        }
+                            // Záznam byl úspěšně přidán
+                            $this->pridejZpravu("Ucastníci byli úspěšně přidány.");
+                            $faze = 1;  
+                */
+
+//------------------------------ Dělící čara mezi soupiska a ucastnik -----------------------------------------
 
                 } else if ($pridejSoupisku === 0) {
                     // Záznam již existuje
@@ -104,15 +115,46 @@ class VytvorSoupiskuKontroler extends Kontroler {
             }
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridejSoupiskaUcastnik'])) {
-            
-            foreach ($ucastnici as $uziv) {
-                $poleDisc = $_POST['ucastnici'][$uziv];
+
+//--------------- Dělící čara mezi 1. a 2. fází (soupiska+ucastnik a disc_ucast)------------------
+
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['priradDiscipliny'])) {
+            $disc_ucastId = $modelDiscucast->vratPosledniId()+1;
+
+            $ucastnici = $_POST['id_ucastnika'];
+
+            foreach ($ucastnici as $ucastnik) {
+                $poleDisc = $_POST['ucastnici'][$ucastnik];
+
+                foreach($poleDisc as $discKPrirazeni){
+                    $discucast = [
+                        'id_disc_ucast' => $disc_ucastId++,
+                        'id_ucast' => $ucastnik,
+                        'id_disc' => $discKPrirazeni,
+                        // Další potřebné údaje
+                    ];
                 
-            
+                $pridejDiscucast[] = $modelDiscucast->pridejDisc_ucast($discucast);
+                }
+            }
+
+            if (!in_array(0,$pridejDiscucast)) {
+                // Záznam byl úspěšně přidán
+                $this->pridejZpravu("Záznam/y byl úspěšně přidán.");
+            } else if (!in_array(1,$pridejDiscucast)) {
+                // Záznam již existuje
+                $this->pridejZpravu("Záznam již existuje!");
+                
+            } else {
+                // Nějaká jiná chyba
+                // Můžete zde zobrazit chybovou hlášku uživateli
+                $this->pridejZpravu("Chyba při přidání záznamu.");
+            }
+
         }
 
-    }
 
         $this->data["konkretniakce"] = $konkretniakce;
 

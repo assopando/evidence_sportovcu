@@ -107,8 +107,8 @@ class VytvorSoupiskuKontroler extends Kontroler {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridejSoupiskaUcastnik'])) {
             
             foreach ($ucastnici as $uziv) {
-                $poleDisc = $_POST[$uziv];
-                var_dump($poleDisc);
+                $poleDisc = $_POST['ucastnici'][$uziv];
+                
             
         }
 

@@ -204,7 +204,21 @@ public function vratInfoVsechUcitelu(){
       return $data;
 
     }
-        
+    
+    public function vratInfoPodleEmailu($email) {
+      $sql = "SELECT * FROM uzivatel WHERE email = ?";
+      return Db::dotazJeden($sql, [$email]);
+  }
+
+    // Uložení nových údajů do databáze
+    public function upravDodatecneUdaje($email, $kontaktniUdaje, $odkazNaWeb, $zdravotniOmezeni, $sportovniAktivity) {
+      $sql = "
+          UPDATE uzivatel
+          SET kontaktni_udaje = ?, odkaz_na_web = ?, zdravotni_omezeni = ?, sportovni_aktivity = ?
+          WHERE email = ?
+      ";
+      Db::dotaz($sql, [$kontaktniUdaje, $odkazNaWeb, $zdravotniOmezeni, $sportovniAktivity, $email]);
+  }
 
 }
 ?>

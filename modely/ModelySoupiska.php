@@ -85,8 +85,6 @@ class ModelySoupiska{
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-
-
     
 }
 

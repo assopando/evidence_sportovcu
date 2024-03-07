@@ -75,10 +75,21 @@ class ModelyAkce{
       $sql = "
       where id_akce = ?
       ";
-      if(Db::zmen("akce",$hodnoty,$sql,[$id])){
+
+      $pocetZmenenychRadku = Db::zmen("akce",$hodnoty,$sql,[$id]);
+    
+    if ($pocetZmenenychRadku > 0) {
+        // Pokud byla provedena alespoň jedna změna
         return 1;
-      }
-      return 0;
+    } elseif ($pocetZmenenychRadku === 0) {
+        // Pokud nebyla provedena žádná změna
+        return 2;
+    } else {
+        // Pokud nastala chyba při provádění změn
+        return 0;
+    }
+
+
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 

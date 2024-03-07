@@ -14,7 +14,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
         $modelUcastnik = new ModelyUcastnik;
         $modelDisciplina = new ModelyDisciplina;
         $modelAkce_disc = new ModelyAkce_disc;
-        $modelDiscucast = new ModelyDisc_ucast;
+        $modelDisc_ucast = new ModelyDisc_ucast;
 
         $akce=$modelAkce->vratVsechnyAkce();
         foreach($akce as $a){
@@ -121,7 +121,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['priradDiscipliny'])) {
-            $disc_ucastId = $modelDiscucast->vratPosledniId()+1;
+            $disc_ucastId = $modelDisc_ucast->vratPosledniId()+1;
 
             $ucastnici = $_POST['id_ucastnika'];
 
@@ -136,7 +136,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
                         // Další potřebné údaje
                     ];
                 
-                $pridejDiscucast[] = $modelDiscucast->pridejDisc_ucast($discucast);
+                $pridejDiscucast[] = $modelDisc_ucast->pridejDisc_ucast($discucast);
                 }
             }
 

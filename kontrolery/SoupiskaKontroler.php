@@ -2,102 +2,53 @@
 class SoupiskaKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
+        $idTetoSoup=$_GET['is'];
+
         $modelDisciplin= new ModelyDisciplina();
         $modelSoupiska= new ModelySoupiska();
         $modelAkce = new ModelyAkce();
+        $modelUcastnici = new ModelyUcastnik();
+        $modelUzivatel = new ModelyUzivatel();
+        $modelDisc_ucast = new ModelyDisc_ucast();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
-           
-           
-            $soupiska = [
-                'id_soup' => $_POST['id_soup'],
-                'id_akce' => $_POST['id_akce'],
-                'nazev_skupiny' => $_POST['nazev_soupisky'],
-                'vys_s' => $_POST['vys_s'],
-               
-            ];
-
-            $pridejSoup= $modelSoupiska->pridejSoupisku($soupiska);
-
-            if ($pridejSoup === 1) {
-                // Disciplina  byla úspěšně přidán
-                $this->pridejZpravu("Soupiska byla úspěšně přidán.");
-                $this->presmeruj("soupiska");
-                
-                exit;
-            } else if ($pridejSoup === 0) {
-                // Disciplína již existuje
-                $this->pridejZpravu("Soupiska již existuje!");
-                $this->presmeruj("soupiska");
-                exit;
-                
-            } else {
-                // Nějaká jiná chyba
-                // Můžete zde zobrazit chybovou hlášku uživateli
-                $this->pridejZpravu("Chyba při přidání soupisky.");
-                $this->presmeruj("soupiska");
-                exit;
+        $soup=$modelSoupiska->vratVsechnySoupisky();
+        foreach($soup as $s){
+            if(!($idTetoSoup == $s["id_soup"])){
+                continue;
             }
+            $konkretniSoup= [
+                                'id_soup' => $s['id_soup'],
+                                'id_akce' => $s['id_akce'],
+                                'nazev_skupiny' => $s['nazev_skupiny'],
+                                'vys_s' => $s['vys_s'],
+
+                            ];
         }
-        else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ulozit']))   {
-            
-            $hodnoty= [
-                'id_disc' => $_POST['editovana_disciplina_id'],
-                'id_sport' => $_POST['editovany_sport_id'],
-                'nazev_disc' => $_POST['novy_nazev_discipliny'],
-                
-            ];
 
-            $editDisc= $modelDisciplin->zmenDisciplinu($hodnoty, $_POST['editovana_disciplina_id']);
 
-            if ($editDisc === 1) {
-                // Sport byl úspěšně editován
-                $this->pridejZpravu("Disciplína byla úspěšně editována.");
-                $this->presmeruj("disciplina");
-                
-                exit;
-            } 
-            else {
-                // Nějaká jiná chyba
-                // Můžete zde zobrazit chybovou hlášku uživateli
-                $this->pridejZpravu("Chyba při editaci disciplíny.");
-                
-                $this->presmeruj("disciplina");
-                exit;   
-            } 
-            }
-            else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['smazat']))   {
-            
-                
-    
-                $smazDisc= $modelDisciplin->odeberDisciplinu($_POST['smazana_disciplina_id']);
-            
-    
-                if ($smazDisc === 1) {
-                    // Sport byl úspěšně editován
-                    $this->pridejZpravu("Disciplína byl úspěšně smazán.");
-                    $this->presmeruj("disciplina");
-                    
-                    exit;
-                } 
-                else {
-                    // Nějaká jiná chyba
-                    // Můžete zde zobrazit chybovou hlášku uživateli
-                    $this->pridejZpravu("Chyba při smazání disciplíny.");
-                    
-                    $this->presmeruj("disciplina");
-                    exit;   
-                } 
-                }
 
-        
-
+        $this->data["konkretniSoup"] = $konkretniSoup;
 
         $this->pohled = "soupiska";
+
         $akce=$modelAkce->vratVsechnyAkce();
         $this->data["akce"] = $akce; 
         
         $soupiska=$modelSoupiska->vratVsechnySoupisky();
         $this->data["soupiska"] = $soupiska; 
+
+        $ucast=$modelUcastnici->vratVsechnyUcastniky();
+        $this->data["ucast"] = $ucast; 
+
+        $uziv=$modelUzivatel->vratVsechnyUzivatele();
+        $this->data["uziv"] = $uziv; 
+
+        $disc=$modelDisciplin->vratVsechnyDiscipliny();
+        $this->data["disc"] = $disc; 
+
+        $du=$modelDisc_ucast->vratVsechnyDisc_ucast();
+        $this->data["du"] = $du; 
+
+
     }
 }

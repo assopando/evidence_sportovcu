@@ -55,7 +55,7 @@ class ImportcsvKontroler extends Kontroler {
                     'prijmeni' => iconv('Windows-1250', 'UTF-8', $data[1]),
                     'id_trid' => iconv('Windows-1250', 'UTF-8', $data[2]),
                     'isic' => iconv('Windows-1250', 'UTF-8', $data[3]),
-
+                    'opravneni' => 1,
                     'dat_nar' => iconv('Windows-1250', 'UTF-8', $novyFormat),
                     'pohlavi' => iconv('Windows-1250', 'UTF-8', $data[5]),
                 ];

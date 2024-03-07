@@ -8,11 +8,19 @@ use LdapRecord\Connection;
 use LdapRecord\Models\ActiveDirectory\Group;
 use Dotenv\Dotenv;
 
-    $connection = new Connection([
+  /*  $connection = new Connection([
         'hosts' => ['192.168.1.31'],
         'username' => 's.fabisz.st@testovaci.local',
         'password' => '',
         'base_dn' => 'dc=testovaci,dc=local',
+        'port' => 389,
+    ]);*/
+
+    $connection = new Connection([
+        'hosts' => ['msad19.spseiostrava.cz'],
+        'username' => 's.fabisz.st@spseiostrava.cz',
+        'password' => '11082004Sf',
+        'base_dn' => 'dc=msad19,dc=spseiostrava,dc=cz',
         'port' => 389,
     ]);
     
@@ -33,6 +41,8 @@ use Dotenv\Dotenv;
         echo $error->getDiagnosticMessage();
     }
 
+
+    
     
    
 
@@ -44,7 +54,7 @@ use Dotenv\Dotenv;
     $modelyUzivatelu = new ModelyUzivatel;
 
         // Sestavte dotaz pro získání jmen a příjmení všech uživatelů v organizační jednotce SpseiUsers
-        $users = User::on('ldap')->select('givenName', 'sn','mail')->in('OU=SpseiUsers,dc=testovaci,dc=local')->get();
+    /*    $users = User::on('ldap')->select('givenName', 'sn','mail')->in('OU=SpseiUsers,dc=msad19,dc=spseiostrava,dc=cz')->get();
         foreach ($users as $user) {
             $ldapEmail = $user->mail[0];
             

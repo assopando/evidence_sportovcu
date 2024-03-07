@@ -1,76 +1,132 @@
-<h1>Přidání a Výpis všech soupisek</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Soupiska</title>
+    </head>
+    <body>
+        <h1><?php echo $konkretniSoup['nazev_skupiny'];?></h1>
 
-<!-- Výpis zpráv -->
-<?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
-    <ul>
-        <?php foreach ($this->zpravy as $zprava): ?>
-            <li><?php echo $zprava; ?></li>
-        <?php endforeach; ?>
-    </ul>
+        <button id="switch">Switch</button> 
+
+        <!-- Vypis -->
+        <div id="vypis">
+            <div>
+                <label>Učastníci:</label>
+                <?php
+                foreach ($this->data['ucast'] as $ucast){
+                    if(!($ucast['id_soup'] == $konkretniSoup['id_soup'])){
+                        continue;
+                    }
+                    foreach ($this->data['uziv'] as $uziv){
+                        if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                            continue;
+                        }
+                        echo "<div>";
+                        echo $uziv['jmeno']." ".$uziv['prijmeni']." ".$uziv['id_trid']."<br>";
+                        foreach($this->data['du'] as $du){
+                            if(!($du['id_ucast']==$ucast['id_ucast'])){
+                                continue;
+                            }
+                            foreach($this->data['disc'] as $disc){
+                                if(!($du['id_disc']==$disc['id_disc'])){
+                                    continue;
+                                }
+                                echo $disc['nazev_disc']."<br>";
+                            }
+                        }
+                        echo "</div>";
+                    }
+                }
+                ?>
+            </div>
+        </div>
 
 
-<?php endif; ?>
-
-<!-- Formulář pro přidání soupisek -->
-<form  method="post">
-    <label for="id_soup">ID Soupisky:</label>
-    <input type="number" name="id_soup" >
-    <label for="id_akce">ID Akce</label>
-    <select name="id_akce">
-        <?php foreach ($this->data['akce'] as $akce): ?>
-            <option value="<?php echo $akce['id_akce']; ?>">
-                <?php echo $akce['nazev_akce']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <label for="nazev_soupisky">Nazev soupisky  :</label>
-    <input type="text" name="nazev_soupisky" >
-    <label for="vys_s">Vys s:</label>
-    <input type="text" name="vys_s" >
-    <button type="submit" name="pridej">Přidat záznam</button>
-</form>
-
-
-
-<!-- Výpis všech účastníků -->
-
-<?php if (isset($this->data['soupiska']) && !empty($this->data['soupiska'])): ?>
-    <h2>Všechny soupisky</h2>
-    <ul>
-    <?php foreach ($this->data['soupiska'] as $soup): ?>
-            <li>ID záznamu: <?php echo $soup['id_soup']; ?>
+            
+        <!-- Edit -->
+        <div id="edit">
+            <h2>Edit soupisky</h2>
             <form method="post">
-                <input type="hidden" name="id_soup" value="<?php echo $soup['id_soup']; ?>">
-                <label for="id_akce">ID akce</label>
-                <br>
-                <select name="id_akce">
-                    <?php foreach ($this->data['akce'] as $akce): ?>
-                        <option value="<?php echo $akce['id_akce']; ?>" <?php echo ($soup['id_akce'] == $akce['id_akce']) ? 'selected' : ''; ?>>
-                            <?php echo $akce['id_akce']," ", $akce['nazev_akce']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <br>
-                <label for="nazev_soupisky">Nazev soupisky:</label>
-                <input type="text" name="nazev_soupisky" value="<?php echo $soup['nazev_skupiny']; ?>">
-                <br>
-                <label for="vys_s">Vysledek soupisky</label>
-                <br>
-                <textarea name="vys_s" rows="5" cols="50">
-                <?php echo $soup['vys_s']; ?>
-                </textarea>
+    <!-- Edit akce-->     
+                <div>
+                    <h2>Soupiska</h2>
+                    <!-- Nazev skupiny -->
+                    <label for="nazev_skupiny">Nazev: </label>
+                    <input type="text" name="nazev_skupiny" value="<?php echo $konkretniSoup['nazev_skupiny']; ?>">
+                </div>
+
+            <!-- Edit ucastnik -->
+                <div>
+                    <h2>Úcastníci</h2>
+                    <!-- Výběr Discipliny s checkboxy-->
+                    <div>
+                        <label for="cb_smazat">Pro smazání vybraných disciplín</label>
+                        <button type="submit" name="cb_smazat">Smazat</button>
+                        
+                        <?php
+                        foreach ($this->data['ucast'] as $ucast){
+                            if(!($ucast['id_soup'] == $konkretniSoup['id_soup'])){
+                                continue;
+                            }
+                        ?>
+                            <input type="hidden" name="edit_id_[]" value="<?php echo $ad['id_akce_disc']; ?>">
+                            <input type="checkbox" name="selected_disc[]" value="<?php echo $ad['id_akce_disc']; ?>">
+                        <?php
+                            foreach ($this->data['uziv'] as $uziv){
+                                if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                                    continue;
+                                }
+                                echo "<div>";
+                                echo $uziv['jmeno']." ".$uziv['prijmeni']." ".$uziv['id_trid']."<br>";
+                                foreach($this->data['du'] as $du){
+                                    if(!($du['id_ucast']==$ucast['id_ucast'])){
+                                        continue;
+                                    }
+                                    foreach($this->data['disc'] as $disc){
+                                        if(!($du['id_disc']==$disc['id_disc'])){
+                                            continue;
+                                        }
+                                        echo $disc['nazev_disc']."<br>";
+                                    }
+                                }
+                                echo "</div>";
+                            }
+                        }
+                        ?>
+                    </div>                   
+                </div>
+
+                <!-- Tlačítka pro Uložení a Smazání -->
                 <button type="submit" name="ulozit">Uložit</button>
+                <button type="submit" name="cele_smazat">Smazat</button>
             </form>
-            <form method="post">
-                <input type="hidden" name="id_soup" value="<?php echo $soup['id_soup']; ?>">
-                <button type="submit" name="smazat">Smazat</button>
-            </form>
-            </li>
-            <!-- Zde můžete přidat další informace o sportu, které chcete zobrazit -->
-        <?php endforeach; ?>
-    </ul>
-<?php else: ?>
-    <p>Nejsou k dispozici žádné zúčastnění.</p>
-<?php endif; ?>
+        </div>
 
+        <!-- javascript a jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+        <!-- javascript (Switch) -->
+        <script>
+            $(document).ready(function() {
+                var vypis = $("#vypis");
+                var edit = $("#edit");
+                edit.css("display", "none");
+
+                $("#switch").click(function() {
+                    if (vypis.css("display") === "block") {
+                        vypis.css("display", "none");
+                        edit.css("display", "block");
+                    } else {
+                        vypis.css("display", "block");
+                        edit.css("display", "none");
+                    }
+                });
+            });
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <!-- Přidejte svůj head obsah zde -->
+    <title>Uživatelský profil</title>
+</head>
+<body>
+    <header>
+        <!-- Vložte obsah záhlaví zde -->
+    </header>
+
+    <section class="zpravy">
+        <?php if (isset($zpravy) && is_array($zpravy)) {
+            foreach ($zpravy as $zprava) { ?>
+                <div><?= $zprava ?></div>
+            <?php }
+        } ?>
+    </section>
+
+    <main>
+        <h1>Uživatelský profil</h1>
+
+        <?php if (isset($uzivatel) && is_array($uzivatel) && $uzivatel['jmeno']) { ?>
+            <p>Jméno: <?= $uzivatel['jmeno'] ?></p>
+            <p>Příjmení: <?= $uzivatel['prijmeni'] ?></p>
+            <p>Email: <?= $uzivatel['email'] ?></p>
+            <p>Třída: <?= $uzivatel['id_trid'] ?></p>
+            <p>Datum narození: <?= $uzivatel['dat_nar'] ?></p>
+            <p>Pohlaví: <?= $uzivatel['pohlavi'] ?></p>
+            <p>Kontaktní údaje: <?= $uzivatel['kontaktni_udaje'] ?></p>
+            <p>Odkaz na webové stránky: <?= $uzivatel['odkaz_na_web'] ?></p>
+            <p>Zdravotní omezení: <?= $uzivatel['zdravotni_omezeni'] ?></p>
+            <p>Sportovní aktivity: <?= $uzivatel['sportovni_aktivity'] ?></p>
+
+            <?php if ($uzivatel['opravneni'] == 1) { ?>
+                <p>Role: Učitel</p>
+            <?php } elseif ($uzivatel['opravneni'] == 2) { ?>
+                <p>Role: Admin</p>
+            <?php } else { ?>
+                <p>Role: Žák</p>
+            <?php } ?>
+        <?php } else { ?>
+            <p>Uživatel není přihlášen nebo nebyl nalezen v LDAP.</p>
+        <?php } ?>
+
+        <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) { ?>
+            <form method="post" action="">
+                <label for="kontaktni_udaje">Kontaktní údaje:</label>
+                <input type="text" name="kontaktni_udaje" value="<?= isset($uzivatel['kontaktni_udaje']) ? $uzivatel['kontaktni_udaje'] : '' ?>"><br>
+
+                <label for="odkaz_na_web">Odkaz na webové stránky:</label>
+                <input type="text" name="odkaz_na_web" value="<?= isset($uzivatel['odkaz_na_web']) ? $uzivatel['odkaz_na_web'] : '' ?>"><br>
+
+                <label for="zdravotni_omezeni">Zdravotní omezení:</label>
+                <input type="text" name="zdravotni_omezeni" value="<?= isset($uzivatel['zdravotni_omezeni']) ? $uzivatel['zdravotni_omezeni'] : '' ?>"><br>
+
+                <label for="sportovni_aktivity">Sportovní aktivity:</label>
+                <input type="text" name="sportovni_aktivity" value="<?= isset($uzivatel['sportovni_aktivity']) ? $uzivatel['sportovni_aktivity'] : '' ?>"><br>
+
+                <input type="submit" value="Uložit změny">
+            </form>
+        <?php } ?>
+    </main>
+
+    <footer>
+        <!-- Vložte obsah patičky zde -->
+    </footer>
+</body>
+</html>

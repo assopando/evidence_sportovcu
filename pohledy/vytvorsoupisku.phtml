@@ -45,7 +45,7 @@
                     <?php
                     foreach ($this->data['ucast'] as $ucast){
                         if(!($soupiska['id_soup']==$ucast['id_soup'])) {
-                            break;
+                            continue;
                         }
                         foreach ($this->data['uziv'] as $uziv){
                             if(!($uziv['id_uziv'] == $ucast['id_uziv'])) {
@@ -55,15 +55,15 @@
                             <input type="hidden" name="id_ucastnika[]" value="<?= $ucast['id_ucast'] ?>"> 
                             <label><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </label>
                             <select name="ucastnici[<?= $ucast['id_ucast'] ?>][]" class="disc" style="width: 100%" multiple><?php
-                            foreach ($this->data['disc'] as $disc){
-                                foreach($this->data['ad'] as $ad){
-                                    if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
-                                        <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
-                                    <?php
+                                foreach ($this->data['disc'] as $disc){
+                                    foreach($this->data['ad'] as $ad){
+                                        if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
+                                            <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
+                                        <?php
+                                        }
                                     }
                                 }
-                            }
-                            ?>
+                                ?>
                             </select><br>
                         <?php
                         }

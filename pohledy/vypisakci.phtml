@@ -8,14 +8,33 @@
 <body>
 
 
-<!--Vypis akcí-->
+<!-- Display the list of links -->
+<h2>Nadcházející akce</h2>
 <ul>
     <?php foreach ($this->data["akce"] as $akce): ?>
-        <li>
-            <a href="akce?ia=<?php echo $akce['id_akce']; ?>">
-                <?php echo $akce['nazev_akce']; ?>
-            </a>
-        </li>
+        <?php if ($akce['archivovano'] == 0): ?>
+            <li>
+                <a href="akce?ia=<?php echo $akce['id_akce']; ?>">
+                    <?php echo $akce['nazev_akce']; ?>
+                </a>
+            </li>
+
+        <?php endif; ?>
+    <?php endforeach; ?>
+</ul>
+
+<!-- Display the list of links with archivovano = 1 -->
+<h2>Archív akcí</h2>
+<ul>
+    <?php foreach ($this->data["akce"] as $akce): ?>
+        <?php if ($akce['archivovano'] == 1): ?>
+            <li>
+                <a href="akce?ia=<?php echo $akce['id_akce']; ?>">
+                    <?php echo $akce['nazev_akce']; ?>
+                </a>
+            </li>
+
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>
 

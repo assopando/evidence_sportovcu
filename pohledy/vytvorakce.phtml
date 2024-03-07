@@ -31,6 +31,27 @@
     <!-- Misto konani -->
     <label for="misto_kon">Misto konani: </label>
     <input required type="text" name="misto_kon">
+
+    <label for="poradatel">Poradatel: </label>
+    <input  type="text" name="poradatel">
+
+    <label for="opak">Opakovanost: </label>
+    <select name="id_opak" class="select" style="width: 100%">
+        <?php foreach ($this->data['opak'] as $opak): ?>
+            <option value="<?php echo $opak['id_opak']; ?>" >
+                <?php echo $opak['nazev_opak'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <!-- Výběr kola -->
+    <label for="kolo">Kolo: </label>
+    <select name="id_kolo" class="select" style="width: 100%">
+        <?php foreach ($this->data['kolo'] as $kolo): ?>
+            <option value="<?php echo $kolo['id_kolo']; ?>" >
+                <?php echo $kolo['nazev_kolo'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
     <!-- Popis akce -->
     <label for="popisek_akce">Popis: </label>
     <textarea required name="popisek_akce" rows="4" cols="50"></textarea>

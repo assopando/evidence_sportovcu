@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Stř 24. led 2024, 20:09
+-- Vytvořeno: Čtv 07. bře 2024, 22:25
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -33,16 +33,27 @@ CREATE TABLE `akce` (
   `datum_zahajeni` date NOT NULL,
   `datum_konce` date DEFAULT NULL,
   `misto_kon` varchar(30) NOT NULL,
-  `popisek_akce` text NOT NULL
+  `poradatel` varchar(100) DEFAULT NULL,
+  `popisek_akce` text NOT NULL,
+  `pritomni_uc` varchar(150) DEFAULT NULL,
+  `shrnuti` varchar(100) DEFAULT NULL,
+  `archivovano` tinyint(4) DEFAULT NULL,
+  `id_opak` int(11) DEFAULT NULL,
+  `id_kolo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `akce`
 --
 
-INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `misto_kon`, `popisek_akce`) VALUES
-(1, 'Fotbalový turnaj 3. ročníků', '2024-01-17', '2024-1-20', 'Ostrava', 'Fotbalový turnaj 3. ročníků pořádáný městem Ostrava o pohár Primátora Ostravy, konaný na hale ŠŠTD'),
-(2, 'Volejbalový turnaj', '2024-01-26', '2024-1-30', 'Opava', 'Krajské kolo Volejbalovské ligy středních škol');
+INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `misto_kon`, `poradatel`, `popisek_akce`, `pritomni_uc`, `shrnuti`, `archivovano`, `id_opak`, `id_kolo`) VALUES
+(1, 'Fotbalový turnaj 3. ročníků', '2024-01-17', '2024-01-20', 'Ostrava', NULL, 'Fotbalový turnaj 3. ročníků pořádáný městem Ostrava o pohár Primátora Ostravy, konaný na hale ŠŠTD', 'Mgr. Lenka Hudecová', 'student Bednář se zranil', 1, NULL, NULL),
+(2, 'Hokejový turnaj', '2024-01-26', '2024-01-30', 'Opava', NULL, 'Krajské kolo Hokejové ligy středních škol', 'Mgr. Lenka Hudecová, Mgr. Jakub Hubáček', 'všichni žáci dali do toho maximum', 1, NULL, NULL),
+(3, 'Volejbalový turnaj', '2024-03-06', '2024-03-08', 'Pardubice', NULL, 'Volejbalový turnaj pro SŠ konané v Pardubicích', 'Mgr. Daniela Kozáková', '', 1, NULL, NULL),
+(4, 'Silový trojboj', '2024-03-05', '2024-03-06', 'Opava', NULL, 'Silový trojboj', 'Mgr. Lenka Hudecová', 'studenti se snažili ', 1, NULL, NULL),
+(5, 'fotbal', '2024-03-06', '2024-03-09', 'Opava', NULL, 'kalkda', 'Mgr. Lenka Hudecová, Mgr. Jakub Hubáček', 'dmda', 1, NULL, NULL),
+(6, 'opak', '2024-03-01', '2024-03-08', 'Opava', 'karorak', 'popis akce', NULL, NULL, NULL, 1, 1),
+(7, 'liga', '2024-03-09', '2024-03-31', 'kolo', 'kolo', 'kolo', NULL, NULL, NULL, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -62,7 +73,15 @@ CREATE TABLE `akce_disc` (
 
 INSERT INTO `akce_disc` (`id_akce_disc`, `id_akce`, `id_disc`) VALUES
 (1, 1, 1),
-(2, 2, 1);
+(2, 2, 1),
+(3, 3, 4),
+(4, 4, 5),
+(5, 4, 6),
+(6, 4, 7),
+(7, 5, 2),
+(8, 6, 5),
+(9, 7, 2),
+(10, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +101,11 @@ CREATE TABLE `disciplina` (
 
 INSERT INTO `disciplina` (`id_disc`, `id_sport`, `nazev_disc`) VALUES
 (1, 2, 'hokej'),
-(2, 1, 'fotbal');
+(2, 1, 'fotbal'),
+(4, 1, 'volejbal'),
+(5, 9, 'bench'),
+(6, 1, 'dřep'),
+(7, 1, 'deadlift');
 
 -- --------------------------------------------------------
 
@@ -102,7 +125,61 @@ CREATE TABLE `disc_ucast` (
 --
 
 INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALUES
-(1, 2, 1, 'dasd');
+(1, 2, 1, 'dasd'),
+(2, 3, 1, NULL),
+(3, 4, 1, NULL),
+(4, 5, 1, NULL),
+(5, 6, 4, NULL),
+(6, 7, 4, NULL),
+(7, 8, 5, NULL),
+(9, 10, 7, NULL),
+(13, 14, 5, NULL),
+(14, 15, 5, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `kolo`
+--
+
+CREATE TABLE `kolo` (
+  `id_kolo` int(11) NOT NULL,
+  `nazev_kolo` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `kolo`
+--
+
+INSERT INTO `kolo` (`id_kolo`, `nazev_kolo`) VALUES
+(1, 'liga'),
+(2, 'školní'),
+(3, 'městské'),
+(4, 'okresní'),
+(5, 'krajské'),
+(6, 'republikové'),
+(8, 'mezinárodní');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `opakovanost`
+--
+
+CREATE TABLE `opakovanost` (
+  `id_opak` int(11) NOT NULL,
+  `nazev_opak` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `opakovanost`
+--
+
+INSERT INTO `opakovanost` (`id_opak`, `nazev_opak`) VALUES
+(1, 'jednorázově'),
+(2, 'čtvrtletně'),
+(3, 'pololetně'),
+(5, 'ročně');
 
 -- --------------------------------------------------------
 
@@ -154,7 +231,13 @@ CREATE TABLE `soupiska` (
 --
 
 INSERT INTO `soupiska` (`id_soup`, `id_akce`, `nazev_skupiny`, `vys_s`) VALUES
-(1, 1, 'soupiska na fotbal', NULL);
+(1, 1, 'soupiska na fotbal', 'dobrý výkon'),
+(2, 2, 'soupiska na volejbal I4B', 'skončili jsme předposlední'),
+(3, 3, 'soupiska na volejbal I4B', 'dobrý výkon'),
+(4, 4, 'soupiska na trojboj', 'Array'),
+(5, 4, 'soupiska na dřep', 'Array'),
+(6, 5, 'soupiska na fotbal', 'kdalda'),
+(7, 6, 'soupiska zkouska', NULL);
 
 -- --------------------------------------------------------
 
@@ -173,7 +256,8 @@ CREATE TABLE `sport` (
 
 INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
 (1, 'míčové'),
-(2, 'zimní');
+(2, 'zimní'),
+(9, 'silové');
 
 -- --------------------------------------------------------
 
@@ -247,7 +331,20 @@ CREATE TABLE `ucastnik` (
 --
 
 INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`) VALUES
-(2, 100, 1, '                                                                                                                                                                                                                                                                                                        dasdas                                                                                                                                                                                                                                                                                            ');
+(2, 100, 1, 'doporučuji studenta Bednáře pro příští turnaj'),
+(3, 100, 2, 'skvělý hráč'),
+(4, 101, 2, 'dobrý brankář'),
+(5, 102, 2, 'skvělý hráč'),
+(6, 100, 3, 'v pohodě'),
+(7, 102, 3, ''),
+(8, 100, 4, 'nejlepší výkon ze všech'),
+(9, 101, 4, 'druhý nejlepší výkon'),
+(10, 102, 4, 'nejlepší výkon'),
+(11, 100, 5, 'nejlepší výkon'),
+(12, 101, 6, 'dwkadwa'),
+(13, 102, 6, 'dwakdkwa'),
+(14, 100, 7, NULL),
+(15, 101, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -295,7 +392,6 @@ INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jme
 (101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
 (102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL);
 
-
 --
 -- Indexy pro exportované tabulky
 --
@@ -304,7 +400,9 @@ INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jme
 -- Indexy pro tabulku `akce`
 --
 ALTER TABLE `akce`
-  ADD PRIMARY KEY (`id_akce`);
+  ADD PRIMARY KEY (`id_akce`),
+  ADD KEY `fk_akce_opak` (`id_opak`),
+  ADD KEY `fk_akce_kolo` (`id_kolo`);
 
 --
 -- Indexy pro tabulku `akce_disc`
@@ -328,6 +426,18 @@ ALTER TABLE `disc_ucast`
   ADD PRIMARY KEY (`id_disc_ucast`),
   ADD KEY `id_uzivsoup` (`id_ucast`),
   ADD KEY `id_disc` (`id_disc`);
+
+--
+-- Indexy pro tabulku `kolo`
+--
+ALTER TABLE `kolo`
+  ADD PRIMARY KEY (`id_kolo`);
+
+--
+-- Indexy pro tabulku `opakovanost`
+--
+ALTER TABLE `opakovanost`
+  ADD PRIMARY KEY (`id_opak`);
 
 --
 -- Indexy pro tabulku `pozice`
@@ -401,25 +511,37 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `akce`
 --
 ALTER TABLE `akce`
-  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `akce_disc`
 --
 ALTER TABLE `akce_disc`
-  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `disc_ucast`
 --
 ALTER TABLE `disc_ucast`
-  MODIFY `id_disc_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_disc_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT pro tabulku `kolo`
+--
+ALTER TABLE `kolo`
+  MODIFY `id_kolo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT pro tabulku `opakovanost`
+--
+ALTER TABLE `opakovanost`
+  MODIFY `id_opak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pro tabulku `pozice`
@@ -437,13 +559,13 @@ ALTER TABLE `prispevek`
 -- AUTO_INCREMENT pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport`
 --
 ALTER TABLE `sport`
-  MODIFY `id_sport` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_sport` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pro tabulku `sportuje`
@@ -455,7 +577,7 @@ ALTER TABLE `sportuje`
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pro tabulku `uroven`
@@ -472,6 +594,13 @@ ALTER TABLE `uzivatel`
 --
 -- Omezení pro exportované tabulky
 --
+
+--
+-- Omezení pro tabulku `akce`
+--
+ALTER TABLE `akce`
+  ADD CONSTRAINT `fk_akce_kolo` FOREIGN KEY (`id_kolo`) REFERENCES `kolo` (`id_kolo`),
+  ADD CONSTRAINT `fk_akce_opak` FOREIGN KEY (`id_opak`) REFERENCES `opakovanost` (`id_opak`);
 
 --
 -- Omezení pro tabulku `akce_disc`

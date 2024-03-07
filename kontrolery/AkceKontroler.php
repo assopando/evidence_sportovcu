@@ -4,11 +4,18 @@ class AkceKontroler extends Kontroler {
 
         $idTetoAkce=$_GET['ia'];
 
+        $idTentoArchiv=$_GET['ia'];
+
+        $this->data["ia"]= $_GET['ia'];
+
         $modelAkce= new ModelyAkce;
         $modelAkcedisc = new ModelyAkce_disc;
         $modelDisciplin = new ModelyDisciplina;
-        $modelSoupiska = new ModelySoupiska;
-
+        $modelSoupiska  = new ModelySoupiska;
+        $modelUcastnici = new ModelyUcastnik();
+        $modelUzivatele = new ModelyUzivatel();
+        $modelKolo = new ModelyKolo();
+        
         $akce=$modelAkce->vratVsechnyAkce();
         foreach($akce as $a){
             if($idTetoAkce == $a["id_akce"]){
@@ -19,6 +26,12 @@ class AkceKontroler extends Kontroler {
                     'datum_konce' => $a['datum_konce'],
                     'misto_kon' => $a['misto_kon'],
                     'popisek_akce' => $a['popisek_akce'],
+                    'pritomni_uc' => $a['pritomni_uc'],
+                    'archivovano' => $a['archivovano'],
+                    'shrnuti' => $a['shrnuti'],
+                    'poradatel' => $a['poradatel'],
+                    'id_opak' => $a['id_opak'],
+                'id_kolo' => $a['id_kolo'],
                 ];
             }
         }
@@ -68,6 +81,9 @@ class AkceKontroler extends Kontroler {
                     'datum_konce' => $_POST['datum_konce'],
                     'misto_kon' => $_POST['misto_kon'],
                     'popisek_akce' => $_POST['popisek_akce'],
+                    'poradatel' => $_POST['poradatel'],
+                    'id_opak' => $_POST['id_opak'],
+                    'id_kolo' => $_POST['id_kolo'],
                     // Další potřebné údaje
                 ];
     
@@ -76,36 +92,23 @@ class AkceKontroler extends Kontroler {
                 if ($editAkce == 1) {
                     // Záznam byl úspěšně editován
                     $this->pridejZpravu("Záznam byla úspěšně editována.");    
-                    //header("Refresh:0");                
+                    header("Refresh:0");                
+
                 } 
+                else if ($editAkce == 2) {
+                    // Záznam byl úspěšně editován
+                    $this->pridejZpravu("Záznam byl zachován.");    
+                    header("Refresh:0");                
+
+                } 
+                
                 else {
                     // Nějaká jiná chyba
                     // Můžete zde zobrazit chybovou hlášku uživateli
                     $this->pridejZpravu("Chyba při editaci záznamu."); 
                 } 
+                //header("Refresh:0");
 
-//edit akce_disc --------------------------------------------------------------------------------
-            
-                for($i = 0 ;$i<count($_POST['edit_id_ad']);$i++){
-                    $hodnoty= [
-                                    'id_akce' => $idTetoAkce,
-                                    'id_disc' => $_POST['edit_id_disc'][$i],
-                                    // Další potřebné údaje
-                                    
-                                ];
-
-                    $editAkcedisc= $modelAkcedisc->zmenAkce_disc($hodnoty, $_POST['edit_id_ad'][$i]);
-                    if ($editAkcedisc === 1) {
-                        // Záznam byl úspěšně editován
-                        $this->pridejZpravu("Záznamu byla úspěšně editována.");
-                    } 
-                    else {
-                        // Nějaká jiná chyba
-                        // Můžete zde zobrazit chybovou hlášku uživateli
-                        $this->pridejZpravu("Chyba při editaci záznamu.");   
-                    }
-                }   
-                header("Refresh:0"); 
             }  
 
 //Delete Disciplín (pres checkboxy)--------------------------------------------------------------------------------------------------
@@ -174,10 +177,29 @@ class AkceKontroler extends Kontroler {
         $this->data["akcedisc"] = $akcedisc;
 
         $disc=$modelDisciplin->vratVsechnyDiscipliny();
-        $this->data["disc"] = $disc;
-        
+        $this->data["disc"] = $disc; 
+
         $soup=$modelSoupiska->vratVsechnySoupisky();
-        $this->data["soup"] = $soup; 
+        $this->data["soup"] = $soup;
+
+        $ucast = $modelUcastnici->vratVsechnyUcastniky();
+        $this->data["ucastnici"] = $ucast;
+
+        $uziv = $modelUzivatele->vratVsechnyUzivatele();
+        $this->data["uzivatele"] = $uziv;
+
+
+        $modelDiscUcast = new ModelyDisc_ucast();
+        $discucast = $modelDiscUcast->vratVsechnyDisc_ucast();
+        $this->data["du"] = $discucast;
+
+        $modelOpak = new ModelyOpakovanost();
+        $opak = $modelOpak->vratVsechnyOpak();
+        $this->data["opak"] = $opak;
+
+        
+        $kolo = $modelKolo->vratVsechnyKolo();
+        $this->data["kolo"] = $kolo;
 
 
         $this->pohled = "akce";

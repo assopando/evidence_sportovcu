@@ -6,8 +6,11 @@ class VytvorAkceKontroler extends Kontroler {
             $modelAkce= new ModelyAkce;
             $modelAkcedisc = new ModelyAkce_disc;
             $modelDisciplin = new ModelyDisciplina;
-    
-            // Zpracování formuláře
+            $modelOpak = new ModelyOpakovanost();
+            $modelKolo = new ModelyKolo();
+
+
+        // Zpracování formuláře
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
                 // Kontrola jesli to jsou discipliny v poli
                 if (isset($_POST['id_disc']) && is_array($_POST['id_disc'])) {                   
@@ -23,6 +26,9 @@ class VytvorAkceKontroler extends Kontroler {
                         'datum_konce' => $_POST['datum_konce'],
                         'misto_kon' => $_POST['misto_kon'],
                         'popisek_akce' => $_POST['popisek_akce'],
+                        'poradatel' => $_POST['poradatel'],
+                        'id_opak' => $_POST['id_opak'],
+                        'id_kolo' => $_POST['id_kolo'],
                         // Další potřebné údaje
                     ];             
 
@@ -145,7 +151,13 @@ class VytvorAkceKontroler extends Kontroler {
             $this->data["akcedisc"] = $akcedisc; 
 
             $disc=$modelDisciplin->vratVsechnyDiscipliny();
-            $this->data["disc"] = $disc; 
+            $this->data["disc"] = $disc;
+
+            $opak = $modelOpak->vratVsechnyOpak();
+            $this->data["opak"] = $opak;
+
+            $kolo = $modelKolo->vratVsechnyKolo();
+            $this->data["kolo"] = $kolo;
     
 
 

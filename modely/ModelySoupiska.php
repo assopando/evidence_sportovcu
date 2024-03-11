@@ -78,10 +78,19 @@ class ModelySoupiska{
       $sql = "
       where id_soup = ?
       ";
-      if(Db::zmen("soupiska",$hodnoty,$sql,[$id])){
-        return 1;
+
+      $pocetZmenenychRadku = Db::zmen("soupiska",$hodnoty,$sql,[$id]);
+    
+      if ($pocetZmenenychRadku > 0) {
+          // Pokud byla provedena alespoň jedna změna
+          return 1;
+      } elseif ($pocetZmenenychRadku === 0) {
+          // Pokud nebyla provedena žádná změna
+          return 2;
+      } else {
+          // Pokud nastala chyba při provádění změn
+          return 0;
       }
-      return 0;
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 

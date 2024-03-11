@@ -126,23 +126,25 @@ class VytvorSoupiskuKontroler extends Kontroler {
             $ucastnici = $_POST['id_ucastnika'];
 
             foreach ($ucastnici as $ucastnik) {
-                $poleDisc = $_POST['ucastnici'][$ucastnik];
+                $pole_disc = $_POST['ucastnici'][$ucastnik];
 
-                foreach($poleDisc as $discKPrirazeni){
-                    $discucast = [
+                foreach($pole_disc as $disc_k_prirazeni){
+                    $disc_ucast = [
                         'id_disc_ucast' => $disc_ucastId++,
                         'id_ucast' => $ucastnik,
-                        'id_disc' => $discKPrirazeni,
+                        'id_disc' => $disc_k_prirazeni,
                         // Další potřebné údaje
                     ];
                 
-                $pridejDiscucast[] = $modelDisc_ucast->pridejDisc_ucast($discucast);
+                $pridejDiscucast[] = $modelDisc_ucast->pridejDisc_ucast($disc_ucast);
                 }
             }
 
             if (!in_array(0,$pridejDiscucast)) {
                 // Záznam byl úspěšně přidán
                 $this->pridejZpravu("Záznam/y byl úspěšně přidán.");
+                header("Location: akce?ia=".$konkretniakce['id_akce']);
+
             } else if (!in_array(1,$pridejDiscucast)) {
                 // Záznam již existuje
                 $this->pridejZpravu("Záznam již existuje!");

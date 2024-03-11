@@ -129,7 +129,7 @@ class AkceKontroler extends Kontroler {
                     exit;   
                 } 
             }
-            header("Refresh:0");    
+            //header("Refresh:0");    
         }
 
 //Delete všeho------------------------------------------------------------------------------------------------------------------        

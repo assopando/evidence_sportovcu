@@ -233,14 +233,14 @@
                     <div class="divAkceDisc">
                         <select name="pridat_id_disc[]" class="disc" style="width: 100%" multiple>
                             <?php foreach ($this->data['disc'] as $disc){
-                                $skipDiscipline = false;
+                                $skipDisc = false;
                                 foreach ($this->data['akcedisc'] as $ad) {
                                     if ($ad['id_disc'] == $disc['id_disc'] && $ad['id_akce'] == $konkretniAkce['id_akce']) {
-                                        $skipDiscipline = true;
+                                        $skipDisc = true;
                                         break;
                                     }
                                 }
-                                if (!$skipDiscipline) {
+                                if (!$skipDisc) {
                                 ?>
                                     <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>
                             <?php 
@@ -260,7 +260,6 @@
                                     continue;
                                 }
                         ?>
-                                <!--<input type="hidden" name="edit_id_ad[]" value="<?php //echo $ad['id_akce_disc']; ?>">-->
                                 <input type="checkbox" name="selected_disc[]" value="<?php echo $ad['id_akce_disc']; ?>">
                                     <?php foreach ($this->data['disc'] as $disc){
                                         if($ad['id_disc'] != $disc['id_disc']){

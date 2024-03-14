@@ -59,11 +59,8 @@ class PridelenidisciplinKontroler extends Kontroler  {
         $this->pohled="pridelenidisciplin";
         $this->data["studenti"]= $modelyUzivatelu->vratVsechnyUzivatele();
         $this->data["disc"]= $modelyDisciplin->vratVsechnyDiscipliny();
-        $pozice=$modelyPozice->vratVsechnyPozice();
-        $this->data["pozice"] = $pozice;
-
-        $uroven=$modelyUroven->vratVsechnyUroven();
-        $this->data["uroven"] = $uroven;
+        $this->data["pozice"] = $modelyPozice->vratVsechnyPozice();
+        $this->data["uroven"] = $modelyUroven->vratVsechnyUroven();
 
     }
 

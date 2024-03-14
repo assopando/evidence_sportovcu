@@ -6,7 +6,10 @@
         <title>Soupiska</title>
     </head>
     <body>
-        <h1><?php echo $konkretniSoup['nazev_skupiny'];?></h1>
+        <h1><?php echo $konkretniAkce['nazev_akce'];?></h1>
+        <p><?php echo $konkretniAkce['datum_zahajeni'];?><p>
+        <h2><?php echo $konkretniSoup['nazev_skupiny'];?></h2>
+        
 
         <button id="switch">Switch</button>
         
@@ -17,7 +20,7 @@
                 <label>Učastníci:</label>
                 <?php
                 foreach ($this->data['ucast'] as $ucast){
-                    if(!($ucast['id_soup'] == $konkretniSoup['id_soup'])){
+                    if(!($ucast['id_soup'] == $konkretniSoup['id_soup'] && $ucast['potrvzeni'] == 1)){
                         continue;
                     }
                     foreach ($this->data['uziv'] as $uziv){
@@ -41,6 +44,70 @@
                     }
                 }
                 ?>
+            </div>
+
+            <!-- Vypis x pending -->
+
+            <div>
+                <!-- požadavek -->
+                <form method="post">
+                    <div>
+                        <lable for="disc_pending">Chci se přidat</lable>
+                        <select name="disc_pending[]" class="disc" style="width: 100%" multiple>
+                        <?php
+                            foreach ($this->data['disc'] as $disc){
+                                foreach($this->data['ad'] as $ad){
+                                    if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniSoup['id_akce']){
+                                    ?>
+                                        <option value="<?php echo $disc['id_disc']; ?>"><?php echo $disc['nazev_disc']; ?></option>          
+                                    <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <button type="submit" name="pridat_pending">Přidat se</button>
+                </form>
+            </div>
+            <div>
+                <!-- vyhodnocení -->
+                <div>
+                    <form method="post">
+                        
+                        <?php
+                        foreach ($this->data['ucast'] as $ucast){
+                            if(!($ucast['id_soup'] == $konkretniSoup['id_soup'] && $ucast['potrvzeni'] == 0)){
+                                continue;
+                            }
+                        ?>
+                            <input type="checkbox" name="selected_pending[]" value="<?php echo $ucast['id_ucast']; ?>">
+                        <?php
+                            foreach ($this->data['uziv'] as $uziv){
+                                if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                                    continue;
+                                }
+                                echo "<div>";
+                                echo "<p>".$uziv['jmeno']." ".$uziv['prijmeni']." ".$uziv['id_trid']."</p>";
+                                foreach($this->data['du'] as $du){
+                                    if(!($du['id_ucast']==$ucast['id_ucast'])){
+                                        continue;
+                                    }
+                                    foreach($this->data['disc'] as $disc){
+                                        if(!($du['id_disc']==$disc['id_disc'])){
+                                            continue;
+                                        }
+                                        echo "<p>".$disc['nazev_disc']."</p>";
+                                    }
+                                }
+                                echo "</div>";
+                            }
+                        }
+                        ?>
+                        <button type="submit" name="prijmout_pending">prijmout</button>
+                        <button type="submit" name="odmitnout_pending">odmitnout</button>
+                    </form>
+                </div>  
             </div>
         </div>
 
@@ -135,7 +202,6 @@
                         ?>
                     </div>                   
                 </div>
-
                 <!-- Tlačítka pro Uložení a Smazání -->
                 <button type="submit" name="ulozit">Uložit</button>
                 <button type="submit" name="cele_smazat">Smazat</button>

@@ -30,6 +30,154 @@ class SoupiskaKontroler extends Kontroler {
         }
 
 
+        $akce=$modelAkce->vratVsechnyAkce();
+        foreach($akce as $a){
+            if($konkretniSoup['id_akce'] == $a["id_akce"]){
+                $konkretniAkce= [
+                    'id_akce' => $a["id_akce"],
+                    'nazev_akce' => $a['nazev_akce'],
+                    'datum_zahajeni' => $a['datum_zahajeni'],
+                    'datum_konce' => $a['datum_konce'],
+                    'misto_kon' => $a['misto_kon'],
+                    'popisek_akce' => $a['popisek_akce'],
+                    'pritomni_uc' => $a['pritomni_uc'],
+                    'archivovano' => $a['archivovano'],
+                    'shrnuti' => $a['shrnuti'],
+                    'poradatel' => $a['poradatel'],
+                    'id_opak' => $a['id_opak'],
+                    'id_kolo' => $a['id_kolo'],
+                ];
+            }
+        }
+
+
+        // Zkontroluj, zda je uživatel přihlášen
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            $this->data['uzivatel'] = null;
+            $_SESSION['email'] = null;
+        }
+
+        // Získání emailu přihlášeného uživatele z session
+        $emailUzivatele = $_SESSION['email'];
+
+
+        // Získání informací o přihlášeném uživateli z databáze
+        $uzivatelInfo = $modelUzivatel->vratInfoPodleEmailu($emailUzivatele);
+
+
+//Pending ---------------------------------------------------------------------------------------------------------------
+
+        // Přidání požadavku -------------------------------------------------------------------------------------------
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridat_pending'])) {
+             //zjištění podledního ID v tabulce
+             $ucastnikId = $modelUcastnici->vratPosledniId()+1;
+
+                 $ucastnik = [
+                     'id_ucast' => $ucastnikId,
+                     'id_uziv' => $uzivatelInfo['id_uziv'],
+                     'id_soup' => $idTetoSoup,
+                     'potrvzeni' => 0,
+                     // Další potřebné údaje
+                 ];
+                 
+                 //pridani zaznamu do databaze(ucastnik)
+                 $pridejUcastnik = $modelUcastnici->pridejUcastnika($ucastnik);
+             
+             
+             
+                if ($pridejUcastnik == 1) {
+
+                    // Záznam byl úspěšně přidán
+                    $this->pridejZpravu("Ucastnik byli úspěšně přidány.");
+
+                    $disc_ucastId = $modelDisc_ucast->vratPosledniId()+1;
+
+
+        
+                    foreach($_POST['disc_pending'] as $disc_pending){
+                        $disc_ucast = [
+                            'id_disc_ucast' => $disc_ucastId++,
+                            'id_ucast' => $ucastnikId,
+                            'id_disc' => $disc_pending,
+                            // Další potřebné údaje
+                        ];
+                    
+                    $pridejDiscucast[] = $modelDisc_ucast->pridejDisc_ucast($disc_ucast);
+                    }
+                    
+        
+                    if (!in_array(0,$pridejDiscucast)) {
+                        // Záznam byl úspěšně přidán
+                        $this->pridejZpravu("Záznam/y byl úspěšně přidán.");
+                        header("Location: soupiska?ia=".$konkretniSoup['id_soup']);
+        
+                    } else if (!in_array(1,$pridejDiscucast)) {
+                        header("Refresh: 0");
+                        // Záznam již existuje
+                        $this->pridejZpravu("Záznam již existuje!");
+                        
+                    } else {
+                        header("Refresh: 0");
+                        // Nějaká jiná chyba
+                        // Můžete zde zobrazit chybovou hlášku uživateli
+                        $this->pridejZpravu("Chyba při přidání záznamu.");
+                    }
+                     
+
+                 } else if ($pridejUcastnik == 0) {
+                    header("Refresh: 0");
+                    // Záznam již existuje
+                    $this->pridejZpravu("Záznam již existuje!");
+                 }else {
+                    header("Refresh: 0");
+                    // Nějaká jiná chyba
+                    // Můžete zde zobrazit chybovou hlášku uživateli
+                    $this->pridejZpravu("Chyba při přidání záznamu.");
+                 }
+
+        }
+
+    // Přijmutí požadavku -------------------------------------------------------------------------------------------
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridat_pending'])) {
+            foreach($_POST['selected_pending'] as $u){
+                $prijmyUcastnika = $modelUcastnici->pendingPotvrzeni($u);
+
+                if ($prijmyUcastnika == 1) {
+                    header("Refresh:0"); 
+                    // příkaz se provedl
+                    $this->pridejZpravu("Záznam byl přijmut.");
+                } 
+                else {
+                    header("Refresh:0"); 
+                    // Nějaká jiná chyba
+                    // Můžete zde zobrazit chybovou hlášku uživateli
+                    $this->pridejZpravu("Chyba.");
+                } 
+            } 
+        }
+
+
+    // odmitnuti požadavku -------------------------------------------------------------------------------------------
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['odmitnout_pending'])) {
+            foreach($_POST['selected_pending'] as $u){
+
+                $smazUcastnika = $modelUcastnici->odeberUcastnika($u);
+
+                if ($smazUcastnika === 1) {
+                    header("Refresh:0"); 
+                    // příkaz se provedl
+                    $this->pridejZpravu("Záznam byl úspěšně smazán.");
+                } 
+                else {
+                    header("Refresh:0"); 
+                    // Nějaká jiná chyba
+                    // Můžete zde zobrazit chybovou hlášku uživateli
+                    $this->pridejZpravu("Chyba při smazání záznamu.");
+                } 
+            }
+        }
+
+
 //Edit ---------------------------------------------------------------------------------------------------------------
 
 
@@ -184,8 +332,7 @@ class SoupiskaKontroler extends Kontroler {
 
         $this->pohled = "soupiska";
 
-        $akce=$modelAkce->vratVsechnyAkce();
-        $this->data["akce"] = $akce; 
+        $this->data["konkretniAkce"] = $konkretniAkce; 
         
         $soupiska=$modelSoupiska->vratVsechnySoupisky();
         $this->data["soupiska"] = $soupiska; 

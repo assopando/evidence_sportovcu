@@ -77,7 +77,18 @@ class ModelyUcastnik{
 
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-
+    // Uložení nových údajů do databáze
+    public function pendingPotvrzeni($id) {
+      $sql = "
+          UPDATE soupiska
+          SET potrvzeni = 1
+          WHERE id_uziv = ?
+      ";
+      if(Db::dotaz($sql,$id)){
+        return 1;
+      }
+      return 0;
+  }
 
     
 }

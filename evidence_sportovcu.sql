@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 16. bře 2024, 20:15
+-- Vytvořeno: Sob 16. bře 2024, 21:48
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -480,11 +480,8 @@ ALTER TABLE `sport`
 ALTER TABLE `sportuje`
   ADD PRIMARY KEY (`id_sportuje`),
   ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
-  ADD KEY `fk_sportuje_sportovci` (`email`) USING BTREE,
-  ADD KEY `isic` (`email`),
   ADD KEY `uroven` (`id_urov`),
-  ADD KEY `pozice` (`id_poz`),
-  ADD KEY `email` (`email`);
+  ADD KEY `pozice` (`id_poz`);
 
 --
 -- Indexy pro tabulku `trida`

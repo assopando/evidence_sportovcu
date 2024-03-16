@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 16. bře 2024, 21:48
+-- Vytvořeno: Sob 16. bře 2024, 22:04
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -137,7 +137,7 @@ INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALU
 
 CREATE TABLE `dodatecne_info` (
   `email` varchar(50) NOT NULL,
-  `komentar_uzi` text NOT NULL,
+  `komentar_uziv` text NOT NULL,
   `kontaktni_udaje` varchar(50) DEFAULT NULL,
   `odkaz_na_web` varchar(225) DEFAULT NULL,
   `zdravotni_omezeni` text DEFAULT NULL

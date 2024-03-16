@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Čtv 07. bře 2024, 22:25
+-- Vytvořeno: Sob 16. bře 2024, 20:15
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -51,7 +51,6 @@ INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `m
 (2, 'Hokejový turnaj', '2024-01-26', '2024-01-30', 'Opava', NULL, 'Krajské kolo Hokejové ligy středních škol', 'Mgr. Lenka Hudecová, Mgr. Jakub Hubáček', 'všichni žáci dali do toho maximum', 1, NULL, NULL),
 (3, 'Volejbalový turnaj', '2024-03-06', '2024-03-08', 'Pardubice', NULL, 'Volejbalový turnaj pro SŠ konané v Pardubicích', 'Mgr. Daniela Kozáková', '', 1, NULL, NULL),
 (4, 'Silový trojboj', '2024-03-05', '2024-03-06', 'Opava', NULL, 'Silový trojboj', 'Mgr. Lenka Hudecová', 'studenti se snažili ', 1, NULL, NULL),
-(5, 'fotbal', '2024-03-06', '2024-03-09', 'Opava', NULL, 'kalkda', 'Mgr. Lenka Hudecová, Mgr. Jakub Hubáček', 'dmda', 1, NULL, NULL),
 (6, 'opak', '2024-03-01', '2024-03-08', 'Opava', 'karorak', 'popis akce', NULL, NULL, NULL, 1, 1),
 (7, 'liga', '2024-03-09', '2024-03-31', 'kolo', 'kolo', 'kolo', NULL, NULL, NULL, 3, 5);
 
@@ -78,7 +77,6 @@ INSERT INTO `akce_disc` (`id_akce_disc`, `id_akce`, `id_disc`) VALUES
 (4, 4, 5),
 (5, 4, 6),
 (6, 4, 7),
-(7, 5, 2),
 (8, 6, 5),
 (9, 7, 2),
 (10, 6, 1);
@@ -125,16 +123,25 @@ CREATE TABLE `disc_ucast` (
 --
 
 INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALUES
-(1, 2, 1, 'dasd'),
-(2, 3, 1, NULL),
-(3, 4, 1, NULL),
-(4, 5, 1, NULL),
 (5, 6, 4, NULL),
-(6, 7, 4, NULL),
 (7, 8, 5, NULL),
 (9, 10, 7, NULL),
 (13, 14, 5, NULL),
 (14, 15, 5, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `dodatecne_info`
+--
+
+CREATE TABLE `dodatecne_info` (
+  `email` varchar(50) NOT NULL,
+  `komentar_uzi` text NOT NULL,
+  `kontaktni_udaje` varchar(50) DEFAULT NULL,
+  `odkaz_na_web` varchar(225) DEFAULT NULL,
+  `zdravotni_omezeni` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -236,7 +243,6 @@ INSERT INTO `soupiska` (`id_soup`, `id_akce`, `nazev_skupiny`, `vys_s`) VALUES
 (3, 3, 'soupiska na volejbal I4B', 'dobrý výkon'),
 (4, 4, 'soupiska na trojboj', 'Array'),
 (5, 4, 'soupiska na dřep', 'Array'),
-(6, 5, 'soupiska na fotbal', 'kdalda'),
 (7, 6, 'soupiska zkouska', NULL);
 
 -- --------------------------------------------------------
@@ -268,7 +274,7 @@ INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
 CREATE TABLE `sportuje` (
   `id_sportuje` int(11) NOT NULL,
   `id_disc` int(11) NOT NULL,
-  `id_stud` int(11) NOT NULL,
+  `email` varchar(11) NOT NULL,
   `id_poz` int(11) DEFAULT NULL,
   `id_urov` int(11) DEFAULT NULL,
   `tym` varchar(25) DEFAULT NULL,
@@ -323,28 +329,26 @@ CREATE TABLE `ucastnik` (
   `id_ucast` int(11) NOT NULL,
   `id_uziv` int(11) NOT NULL,
   `id_soup` int(11) NOT NULL,
-  `vys_u` text DEFAULT NULL
+  `vys_u` text DEFAULT NULL,
+  `potrvzeni` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `ucastnik`
 --
 
-INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`) VALUES
-(2, 100, 1, 'doporučuji studenta Bednáře pro příští turnaj'),
-(3, 100, 2, 'skvělý hráč'),
-(4, 101, 2, 'dobrý brankář'),
-(5, 102, 2, 'skvělý hráč'),
-(6, 100, 3, 'v pohodě'),
-(7, 102, 3, ''),
-(8, 100, 4, 'nejlepší výkon ze všech'),
-(9, 101, 4, 'druhý nejlepší výkon'),
-(10, 102, 4, 'nejlepší výkon'),
-(11, 100, 5, 'nejlepší výkon'),
-(12, 101, 6, 'dwkadwa'),
-(13, 102, 6, 'dwakdkwa'),
-(14, 100, 7, NULL),
-(15, 101, 7, NULL);
+INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`, `potrvzeni`) VALUES
+(2, 100, 1, 'doporučuji studenta Bednáře pro příští turnaj', 1),
+(3, 100, 2, 'skvělý hráč', 1),
+(4, 101, 2, 'dobrý brankář', 1),
+(5, 102, 2, 'skvělý hráč', 1),
+(6, 100, 3, 'v pohodě', 1),
+(8, 100, 4, 'nejlepší výkon ze všech', 1),
+(9, 101, 4, 'druhý nejlepší výkon', 1),
+(10, 102, 4, 'nejlepší výkon', 1),
+(11, 100, 5, 'nejlepší výkon', 1),
+(14, 100, 7, NULL, 1),
+(15, 101, 7, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -379,18 +383,17 @@ CREATE TABLE `uzivatel` (
   `jmeno` varchar(25) DEFAULT NULL,
   `prijmeni` varchar(25) DEFAULT NULL,
   `dat_nar` date DEFAULT NULL,
-  `pohlavi` varchar(1) DEFAULT NULL,
-  `komentar_uziv` text DEFAULT NULL
+  `pohlavi` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`, `komentar_uziv`) VALUES
-(100, 'I4B', 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M', NULL),
-(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M', NULL),
-(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M', NULL);
+INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
+(100, 'I4B', 'S420300750570P', 'r.bednar.st@spseiostrava.cz', 0, 'Radim', 'Bednář', '2005-02-04', 'M'),
+(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M'),
+(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M');
 
 --
 -- Indexy pro exportované tabulky
@@ -426,6 +429,12 @@ ALTER TABLE `disc_ucast`
   ADD PRIMARY KEY (`id_disc_ucast`),
   ADD KEY `id_uzivsoup` (`id_ucast`),
   ADD KEY `id_disc` (`id_disc`);
+
+--
+-- Indexy pro tabulku `dodatecne_info`
+--
+ALTER TABLE `dodatecne_info`
+  ADD PRIMARY KEY (`email`);
 
 --
 -- Indexy pro tabulku `kolo`
@@ -471,10 +480,11 @@ ALTER TABLE `sport`
 ALTER TABLE `sportuje`
   ADD PRIMARY KEY (`id_sportuje`),
   ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
-  ADD KEY `fk_sportuje_sportovci` (`id_stud`) USING BTREE,
-  ADD KEY `isic` (`id_stud`),
+  ADD KEY `fk_sportuje_sportovci` (`email`) USING BTREE,
+  ADD KEY `isic` (`email`),
   ADD KEY `uroven` (`id_urov`),
-  ADD KEY `pozice` (`id_poz`);
+  ADD KEY `pozice` (`id_poz`),
+  ADD KEY `email` (`email`);
 
 --
 -- Indexy pro tabulku `trida`
@@ -501,6 +511,7 @@ ALTER TABLE `uroven`
 --
 ALTER TABLE `uzivatel`
   ADD PRIMARY KEY (`id_uziv`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `id_trid` (`id_trid`);
 
 --
@@ -511,13 +522,13 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `akce`
 --
 ALTER TABLE `akce`
-  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pro tabulku `akce_disc`
 --
 ALTER TABLE `akce_disc`
-  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pro tabulku `disciplina`
@@ -559,7 +570,7 @@ ALTER TABLE `prispevek`
 -- AUTO_INCREMENT pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport`
@@ -571,13 +582,13 @@ ALTER TABLE `sport`
 -- AUTO_INCREMENT pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pro tabulku `uroven`
@@ -623,6 +634,12 @@ ALTER TABLE `disc_ucast`
   ADD CONSTRAINT `disc_ucast_ibfk_2` FOREIGN KEY (`id_disc`) REFERENCES `akce_disc` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Omezení pro tabulku `dodatecne_info`
+--
+ALTER TABLE `dodatecne_info`
+  ADD CONSTRAINT `dodatecne_info_ibfk_1` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`);
+
+--
 -- Omezení pro tabulku `prispevek`
 --
 ALTER TABLE `prispevek`
@@ -638,10 +655,10 @@ ALTER TABLE `soupiska`
 -- Omezení pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  ADD CONSTRAINT `sportuje_ibfk_4` FOREIGN KEY (`id_stud`) REFERENCES `uzivatel` (`id_uziv`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_5` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_6` FOREIGN KEY (`id_poz`) REFERENCES `pozice` (`id_poz`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sportuje_ibfk_7` FOREIGN KEY (`id_urov`) REFERENCES `uroven` (`id_urov`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `sportuje_ibfk_7` FOREIGN KEY (`id_urov`) REFERENCES `uroven` (`id_urov`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sportuje_ibfk_8` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`);
 
 --
 -- Omezení pro tabulku `ucastnik`

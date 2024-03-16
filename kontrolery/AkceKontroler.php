@@ -132,26 +132,9 @@ class AkceKontroler extends Kontroler {
             //header("Refresh:0");    
         }
 
-//Delete všeho------------------------------------------------------------------------------------------------------------------        
+//Delete akce i archivu------------------------------------------------------------------------------------------------------------------        
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cele_smazat'])) {
-            foreach ($akcedisc as $ad){
-                if ($ad['id_akce'] == $konkretniAkce){
-
-                    $smazAkcedisc= $modelAkcedisc->odeberAkce_disc($ad['id_akce_disc']);
-
-                    if ($smazAkcedisc === 1) {
-                        // Sport byl úspěšně editován
-                        $this->pridejZpravu("Záznamu byl úspěšně smazán.");
-                    } 
-                    else {
-                        // Nějaká jiná chyba
-                        // Můžete zde zobrazit chybovou hlášku uživateli
-                        $this->pridejZpravu("Chyba při smazání záznamu.");
-                    } 
-                }
-            }
-
             $smazAkce= $modelAkce->odeberAkci($idTetoAkce);
 
             if ($smazAkce === 1) {
@@ -167,6 +150,7 @@ class AkceKontroler extends Kontroler {
                 header("Refresh:0"); 
             } 
         }
+
         
         
     

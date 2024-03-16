@@ -94,6 +94,10 @@ class ModelyAkce{
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
 
+      public function vyprazdnit(){
+        $sql = "DELETE FROM akce";
+        return Db::dotazJeden($sql);
+      }
 
     
 }

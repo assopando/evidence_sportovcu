@@ -1,9 +1,26 @@
-<h1>Import CSV do databáze</h1>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Importovat CSV do databáze</h1>
 
-<form  method="post" enctype="multipart/form-data">
-    <label>Vyberte CSV soubor:</label>
-    <input type="file" name="csv_file" accept=".csv" required>
-    <button type="submit" name="import">Importovat</button>
-</form>
+    <!-- Formulář pro vyprázdnění databáze před importováním studentů -->
+    <form method="post">
+        <label>Vypázdnit databázi před importováním studentů</label>
+            <button type="submit" name="vyprazdnit">Vypázdnit databázi</button>
+        
+    </form>
 
-
+    <!-- Formulář pro nahrání CSV souboru k importování -->
+    <form method="post" enctype="multipart/form-data">
+        <label>
+            Vyberte CSV soubor pro import:
+            <input type="file" name="csv_file" accept=".csv" required>
+        </label>
+        <button type="submit" name="import">Importovat</button>
+    </form>
+</body>
+</html>

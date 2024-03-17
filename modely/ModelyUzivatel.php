@@ -220,5 +220,20 @@ public function vratInfoVsechUcitelu(){
       Db::dotaz($sql, [$kontaktniUdaje, $odkazNaWeb, $zdravotniOmezeni, $sportovniAktivity, $email]);
   }
 
+
+      // Funkce slouží k odebrání všech uživatelů s oprávněním = 0
+      public function vymazStudenty() {
+        $sql = "
+            DELETE FROM uzivatel
+            WHERE opravneni = 0
+        ";
+        if(Db::dotaz($sql)) {
+            return 1;
+        }
+        return 0;
+        // Vrátí 1 pokud v databázi uživatelé s oprávněním = 0 byli odebráni, 0 pokud se akce nepodaří
+    }
+
+
 }
 ?>

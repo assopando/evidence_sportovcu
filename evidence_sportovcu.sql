@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 16. bře 2024, 22:04
+-- Vytvořeno: Ned 17. bře 2024, 17:35
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -274,7 +274,7 @@ INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
 CREATE TABLE `sportuje` (
   `id_sportuje` int(11) NOT NULL,
   `id_disc` int(11) NOT NULL,
-  `email` varchar(11) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `id_poz` int(11) DEFAULT NULL,
   `id_urov` int(11) DEFAULT NULL,
   `tym` varchar(25) DEFAULT NULL,
@@ -481,7 +481,8 @@ ALTER TABLE `sportuje`
   ADD PRIMARY KEY (`id_sportuje`),
   ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
   ADD KEY `uroven` (`id_urov`),
-  ADD KEY `pozice` (`id_poz`);
+  ADD KEY `pozice` (`id_poz`),
+  ADD KEY `sportuje_ibfk_8` (`email`);
 
 --
 -- Indexy pro tabulku `trida`

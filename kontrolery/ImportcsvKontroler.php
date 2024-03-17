@@ -1,8 +1,8 @@
 <?php
 
 class ImportcsvKontroler extends Kontroler {
-   
     public function zpracuj($parametry) {
+
         // Zde můžete přidat kód pro zpracování formuláře pro nahrání CSV souboru (HTML, formulář, atd.)
         
         if (isset($_POST['import'])) {
@@ -22,6 +22,28 @@ class ImportcsvKontroler extends Kontroler {
         // Zde můžete přidat kód pro zobrazení stránky s formulářem pro import CSV souboru
         $this->pohled = "importcsv";  // Nastavte název pohledu dle vaší aplikace
       //  $this->data["uzivatele"]=$modelyUzivatelu->vratVsechnyUzivatele();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vyprazdnit'])) {
+
+            $vyprazdneni = $modelyUzivatelu->vymazStudenty();
+            if ($vyprazdneni === 1) {
+                //Úspěch
+                $this->pridejZpravu("Vyprázdnění studentů bylo úspěšné.");
+                $this->presmeruj("importcsv");
+                exit;   
+            } 
+            else {
+                // Nějaká jiná chyba
+                // Můžete zde zobrazit chybovou hlášku uživateli
+                header("Refresh:0"); 
+                $this->pridejZpravu("Chyba při smazání záznamu."); 
+                
+            } 
+
+        }
+
+
+
     }
 
     private function importujOsobniUdaje($csvFilePath) {
@@ -96,6 +118,7 @@ class ImportcsvKontroler extends Kontroler {
         // Zavření souboru
         $file = null;
     }
+
 }
 ?>
 

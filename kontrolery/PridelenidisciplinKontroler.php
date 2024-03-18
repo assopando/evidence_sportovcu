@@ -13,7 +13,7 @@ class PridelenidisciplinKontroler extends Kontroler  {
             // Zpracujte data z formuláře
            // $id_sportuje = $_POST['id_sportuje'];
             $id_disc = $_POST['id_disc'];
-            $id_stud = $_POST['id_uziv'];
+            $email = $_POST['email'];
             $pozice = isset($_POST['id_poz']) ? $_POST['id_poz'] : null;
             $tym = isset($_POST['tym']) ? $_POST['tym'] : null;
             $uroven = isset($_POST['id_urov']) ? $_POST['id_urov'] : null;
@@ -27,7 +27,7 @@ class PridelenidisciplinKontroler extends Kontroler  {
             $result = $modelySportuje->pridejSportuje([
                // 'id_sportuje' => $id_sportuje,
                 'id_disc' => $id_disc,
-                'id_stud' => $id_stud,
+                'email' => $email,
                 'id_poz' => $pozice,
                 'tym' => $tym,
                 'id_urov' => $uroven,
@@ -41,9 +41,14 @@ class PridelenidisciplinKontroler extends Kontroler  {
                 $this->presmeruj("pridelenidisciplin");
                 
                 exit;
-            } else {
+            }
+            else if($result === 1){
+                $this->pridejZpravu("Záznam již existuje!");
+                $this->presmeruj("pridelenidisciplin");
+            }
+            else {
                 // Chyba při přidávání
-                $this->pridejZpravu("Sportovec nebyl úspěšně přidán.");
+                $this->pridejZpravu("Chyba při přiřazení");
                 $this->presmeruj("pridelenidisciplin");
             }
         } else {

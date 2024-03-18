@@ -139,7 +139,7 @@ class AkceKontroler extends Kontroler {
 
             if ($smazAkce === 1) {
                 //Úspěch
-                $this->pridejZpravu("Záznamu byl úspěšně smazán.");
+                $this->pridejZpravu("Záznam byl úspěšně smazán.");
                 $this->presmeruj("vypisakci");
                 exit;   
             } 

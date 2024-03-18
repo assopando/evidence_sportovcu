@@ -19,15 +19,20 @@
             <tr>
                 
                 <th>Jméno Píjmení</th>
+                <th>Třída</th>
                 <th>Disciplína</th>
                 <th>Pozice</th>
                 <th>Úroveň</th>
                 <th>Tým</th>
                 <th>Rekord</th>
+                <th>Mazání</th>
             </tr>
             <tr class="filters">
                 <th rowspan="1" colspan="1">
                     <input type="text" placeholder="ID_studenta">      
+                </th>
+                <th rowspan="1" colspan="1">
+                    <input type="text" placeholder="ID_tridy">      
                 </th>
                 <th rowspan="1" colspan="1">
                     <input type="text" placeholder="ID_Discipliny">       
@@ -45,7 +50,7 @@
                 <th rowspan="1" colspan="1">
                     <input type="text" placeholder="rekord">       
                 </th>
-
+                <th rowspan="0" colspan="1"></th>
             </tr>
         </thead>
         <tbody>
@@ -123,17 +128,22 @@
     // Naplnění tabulky daty
     sportovciData.forEach(function(sportovec) {
         var jmenoPrijmeni = "";
+        var trida = "";
         var disc = "";
         var nazevPozice = "";
         var nazevUroven = "";
+        var id = sportovec.id_sportuje;
        
+
         sportujeData.forEach(function(jedinec) {
-            if (jedinec.id_uziv == sportovec.id_stud) {
+            if (jedinec.email == sportovec.email) {
                 jmenoPrijmeni = jedinec.jmeno + " " + jedinec.prijmeni;
-                
+                trida = jedinec.id_trid;
             }
+
             
         });
+
 
         DisciplinyData.forEach(function(disc) {
             if (disc.id_disc == sportovec.id_disc) {
@@ -157,16 +167,21 @@
             
         });
 
+        var formHtml = '<form method="post">' +
+               '<input type="hidden" name="radek" value="' + id + '">' +
+               '<button type="submit" name="smazat" class="delete-button">Smazat</button>' +
+               '</form>';
 
 
         table.row.add([
             jmenoPrijmeni,
+            trida,
             nazevDiscipliny,
             nazevPozice,
-            //sportovec.id_urov,
             nazevUroven,
             sportovec.tym,
-            sportovec.rekord
+            sportovec.rekord,
+            formHtml
         ]).draw();
     });
 });

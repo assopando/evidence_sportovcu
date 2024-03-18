@@ -138,10 +138,9 @@ class SoupiskaKontroler extends Kontroler {
         }
 
     // Přijmutí požadavku -------------------------------------------------------------------------------------------
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridat_pending'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prijmout_pending'])) {
             foreach($_POST['selected_pending'] as $u){
                 $prijmyUcastnika = $modelUcastnici->pendingPotvrzeni($u);
-
                 if ($prijmyUcastnika == 1) {
                     header("Refresh:0"); 
                     // příkaz se provedl

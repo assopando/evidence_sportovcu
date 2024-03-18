@@ -80,11 +80,11 @@ class ModelyUcastnik{
     // Uložení nových údajů do databáze
     public function pendingPotvrzeni($id) {
       $sql = "
-          UPDATE soupiska
+          UPDATE ucastnik
           SET potrvzeni = 1
-          WHERE id_uziv = ?
+          WHERE id_ucast = ?
       ";
-      if(Db::dotaz($sql,$id)){
+      if(Db::dotaz($sql,[$id])){
         return 1;
       }
       return 0;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Ned 17. bře 2024, 17:35
+-- Vytvořeno: Pon 18. bře 2024, 23:04
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -281,6 +281,18 @@ CREATE TABLE `sportuje` (
   `rekord` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Vypisuji data pro tabulku `sportuje`
+--
+
+INSERT INTO `sportuje` (`id_sportuje`, `id_disc`, `email`, `id_poz`, `id_urov`, `tym`, `rekord`) VALUES
+(7, 5, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0),
+(9, 1, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0),
+(10, 6, 's.fabisz.st@spseiostrava.cz', 1, 1, '', 0),
+(11, 4, 'd.do.st@spseiostrava.cz', 1, 1, '', 0),
+(12, 6, 'd.do.st@spseiostrava.cz', 1, 1, '', 0),
+(13, 7, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -391,9 +403,9 @@ CREATE TABLE `uzivatel` (
 --
 
 INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
-(100, 'I4B', 'S420300750570P', 'r.bednar.st@spseiostrava.cz', 0, 'Radim', 'Bednář', '2005-02-04', 'M'),
-(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M'),
-(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M');
+(100, 'I4B', 'S420300750570P', 'r.bednar.st@spseiostrava.cz', 1, 'Radim', 'Bednář', '2005-02-04', 'M'),
+(101, 'I4B', 'S420300750566B', 'd.do.st@spseiostrava.cz', 1, 'Duc Trung', 'Do', '2005-02-05', 'M'),
+(102, 'I4B', 'S420300750563Q', 's.fabisz.st@spseiostrava.cz', 1, 'Samuel', 'Fabisz', '2004-08-11', 'M');
 
 --
 -- Indexy pro exportované tabulky
@@ -482,7 +494,7 @@ ALTER TABLE `sportuje`
   ADD KEY `fk_sportuje_disc` (`id_disc`) USING BTREE,
   ADD KEY `uroven` (`id_urov`),
   ADD KEY `pozice` (`id_poz`),
-  ADD KEY `sportuje_ibfk_8` (`email`);
+  ADD KEY `fk_email_sportuje` (`email`) USING BTREE;
 
 --
 -- Indexy pro tabulku `trida`
@@ -580,13 +592,13 @@ ALTER TABLE `sport`
 -- AUTO_INCREMENT pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pro tabulku `uroven`
@@ -656,7 +668,7 @@ ALTER TABLE `sportuje`
   ADD CONSTRAINT `sportuje_ibfk_5` FOREIGN KEY (`id_disc`) REFERENCES `disciplina` (`id_disc`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_6` FOREIGN KEY (`id_poz`) REFERENCES `pozice` (`id_poz`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sportuje_ibfk_7` FOREIGN KEY (`id_urov`) REFERENCES `uroven` (`id_urov`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sportuje_ibfk_8` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`);
+  ADD CONSTRAINT `sportuje_ibfk_8` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `ucastnik`

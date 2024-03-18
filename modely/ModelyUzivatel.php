@@ -221,18 +221,27 @@ public function vratInfoVsechUcitelu(){
   }
 
 
-      // Funkce slouží k odebrání všech uživatelů s oprávněním = 0
-      public function vymazStudenty() {
-        $sql = "
-            DELETE FROM uzivatel
-            WHERE opravneni = 0
-        ";
-        if(Db::dotaz($sql)) {
-            return 1;
-        }
-        return 0;
-        // Vrátí 1 pokud v databázi uživatelé s oprávněním = 0 byli odebráni, 0 pokud se akce nepodaří
-    }
+// Funkce slouží k odebrání všech uživatelů s oprávněním = 0
+public function vymazStudenty() {
+  // Disable foreign key checks
+  Db::dotaz("SET foreign_key_checks = 0;");
+
+  $sql = "
+      DELETE FROM uzivatel
+      WHERE opravneni = 0
+  ";
+  $result = Db::dotaz($sql);
+
+  // Enable foreign key checks
+  Db::dotaz("SET foreign_key_checks = 1;");
+
+  if ($result) {
+      return 1;
+  }
+  return 0;
+  // Vrátí 1 pokud v databázi uživatelé s oprávněním = 0 byli odebráni, 0 pokud se akce nepodaří
+}
+
 
 
 }

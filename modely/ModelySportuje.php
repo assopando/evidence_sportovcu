@@ -27,7 +27,7 @@ class ModelySportuje {
       /*funkce slouzi k pridani hodnot do databaze, parametr bude pole, vyzadujici:
       id_sportuje
       id_disc (id discipliny)
-      id_stud (id_uzivatele)
+      email (email uzivatele)
       *id_poz
       *id_urov
       *tym
@@ -42,6 +42,14 @@ class ModelySportuje {
             where id_sportuje = ?
         ";
         if(Db::dotazJeden($sql,[$sportuje["id_sportuje"]])){
+        return 0;
+        }
+        $sql = "
+            SELECT id_sportuje
+            FROM sportuje
+            where id_disc = ? and  email = ?
+        ";
+        if(Db::dotazJeden($sql,[$sportuje["id_disc"],$sportuje["email"]])){
         return 0;
         }
       Db::vloz("sportuje",$sportuje);
@@ -64,7 +72,7 @@ class ModelySportuje {
 
     /*funkce slouzi ke zmene sloupcu v tabulce "sportuje", parametry:
     $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty(["id_disc"] => 3
-                                                                      ["id_stud"] => 2
+                                                                      ["email"] => "s.fabisz.st@spseiostrava.cz"
                                                                       ["id_poz"] => 5
                                                                       ["id_urov"] => 9
                                                                       ["tym"] => "Baník"

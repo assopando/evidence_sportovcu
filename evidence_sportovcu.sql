@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pon 18. bře 2024, 23:04
+-- Vytvořeno: Úte 19. bře 2024, 21:40
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -28,18 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `akce` (
-  `id_akce` int(11) NOT NULL,
+  `id_akce` int(3) NOT NULL,
   `nazev_akce` varchar(30) NOT NULL,
   `datum_zahajeni` date NOT NULL,
   `datum_konce` date DEFAULT NULL,
-  `misto_kon` varchar(30) NOT NULL,
+  `misto_kon` varchar(100) NOT NULL,
   `poradatel` varchar(100) DEFAULT NULL,
   `popisek_akce` text NOT NULL,
-  `pritomni_uc` varchar(150) DEFAULT NULL,
+  `pritomni_uc` varchar(70) DEFAULT NULL,
   `shrnuti` varchar(100) DEFAULT NULL,
-  `archivovano` tinyint(4) DEFAULT NULL,
-  `id_opak` int(11) DEFAULT NULL,
-  `id_kolo` int(11) DEFAULT NULL
+  `archivovano` tinyint(1) DEFAULT NULL,
+  `id_opak` int(3) DEFAULT NULL,
+  `id_kolo` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -61,9 +61,9 @@ INSERT INTO `akce` (`id_akce`, `nazev_akce`, `datum_zahajeni`, `datum_konce`, `m
 --
 
 CREATE TABLE `akce_disc` (
-  `id_akce_disc` int(11) NOT NULL,
-  `id_akce` int(11) NOT NULL,
-  `id_disc` int(11) NOT NULL
+  `id_akce_disc` int(3) NOT NULL,
+  `id_akce` int(3) NOT NULL,
+  `id_disc` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -88,8 +88,8 @@ INSERT INTO `akce_disc` (`id_akce_disc`, `id_akce`, `id_disc`) VALUES
 --
 
 CREATE TABLE `disciplina` (
-  `id_disc` int(11) NOT NULL,
-  `id_sport` int(11) NOT NULL,
+  `id_disc` int(3) NOT NULL,
+  `id_sport` int(3) NOT NULL,
   `nazev_disc` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -112,22 +112,11 @@ INSERT INTO `disciplina` (`id_disc`, `id_sport`, `nazev_disc`) VALUES
 --
 
 CREATE TABLE `disc_ucast` (
-  `id_disc_ucast` int(11) NOT NULL,
-  `id_ucast` int(11) NOT NULL,
-  `id_disc` int(11) NOT NULL,
+  `id_disc_ucast` int(3) NOT NULL,
+  `id_ucast` int(3) NOT NULL,
+  `id_disc` int(3) NOT NULL,
   `vys_du` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Vypisuji data pro tabulku `disc_ucast`
---
-
-INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALUES
-(5, 6, 4, NULL),
-(7, 8, 5, NULL),
-(9, 10, 7, NULL),
-(13, 14, 5, NULL),
-(14, 15, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -143,6 +132,14 @@ CREATE TABLE `dodatecne_info` (
   `zdravotni_omezeni` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Vypisuji data pro tabulku `dodatecne_info`
+--
+
+INSERT INTO `dodatecne_info` (`email`, `komentar_uziv`, `kontaktni_udaje`, `odkaz_na_web`, `zdravotni_omezeni`) VALUES
+('r.bednar.st@spseiostrava.cz', 'gymrat', 'saaddsa', 'dasdasds', 'dasdasda'),
+('s.fabisz.st@spseiostrava.cz', 'fotbalista', 'dasdadsa', 'asdasd', 'asdasdasda');
+
 -- --------------------------------------------------------
 
 --
@@ -150,8 +147,8 @@ CREATE TABLE `dodatecne_info` (
 --
 
 CREATE TABLE `kolo` (
-  `id_kolo` int(11) NOT NULL,
-  `nazev_kolo` varchar(50) DEFAULT NULL
+  `id_kolo` int(3) NOT NULL,
+  `nazev_kolo` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -174,8 +171,8 @@ INSERT INTO `kolo` (`id_kolo`, `nazev_kolo`) VALUES
 --
 
 CREATE TABLE `opakovanost` (
-  `id_opak` int(11) NOT NULL,
-  `nazev_opak` varchar(50) DEFAULT NULL
+  `id_opak` int(3) NOT NULL,
+  `nazev_opak` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -195,8 +192,8 @@ INSERT INTO `opakovanost` (`id_opak`, `nazev_opak`) VALUES
 --
 
 CREATE TABLE `pozice` (
-  `id_poz` int(11) NOT NULL,
-  `nazev_poz` varchar(50) NOT NULL
+  `id_poz` int(3) NOT NULL,
+  `nazev_poz` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -209,27 +206,13 @@ INSERT INTO `pozice` (`id_poz`, `nazev_poz`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `prispevek`
---
-
-CREATE TABLE `prispevek` (
-  `id_pris` int(11) NOT NULL,
-  `id_uziv` int(11) NOT NULL,
-  `nazev_pris` varchar(50) NOT NULL,
-  `datum` date NOT NULL,
-  `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `soupiska`
 --
 
 CREATE TABLE `soupiska` (
-  `id_soup` int(11) NOT NULL,
-  `id_akce` int(11) NOT NULL,
-  `nazev_skupiny` varchar(30) NOT NULL,
+  `id_soup` int(3) NOT NULL,
+  `id_akce` int(3) NOT NULL,
+  `nazev_skupiny` varchar(50) NOT NULL,
   `vys_s` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -252,8 +235,8 @@ INSERT INTO `soupiska` (`id_soup`, `id_akce`, `nazev_skupiny`, `vys_s`) VALUES
 --
 
 CREATE TABLE `sport` (
-  `id_sport` int(11) NOT NULL,
-  `nazev_sportu` varchar(50) NOT NULL
+  `id_sport` int(3) NOT NULL,
+  `nazev_sportu` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -272,13 +255,13 @@ INSERT INTO `sport` (`id_sport`, `nazev_sportu`) VALUES
 --
 
 CREATE TABLE `sportuje` (
-  `id_sportuje` int(11) NOT NULL,
-  `id_disc` int(11) NOT NULL,
+  `id_sportuje` int(3) NOT NULL,
+  `id_disc` int(3) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `id_poz` int(11) DEFAULT NULL,
-  `id_urov` int(11) DEFAULT NULL,
-  `tym` varchar(25) DEFAULT NULL,
-  `rekord` float DEFAULT NULL
+  `id_poz` int(3) DEFAULT NULL,
+  `id_urov` int(3) DEFAULT NULL,
+  `tym` varchar(50) DEFAULT NULL,
+  `rekord` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -286,12 +269,12 @@ CREATE TABLE `sportuje` (
 --
 
 INSERT INTO `sportuje` (`id_sportuje`, `id_disc`, `email`, `id_poz`, `id_urov`, `tym`, `rekord`) VALUES
-(7, 5, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0),
-(9, 1, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0),
-(10, 6, 's.fabisz.st@spseiostrava.cz', 1, 1, '', 0),
-(11, 4, 'd.do.st@spseiostrava.cz', 1, 1, '', 0),
-(12, 6, 'd.do.st@spseiostrava.cz', 1, 1, '', 0),
-(13, 7, 'r.bednar.st@spseiostrava.cz', 1, 1, '', 0);
+(7, 5, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0'),
+(9, 1, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0'),
+(10, 6, 's.fabisz.st@spseiostrava.cz', 1, 1, '', '0'),
+(11, 4, 'd.do.st@spseiostrava.cz', 1, 1, '', '0'),
+(12, 6, 'd.do.st@spseiostrava.cz', 1, 1, '', '0'),
+(13, 7, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0');
 
 -- --------------------------------------------------------
 
@@ -338,29 +321,12 @@ INSERT INTO `trida` (`id_trid`, `tridni_uc`, `zkratka_uc`) VALUES
 --
 
 CREATE TABLE `ucastnik` (
-  `id_ucast` int(11) NOT NULL,
-  `id_uziv` int(11) NOT NULL,
-  `id_soup` int(11) NOT NULL,
+  `id_ucast` int(3) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `id_soup` int(3) NOT NULL,
   `vys_u` text DEFAULT NULL,
   `potrvzeni` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Vypisuji data pro tabulku `ucastnik`
---
-
-INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`, `potrvzeni`) VALUES
-(2, 100, 1, 'doporučuji studenta Bednáře pro příští turnaj', 1),
-(3, 100, 2, 'skvělý hráč', 1),
-(4, 101, 2, 'dobrý brankář', 1),
-(5, 102, 2, 'skvělý hráč', 1),
-(6, 100, 3, 'v pohodě', 1),
-(8, 100, 4, 'nejlepší výkon ze všech', 1),
-(9, 101, 4, 'druhý nejlepší výkon', 1),
-(10, 102, 4, 'nejlepší výkon', 1),
-(11, 100, 5, 'nejlepší výkon', 1),
-(14, 100, 7, NULL, 1),
-(15, 101, 7, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -369,8 +335,8 @@ INSERT INTO `ucastnik` (`id_ucast`, `id_uziv`, `id_soup`, `vys_u`, `potrvzeni`) 
 --
 
 CREATE TABLE `uroven` (
-  `id_urov` int(11) NOT NULL,
-  `nazev_urov` varchar(50) NOT NULL
+  `id_urov` int(3) NOT NULL,
+  `nazev_urov` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -387,7 +353,7 @@ INSERT INTO `uroven` (`id_urov`, `nazev_urov`) VALUES
 --
 
 CREATE TABLE `uzivatel` (
-  `id_uziv` int(11) NOT NULL,
+  `id_uziv` int(3) NOT NULL,
   `id_trid` varchar(3) DEFAULT NULL,
   `isic` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -403,9 +369,9 @@ CREATE TABLE `uzivatel` (
 --
 
 INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
-(100, 'I4B', 'S420300750570P', 'r.bednar.st@spseiostrava.cz', 1, 'Radim', 'Bednář', '2005-02-04', 'M'),
-(101, 'I4B', 'S420300750566B', 'd.do.st@spseiostrava.cz', 1, 'Duc Trung', 'Do', '2005-02-05', 'M'),
-(102, 'I4B', 'S420300750563Q', 's.fabisz.st@spseiostrava.cz', 1, 'Samuel', 'Fabisz', '2004-08-11', 'M');
+(100, 'I4B', 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M'),
+(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M'),
+(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M');
 
 --
 -- Indexy pro exportované tabulky
@@ -467,13 +433,6 @@ ALTER TABLE `pozice`
   ADD PRIMARY KEY (`id_poz`);
 
 --
--- Indexy pro tabulku `prispevek`
---
-ALTER TABLE `prispevek`
-  ADD PRIMARY KEY (`id_pris`),
-  ADD KEY `fk_nastenka_uzivatel` (`id_uziv`) USING BTREE;
-
---
 -- Indexy pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
@@ -507,8 +466,8 @@ ALTER TABLE `trida`
 --
 ALTER TABLE `ucastnik`
   ADD PRIMARY KEY (`id_ucast`),
-  ADD KEY `id_uziv` (`id_uziv`),
-  ADD KEY `id_soup` (`id_soup`);
+  ADD KEY `id_soup` (`id_soup`),
+  ADD KEY `email` (`email`);
 
 --
 -- Indexy pro tabulku `uroven`
@@ -532,85 +491,79 @@ ALTER TABLE `uzivatel`
 -- AUTO_INCREMENT pro tabulku `akce`
 --
 ALTER TABLE `akce`
-  MODIFY `id_akce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_akce` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pro tabulku `akce_disc`
 --
 ALTER TABLE `akce_disc`
-  MODIFY `id_akce_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_akce_disc` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pro tabulku `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id_disc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_disc` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `disc_ucast`
 --
 ALTER TABLE `disc_ucast`
-  MODIFY `id_disc_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_disc_ucast` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pro tabulku `kolo`
 --
 ALTER TABLE `kolo`
-  MODIFY `id_kolo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_kolo` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pro tabulku `opakovanost`
 --
 ALTER TABLE `opakovanost`
-  MODIFY `id_opak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_opak` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pro tabulku `pozice`
 --
 ALTER TABLE `pozice`
-  MODIFY `id_poz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT pro tabulku `prispevek`
---
-ALTER TABLE `prispevek`
-  MODIFY `id_pris` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_poz` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
-  MODIFY `id_soup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_soup` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pro tabulku `sport`
 --
 ALTER TABLE `sport`
-  MODIFY `id_sport` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_sport` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pro tabulku `sportuje`
 --
 ALTER TABLE `sportuje`
-  MODIFY `id_sportuje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_sportuje` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  MODIFY `id_ucast` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_ucast` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pro tabulku `uroven`
 --
 ALTER TABLE `uroven`
-  MODIFY `id_urov` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_urov` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pro tabulku `uzivatel`
 --
 ALTER TABLE `uzivatel`
-  MODIFY `id_uziv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id_uziv` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- Omezení pro exportované tabulky
@@ -650,12 +603,6 @@ ALTER TABLE `dodatecne_info`
   ADD CONSTRAINT `dodatecne_info_ibfk_1` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`);
 
 --
--- Omezení pro tabulku `prispevek`
---
-ALTER TABLE `prispevek`
-  ADD CONSTRAINT `prispevek_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Omezení pro tabulku `soupiska`
 --
 ALTER TABLE `soupiska`
@@ -674,8 +621,8 @@ ALTER TABLE `sportuje`
 -- Omezení pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  ADD CONSTRAINT `ucastnik_ibfk_1` FOREIGN KEY (`id_uziv`) REFERENCES `uzivatel` (`id_uziv`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ucastnik_ibfk_2` FOREIGN KEY (`id_soup`) REFERENCES `soupiska` (`id_soup`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ucastnik_ibfk_2` FOREIGN KEY (`id_soup`) REFERENCES `soupiska` (`id_soup`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ucastnik_ibfk_3` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Omezení pro tabulku `uzivatel`

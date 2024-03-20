@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 19. bře 2024, 21:40
+-- Vytvořeno: Stř 20. bře 2024, 20:52
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -136,9 +136,6 @@ CREATE TABLE `dodatecne_info` (
 -- Vypisuji data pro tabulku `dodatecne_info`
 --
 
-INSERT INTO `dodatecne_info` (`email`, `komentar_uziv`, `kontaktni_udaje`, `odkaz_na_web`, `zdravotni_omezeni`) VALUES
-('r.bednar.st@spseiostrava.cz', 'gymrat', 'saaddsa', 'dasdasds', 'dasdasda'),
-('s.fabisz.st@spseiostrava.cz', 'fotbalista', 'dasdadsa', 'asdasd', 'asdasdasda');
 
 -- --------------------------------------------------------
 
@@ -268,13 +265,6 @@ CREATE TABLE `sportuje` (
 -- Vypisuji data pro tabulku `sportuje`
 --
 
-INSERT INTO `sportuje` (`id_sportuje`, `id_disc`, `email`, `id_poz`, `id_urov`, `tym`, `rekord`) VALUES
-(7, 5, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0'),
-(9, 1, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0'),
-(10, 6, 's.fabisz.st@spseiostrava.cz', 1, 1, '', '0'),
-(11, 4, 'd.do.st@spseiostrava.cz', 1, 1, '', '0'),
-(12, 6, 'd.do.st@spseiostrava.cz', 1, 1, '', '0'),
-(13, 7, 'r.bednar.st@spseiostrava.cz', 1, 1, '', '0');
 
 -- --------------------------------------------------------
 
@@ -368,10 +358,6 @@ CREATE TABLE `uzivatel` (
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
-(100, 'I4B', 'S420300750570P', NULL, 0, 'Radim', 'Bednář', '2005-02-04', 'M'),
-(101, 'I4B', 'S420300750566B', NULL, 0, 'Duc Trung', 'Do', '2005-02-05', 'M'),
-(102, 'I4B', 'S420300750563Q', NULL, 0, 'Samuel', 'Fabisz', '2004-08-11', 'M');
 
 --
 -- Indexy pro exportované tabulky
@@ -551,7 +537,7 @@ ALTER TABLE `sportuje`
 -- AUTO_INCREMENT pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
-  MODIFY `id_ucast` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_ucast` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pro tabulku `uroven`

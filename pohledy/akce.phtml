@@ -111,7 +111,7 @@
                                     continue;
                                 }
                                 foreach ($this->data['uzivatele'] as $uziv) {
-                                    if (!($ucast['id_uziv'] == $uziv['id_uziv'])) {
+                                    if (!($ucast['email'] == $uziv['email'])) {
                                         continue;
                                     }
                                     echo "<h5>".$uziv['jmeno']." ".$uziv['prijmeni']." ".$uziv['id_trid']."</h5>";                                    

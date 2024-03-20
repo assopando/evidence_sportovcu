@@ -24,7 +24,7 @@
                         continue;
                     }
                     foreach ($this->data['uziv'] as $uziv){
-                        if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                        if(!($ucast['email'] == $uziv['email'])){
                             continue;
                         }
                         echo "<div>";
@@ -44,7 +44,70 @@
                     }
                 }
                 ?>
+
+<form method="post">
+    <button type="submit" name="genPDF">VygenerujPDF</button>
+</form>
             </div>
+
+
+            <?php 
+            use Mpdf\Mpdf;
+
+            if (isset($_POST['genPDF'])){
+                $content = '
+                <div id="vypis">
+                    <div>
+                        <label>Učastníci:</label>';
+                
+                foreach ($this->data['ucast'] as $ucast) {
+                if (!($ucast['id_soup'] == $konkretniSoup['id_soup'] && $ucast['potrvzeni'] == 1)) {
+                    continue;
+                }
+                foreach ($this->data['uziv'] as $uziv) {
+                    if (!($ucast['email'] == $uziv['email'])) {
+                        continue;
+                    }
+                    $content .= '<div>';
+                    $content .= $uziv['jmeno'] . ' ' . $uziv['prijmeni'] . ' ' . $uziv['id_trid'] . '<br>';
+                    foreach ($this->data['du'] as $du) {
+                        if (!($du['id_ucast'] == $ucast['id_ucast'])) {
+                            continue;
+                        }
+                        foreach ($this->data['disc'] as $disc) {
+                            if (!($du['id_disc'] == $disc['id_disc'])) {
+                                continue;
+                            }
+                            $content .= $disc['nazev_disc'] . '<br>';
+                        }
+                    }
+                    $content .= '</div>';
+                }
+                }
+                
+                $content .= '
+                    </div>
+                </div>';
+                
+                // Vytvoření nové instance Mpdf
+                $mpdf = new Mpdf();
+                
+                // Přidání obsahu do PDF
+                $mpdf->WriteHTML($content);
+                
+                // Vytvoření PDF souboru
+                $pdfFileName = __DIR__ . '/../pdfs/soupiska_' .$konkretniAkce['nazev_akce']  .'_'.$konkretniSoup['nazev_skupiny'].'_'. date('dmY_Hi'). '.pdf';
+                $mpdf->Output($pdfFileName, 'F');
+                
+                echo 'PDF vygenerováno';
+                            
+            }
+
+        
+            
+            ?>
+
+
 
             <!-- Vypis x pending -->
 
@@ -84,7 +147,7 @@
                             <input type="checkbox" name="selected_pending[]" value="<?php echo $ucast['id_ucast']; ?>">
                         <?php
                             foreach ($this->data['uziv'] as $uziv){
-                                if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                                if(!($ucast['email'] == $uziv['email'])){
                                     continue;
                                 }
                                 echo "<div>";
@@ -131,19 +194,19 @@
                     <div>
                     <!-- Přidání dalšího učastníka -->
                         <div>
-                            <label for="id_uziv">Přidat  účastníka: </label>
-                            <select name="id_uziv" class="uziv" style="width: 100%">
+                            <label for="pridat_ucast">Přidat  účastníka: </label>
+                            <select name="pridat_ucast" class="uziv" style="width: 100%">
                                 <?php foreach($this->data['uziv'] as $uziv){
                                     $skipUcast = false;
                                     foreach ($this->data['ucast'] as $ucast){
-                                        if ($ucast['id_uziv'] == $uziv['id_uziv'] && $ucast['id_soup'] == $konkretniSoup['id_soup']) {
+                                        if ($ucast['email'] == $uziv['email'] && $ucast['id_soup'] == $konkretniSoup['id_soup']) {
                                             $skipUcast = true;
                                             break;
                                         }   
                                     }
                                     if (!$skipUcast) {
                                         ?>
-                                        <option value="<?= $uziv['id_uziv']; ?>"><?= $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
+                                        <option value="<?= $uziv['email']; ?>"><?=$uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
                                    <?php  
                                     }
                                 } 
@@ -180,7 +243,7 @@
                             <input type="checkbox" name="selected_ucast[]" value="<?php echo $ucast['id_ucast']; ?>">
                         <?php
                             foreach ($this->data['uziv'] as $uziv){
-                                if(!($ucast['id_uziv'] == $uziv['id_uziv'])){
+                                if(!($ucast['email'] == $uziv['email'])){
                                     continue;
                                 }
                                 echo "<div>";
@@ -207,7 +270,6 @@
                 <button type="submit" name="cele_smazat">Smazat</button>
             </form>
         </div>
-
         <!-- javascript a jquery -->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

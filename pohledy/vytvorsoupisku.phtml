@@ -28,9 +28,9 @@
                 <!--sekce tabulky "ucastnik"-->
                 <h2>Účastník </h2>
                 <div>
-                    <select required name="id_uziv[]" class="uziv" style="width: 100%" multiple>
+                    <select required name="email[]" class="uziv" style="width: 100%" multiple>
                         <?php foreach ($this->data['uziv'] as $uziv):?>
-                            <option value="<?= $uziv['id_uziv']; ?>"><?= $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
+                            <option value="<?= $uziv['email']; ?>"><?= $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -48,7 +48,7 @@
                             continue;
                         }
                         foreach ($this->data['uziv'] as $uziv){
-                            if(!($uziv['id_uziv'] == $ucast['id_uziv'])) {
+                            if(!($uziv['email'] == $ucast['email'])) {
                                 continue;  
                             }
                             ?>

@@ -126,14 +126,14 @@
                     }
 
                     foreach ($this->data['uzivatele'] as $uziv) {
-                        if (!($ucast['id_uziv'] == $uziv['id_uziv'])) {
+                        if (!($ucast['email'] == $uziv['email'])) {
                             continue;
                         }
 
                         echo "<div>";
                         echo $uziv['jmeno']." ".$uziv['prijmeni']." ".$uziv['id_trid']."<br>";
                         ?>
-                        <label for="vys_u_<?php echo $uziv['id_uziv']; ?>">Výsledek účastníka</label>
+                        <label for="vys_u_<?php echo $uziv['email']; ?>">Výsledek účastníka</label>
                         <input type="text" name="vys_u[<?php echo $ucast['id_ucast']; ?>]" ">
                         <?php
                         foreach ($this->data['du'] as $du) {

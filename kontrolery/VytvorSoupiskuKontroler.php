@@ -34,8 +34,8 @@ class VytvorSoupiskuKontroler extends Kontroler {
          // Zpracování formuláře
          if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridejSoupiskaUcastnik'])) {
             // Kontrola jesli to jsou sportovci v poli
-            if (isset($_POST['id_uziv']) && is_array($_POST['id_uziv'])) {                   
-                $ucastnici = $_POST['id_uziv'];
+            if (isset($_POST['email']) && is_array($_POST['email'])) {                   
+                $ucastnici = $_POST['email'];
                 $soupiskaId = $modelSoupiska->vratPosledniId() +1;
 
                 // Zde by mělo dojít k zpracování formuláře
@@ -66,7 +66,7 @@ class VytvorSoupiskuKontroler extends Kontroler {
 
                         $ucastnik = [
                             'id_ucast' => $ucastnikId++,
-                            'id_uziv' => $selectedUziv,
+                            'email' => $selectedUziv,
                             'id_soup' => $soupiskaId,
                             // Další potřebné údaje
                         ];

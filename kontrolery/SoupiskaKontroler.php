@@ -2,7 +2,7 @@
 class SoupiskaKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
-        $idTetoSoup=$_GET['is'];
+        $idTetoSoup= (int)$_GET['is'];
 
         $modelDisciplin= new ModelyDisciplina();
         $modelSoupiska= new ModelySoupiska();
@@ -74,7 +74,7 @@ class SoupiskaKontroler extends Kontroler {
 
                  $ucastnik = [
                      'id_ucast' => $ucastnikId,
-                     'id_uziv' => $uzivatelInfo['id_uziv'],
+                     'email' => $uzivatelInfo['email'],
                      'id_soup' => $idTetoSoup,
                      'potrvzeni' => 0,
                      // Další potřebné údaje
@@ -184,22 +184,22 @@ class SoupiskaKontroler extends Kontroler {
                     
     //pridani ucastníka a následné přiřazení disciplíny ---------------------------------------------------------------
 
+    
 
-            if (isset($_POST['id_uziv']) && is_array($_POST['id_uziv'])) {
-                $ucastnik = $_POST['id_uziv'];
+            if (isset($_POST['pridat_ucast'])) {
 
-                //zjištění podledního ID v tabulce
-                $ucastnikId = $modelUcastnici->vratPosledniId()+1;
-
+                $ucastnik = $_POST['pridat_ucast'];
                 
+                //zjištění podledního ID v tabulce
+                $ucastnikId = $modelUcastnici->vratPosledniId()+1;                
 
                 $ucastnikove_udaje = [
                     'id_ucast' => $ucastnikId,
-                    'id_uziv' => $ucastnik,
+                    'email' => $ucastnik,
                     'id_soup' => $idTetoSoup,
                     // Další potřebné údaje
                 ];
-                
+
                 //pridani zaznamu do databaze(ucastnik)
                 $pridejUcastnik = $modelUcastnici->pridejUcastnika($ucastnikove_udaje);
                 
@@ -250,9 +250,13 @@ class SoupiskaKontroler extends Kontroler {
         //edit soupisky --------------------------------------------------------------------------------
                 
                     $hodnoty= [
-                        $_POST['nazev_skupiny'],
+                        'id_soup' => $s['id_soup'],
+                        'id_akce' => $s['id_akce'],
+                        'nazev_skupiny' => $_POST['nazev_skupiny'],
+                        'vys_s' => $s['vys_s'],
                         // Další potřebné údaje
                     ];
+
 
                     $editSoupisky= $modelSoupiska->zmenSoupisku($hodnoty, $idTetoSoup);
 

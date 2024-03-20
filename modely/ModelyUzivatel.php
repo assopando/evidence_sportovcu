@@ -74,7 +74,7 @@ class ModelyUzivatel {
     * - nepovinny atribut
     */
     public function pridejStudenta($uzivatel) {
-      if($uzivatel["opravneni"]==1){
+      if($uzivatel["opravneni"]==0){
       $sql = "
             SELECT id_uziv
             FROM uzivatel
@@ -115,13 +115,13 @@ class ModelyUzivatel {
     * - nepovinny atribut
     */
     public function pridejUcitele($uzivatel) {
-      if($uzivatel["opravneni"]!=1){
+      if($uzivatel["opravneni"]!=0){
       $sql = "
-          SELECT id_uziv
+          SELECT email
           FROM uzivatel
-          where id_uziv = ?
+          where email = ?
       ";
-      if(Db::dotazJeden($sql,[$uzivatel["id_uziv"]])){
+      if(Db::dotazJeden($sql,[$uzivatel["email"]])){
       return 0;
       }
     Db::vloz("uzivatel",$uzivatel);
@@ -130,7 +130,19 @@ class ModelyUzivatel {
       else return 2;
     }//vrati 0 pokud v uz databazi uzivatel uz je, vrati 1 pokud v databazi uzivatel jeste neni a prida tam ucitele
 
-    
+    //vrati posledni id v tabulce
+    public function vratPosledniIdUcitele() {
+      $sql = "SELECT id_uziv
+              FROM uzivatel
+              WHERE opravneni = 1 or opravneni = 2
+              ORDER BY id_uziv DESC
+              LIMIT 1";
+      
+      
+      $ucitel = Db::dotazJeden($sql);
+      if ($ucitel === false) return 0;
+      else return $ucitel['id_uziv'];
+    }
     
     //funkce slouzi k odebrani uzivatele z databaze, parametrem bude jen id z databaze(id_uziv)
         public function odeberUzivatele($id){
@@ -221,14 +233,14 @@ public function vratInfoVsechUcitelu(){
   }
 
 
-// Funkce slouží k odebrání všech uživatelů s oprávněním = 0
-public function vymazStudenty() {
+// Funkce slouží k odebrání všech uživatelů 
+public function vymazUzivatele() {
   // Disable foreign key checks
   Db::dotaz("SET foreign_key_checks = 0;");
 
   $sql = "
       DELETE FROM uzivatel
-      WHERE opravneni = 0
+      
   ";
   $result = Db::dotaz($sql);
 

@@ -19,14 +19,14 @@ class ModelyUcastnik{
               LIMIT 1";
       
       $ucastnik = Db::dotazJeden($sql);
-      if ($ucastnik === false) return 0;
+      if ($ucastnik === false) return 1;
       else return $ucastnik['id_ucast'];
     }
 
 
       /*slouzi k pridani ucastnika do databaze, parametr bude pole, vyzadujici:
     id_ucast
-    id_uziv
+    email
     id_soup
     *vys_u
     
@@ -61,13 +61,15 @@ class ModelyUcastnik{
 
 
     /*slouzi ke zmene sloupcu v tabulce "ucastnik", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["id_uziv"] => 19
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["email"] => "p.novak.st@spseiostrava.cz"
                                                                       ["id_soup"] => 5
                                                                       ["vys_u"] => "Student x skoncil na 2. miste v y turnaji"
     $id - id z databaze(id_ucast), čili id konkretniho ucastnika
     */
     public function zmenUcastnika($hodnoty, $id){
       $sql = "
+      select id_ucast
+      from ucastnik
       where id_ucast = ?
       ";
       if(Db::zmen("ucastnik",$hodnoty,$sql,[$id])){

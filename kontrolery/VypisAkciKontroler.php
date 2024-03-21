@@ -1,7 +1,7 @@
 <?php
 class VypisAkciKontroler extends Kontroler {
     public function zpracuj($parametry) {
-
+            session_start();
 
             $modelAkce= new ModelyAkce;
 
@@ -12,6 +12,12 @@ class VypisAkciKontroler extends Kontroler {
             $akce=$modelAkce->vratVsechnyAkce();
             $this->data["akce"] = $akce; 
 
+
+            
+            $this->data["serazeniUcast"] = ModelyUzivatel::serazeniNaAkciPodleUcasti($_SESSION ['email']);
+            $this->data["serazeniZajem"] = ModelyUzivatel::serazeniNaAkciPodleZajmu($_SESSION ['email']);
+            
+            
 
     
 

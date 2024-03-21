@@ -17,7 +17,6 @@ class PoziceKontroler extends Kontroler {
             
             
                 $poz = [
-                    'id_poz' => $_POST['id_poz'],
                     'nazev_poz' => $_POST['nazev_poz'],
                     // Další potřebné údaje pozic
                 ];

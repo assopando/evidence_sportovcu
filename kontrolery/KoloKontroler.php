@@ -17,7 +17,6 @@ class KoloKontroler extends Kontroler {
             
             
                 $kolo = [
-                    'id_kolo' => $_POST['id_kolo'],
                     'nazev_kolo' => $_POST['nazev_kolo'],
                     // Další potřebné údaje pozic
                 ];

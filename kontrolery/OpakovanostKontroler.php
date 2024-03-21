@@ -13,7 +13,6 @@ class OpakovanostKontroler extends Kontroler {
             
             
                 $opak = [
-                    'id_opak' => $_POST['id_opak'],
                     'nazev_opak' => $_POST['nazev_opak'],
                     // Další potřebné údaje pozic
                 ];

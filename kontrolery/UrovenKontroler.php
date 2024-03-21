@@ -17,7 +17,6 @@ class UrovenKontroler extends Kontroler {
             
             
                 $urov = [
-                    'id_urov' => $_POST['id_urov'],
                     'nazev_urov' => $_POST['nazev_urov'],
                     // Další potřebné údaje pozic
                 ];

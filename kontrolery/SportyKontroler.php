@@ -4,23 +4,16 @@ class SportyKontroler extends Kontroler {
 
         $modelSporty= new ModelySport();
 
-        
-        
-
-
         // Zpracování formuláře
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pridej'])) {
             // Zde by mělo dojít k zpracování formuláře
             // a volání metody pridejSporty z vaší třídy
             $sport = [
-                'id_sport' => $_POST['id_sport'],
                 'nazev_sportu' => $_POST['nazev_sportu'],
                 // Další potřebné údaje sportu
             ];
 
             $pridejSport= $modelSporty->pridejSporty($sport);
-
-            echo $pridejSport;
 
             if ($pridejSport === 1) {
                 // Sport byl úspěšně přidán
@@ -69,8 +62,6 @@ class SportyKontroler extends Kontroler {
             }
             else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['smazat']))   {
             
-                
-    
                 $smazSport= $modelSporty->odeberSport($_POST['smazany_sport_id']);
     
                 if ($smazSport === 1) {

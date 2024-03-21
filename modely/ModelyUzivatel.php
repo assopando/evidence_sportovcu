@@ -211,6 +211,11 @@ class ModelyUzivatel {
       return Db::dotazJeden($sql, [$email]);
   }
 
+  public function vratInfoPodleEmailuDI($email) {
+    $sql = "SELECT * FROM uzivatel left join dodatecne_info using(email) WHERE email like ?";
+    return Db::dotazJeden($sql, [$email]);
+  }
+
     // Uložení nových údajů do databáze
     public function upravDodatecneUdaje($email, $kontaktniUdaje, $odkazNaWeb, $zdravotniOmezeni, $sportovniAktivity) {
       $sql = "
@@ -243,6 +248,73 @@ public function vymazUzivatele() {
   // Vrátí 1 pokud v databázi uživatelé s oprávněním = 0 byli odebráni, 0 pokud se akce nepodaří
 }
 
+public static function pridaniDodatecnychUdaju($email, $kontaktniUdaje, $odkazNaWeb, $zdravotniOmezeni) {
+  // Zkontroluj existenci uživatele s daným e-mailem
+  $sql = "SELECT * FROM dodatecne_info WHERE email = ?";
+  $existujeUzivatel = Db::dotazJeden($sql, [$email]);
+
+  if ($existujeUzivatel) {
+      // Pokud uživatel existuje, provedeme aktualizaci dat
+      $sql = "
+          UPDATE dodatecne_info
+          SET kontaktni_udaje = :kontaktni_udaje, odkaz_na_web = :odkaz_na_web, zdravotni_omezeni = :zdravotni_omezeni
+          WHERE email = :email
+      ";
+  } else {
+      // Pokud uživatel neexistuje, provedeme vložení nových dat
+      $sql = "
+          INSERT INTO dodatecne_info (email, kontaktni_udaje, odkaz_na_web, zdravotni_omezeni)
+          VALUES (:email, :kontaktni_udaje, :odkaz_na_web, :zdravotni_omezeni)
+      ";
+  }
+
+  // Parametry pro dotaz
+  $parameters = [
+      ':kontaktni_udaje' => $kontaktniUdaje,
+      ':odkaz_na_web' => $odkazNaWeb,
+      ':zdravotni_omezeni' => $zdravotniOmezeni,
+      ':email' => $email
+  ];
+
+  // Spuštění dotazu
+  $vysledek = Db::dotaz($sql, $parameters);
+
+  // Kontrola výsledku a výpis zprávy
+  if ($vysledek) {
+      echo "Data byla úspěšně aktualizována.";
+  } else {
+      echo "Chyba při aktualizaci dat.";
+  }
+}
+
+
+public static function serazeniNaAkciPodleUcasti($email){
+  $parameters = array();
+  $parameters["email"] = $_SESSION['email'];
+$sql = "
+    SELECT * 
+    FROM uzivatel inner join ucastnik using(email) inner join soupiska using(id_soup) inner join akce using(id_akce)
+    WHERE uzivatel.email like ?
+";
+if($vysledek =Db::dotazVsechny($sql,[$_SESSION['email']])){
+  return $vysledek;
+}
+return 0;
+}
+
+public static function serazeniNaAkciPodleZajmu($email){
+$parameters = array();
+$parameters["email"] = $_SESSION['email'];
+$sql = "
+SELECT * 
+FROM uzivatel inner join sportuje using(email) inner join disciplina using(id_disc) inner join akce_disc using(id_disc) inner join akce using(id_akce) inner join soupiska using (id_akce)
+WHERE uzivatel.email like ? and id_disc in (SELECT id_disc from uzivatel inner join sportuje using(email))
+";
+if($vysledek =Db::dotazVsechny($sql,[$_SESSION['email']])){
+return $vysledek;
+}
+return 0;
+}
 
 
 }

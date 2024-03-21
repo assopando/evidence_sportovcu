@@ -68,8 +68,6 @@ class ModelyUcastnik{
     */
     public function zmenUcastnika($hodnoty, $id){
       $sql = "
-      select id_ucast
-      from ucastnik
       where id_ucast = ?
       ";
       if(Db::zmen("ucastnik",$hodnoty,$sql,[$id])){

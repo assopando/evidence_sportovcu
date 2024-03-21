@@ -4,11 +4,11 @@ class ModelySportuje {
     public function vratVsechySportuje() {
         $sql = "
             SELECT *
-            FROM sportuje
+            FROM sportuje inner join uzivatel using(email)
         ";
         $sportuje = Db::dotazVsechny($sql);
         return $sportuje;
-      }
+    }
 
 
       //vrati posledni id v tabulce
@@ -87,13 +87,25 @@ class ModelySportuje {
           return 1;
         }
         return 0;
+    }
 
-      }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
+    public static function pridejZFormulare($id_urov, $id_poz , $id_disc){
+        // Příprava SQL dotazu
 
+        $parameters = array();
+        $parameters[":id_urov"] = $id_urov;
+        $parameters[":id_poz"] = $id_poz;
+        
+        $parameters[":id_disc"] = $id_disc;
+                $parameters[":email"] = $_SESSION["email"];
+                echo  $_SESSION["email"];
 
-
-
+        $sql = "INSERT INTO sportuje (id_urov, id_poz, id_disc,email) VALUES (:id_urov, :id_poz, :id_disc,:email)";
     
-}
+     Db::dotaz($sql, $parameters);
+    
+        
+    }
 
+}
 ?>

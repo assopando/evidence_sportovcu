@@ -31,7 +31,13 @@ class ModelyAkce{
     datum_zahajeni
     *datum_konce
     misto_kon
+    *poradatel
     popisek_akce
+    *pritomni_uc
+    *shrnuti
+    *archivovano
+    *id_opak
+    *id_kolo
     
     * - nepovinny atribut
     
@@ -64,11 +70,7 @@ class ModelyAkce{
 
 
     /*slouzi ke zmene sloupcu v tabulce "akce", parametry:
-    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty ["nazev_akce"] => "Vanocni turnaj"
-                                                                      ["datum_zahajeni"] => 2025-12.22
-                                                                      ["datum_konce"] => 
-                                                                      ["misto_kon"] => "sddgedgfs"
-                                                                      ["popisek_akce"] => ""htgdbxrtbgrsgsyrg"
+    $hodnoty - pole asociativni pro nazev sloupcu a jeji nove hodnoty
     $id - id z databaze(id_akce), čili id konkretni akci
     */
     public function zmenAkci($hodnoty, $id){
@@ -88,16 +90,8 @@ class ModelyAkce{
           // Pokud nastala chyba při provádění změn
           return 0;
       }
+    }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
-
-
-      }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
-
-
-      public function vyprazdnit(){
-        $sql = "DELETE FROM akce";
-        return Db::dotazJeden($sql);
-      }
 
     
 }

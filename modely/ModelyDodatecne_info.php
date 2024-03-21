@@ -77,11 +77,6 @@ class ModelyDodatecne_info{
       }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
 
 
-      public function vyprazdnit(){
-        $sql = "DELETE FROM dodatecne_info";
-        return Db::dotazJeden($sql);
-      }
-
     
 }
 

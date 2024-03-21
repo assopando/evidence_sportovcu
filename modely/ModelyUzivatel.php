@@ -110,7 +110,6 @@ class ModelyUzivatel {
     *prijmeni
     *dat_nar
     *pohlavi
-    *komentar_uziv
     
     * - nepovinny atribut
     */
@@ -166,7 +165,6 @@ class ModelyUzivatel {
                                                                       ["prijmeni"] =>"Fabi"
                                                                       ["dat_nar"] =>
                                                                       ["pohlavi"] =>"ž"
-                                                                      ["komentar_uziv"] =>"Vyborný atlet"
     $id - id z databaze(id_uziv), čili id konkretniho uzivatele
     */
       public function zmenUzivatele($hodnoty){
@@ -197,16 +195,7 @@ class ModelyUzivatel {
     }
     return $data;
 }
-/*
-public function vratInfoVsechUcitelu(){
-  $data = array(); // Initialize an array to store the data
-  for ($i = 0; $i < 100; $i++) {
-      $sql = "SELECT id_uziv, jmeno, prijmeni, email, opravneni FROM uzivatel WHERE id_uziv = ?";
-      $data[] = Db::dotazJeden($sql, [$i]); // Store each row in the array
-  }
-  return $data; // Return the array
-}
-*/
+
 
 //vrati info o studentovi, vyzaduje isic
     public function vratInfoStudenta($isic){

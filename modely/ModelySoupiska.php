@@ -92,9 +92,8 @@ class ModelySoupiska{
           return 0;
       }
 
-      }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila
+      }//vrati 1 pokud v databazi uspesne provedl zmenu, 0 pokud se akce nepodarila 
 
-    
+  
 }
-
 ?>

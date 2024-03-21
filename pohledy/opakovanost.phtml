@@ -25,14 +25,13 @@
 <?php if (isset($this->data['opak']) && !empty($this->data['opak'])): ?>
     <h2>Všechny Opakovanosti</h2>
     <ul>
-    <?php foreach ($this->data['opak'] as $opak): ?>
-            <form method="post">
-            <input type="hidden" name="editovana_opak_id" value="<?php echo $opak['id_opak']; ?>">
-            <label for="novy_nazev_opak">Nový název Opakovanost:</label>
-            <input type="text" name="novy_nazev_opak" required>
-            <button type="submit" name="ulozit">Uložit</button>
-            </form>
+        <?php foreach ($this->data['opak'] as $opak): ?>
+            <li>Název: <?php echo $opak['nazev_opak']; ?>
                 <form method="post">
+                    <input type="hidden" name="editovana_opak_id" value="<?php echo $opak['id_opak']; ?>">
+                    <label for="novy_nazev_opak">Nový název Opakovanost:</label>
+                    <input type="text" name="novy_nazev_opak" required>
+                    <button type="submit" name="ulozit">Uložit</button>
                     <input type="hidden" name="smazana_opak_id" value="<?php echo $opak['id_opak']; ?>">
                     <button type="submit" name="smazat">Smazat</button>
                 </form>

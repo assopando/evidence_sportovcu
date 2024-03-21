@@ -3,6 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- javascript a jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="pohledy/script.js"></script> 
     </head>
     <body>
 
@@ -28,7 +34,7 @@
                 <!--sekce tabulky "ucastnik"-->
                 <h2>Účastník </h2>
                 <div>
-                    <select required name="email[]" class="uziv" style="width: 100%" multiple>
+                    <select required name="email[]" class="select_uziv" style="width: 100%" multiple>
                         <?php foreach ($this->data['uziv'] as $uziv):?>
                             <option value="<?= $uziv['email']; ?>"><?= $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'] ; ?></option>
                         <?php endforeach; ?>
@@ -54,7 +60,7 @@
                             ?>
                             <input type="hidden" name="id_ucastnika[]" value="<?= $ucast['id_ucast'] ?>"> 
                             <label><?php echo $uziv['id_trid']." ".$uziv['jmeno']." ".$uziv['prijmeni'];?> </label>
-                            <select name="ucastnici[<?= $ucast['id_ucast'] ?>][]" class="disc" style="width: 100%" multiple><?php
+                            <select name="ucastnici[<?= $ucast['id_ucast'] ?>][]" class="select_disc" style="width: 100%" multiple><?php
                                 foreach ($this->data['disc'] as $disc){
                                     foreach($this->data['ad'] as $ad){
                                         if($disc['id_disc'] == $ad['id_disc'] && $ad['id_akce'] == $konkretniakce['id_akce']){?>
@@ -74,32 +80,7 @@
             </form>
         </div>
 
-
-
-        
-
-        <!-- javascript a jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-        <!-- javascript (Combobox) -->
-        <script>    
-            $(document).ready(function() {
-                // Applynuti select2 na vypsané disciplíny
-                $('.uziv').select2({
-                    dropdownAutoWidth : true,
-                    placeholder: "-- Výběr sportovců --"
-                });
-
-                $('.disc').select2({
-                    dropdownAutoWidth : true,
-                    placeholder: "-- Výběr disciplín --"
-                });
-            });
-        </script>
-
-         <!-- javascript (Phases) -->
+         <!-- javascript (phases/fáze) -->
          <script>
             $(document).ready(function() {
                 var su = $("#soupiskaUcastnik");

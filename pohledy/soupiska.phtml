@@ -3,7 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Soupiska</title>
+        
+        <!-- javascript a jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="pohledy/script.js"></script> 
+
     </head>
     <body>
         <h1><?php echo $konkretniAkce['nazev_akce'];?></h1>
@@ -15,7 +21,7 @@
         
 
         <!-- Vypis -->
-        <div id="vypis">
+        <div id="vypis_s">
             <div>
                 <label>Učastníci:</label>
                 <?php
@@ -116,7 +122,7 @@
                 <form method="post">
                     <div>
                         <lable for="disc_pending">Chci se přidat</lable>
-                        <select name="disc_pending[]" class="disc" style="width: 100%" multiple>
+                        <select name="disc_pending[]" class="select_disc" style="width: 100%" multiple>
                         <?php
                             foreach ($this->data['disc'] as $disc){
                                 foreach($this->data['ad'] as $ad){
@@ -177,7 +183,7 @@
 
             
         <!-- Edit -->
-        <div id="edit">
+        <div id="edit_s">
             <h2>Edit soupisky</h2>
             <form method="post">
     <!-- Edit akce-->     
@@ -195,7 +201,7 @@
                     <!-- Přidání dalšího učastníka -->
                         <div>
                             <label for="pridat_ucast">Přidat  účastníka: </label>
-                            <select name="pridat_ucast" class="uziv" style="width: 100%">
+                            <select name="pridat_ucast" class="select_uziv" style="width: 100%">
                                 <?php foreach($this->data['uziv'] as $uziv){
                                     $skipUcast = false;
                                     foreach ($this->data['ucast'] as $ucast){
@@ -214,7 +220,7 @@
                             </select>
                         </div>
                         <div>
-                            <select name="disc_k_prirazeni[]" class="disc" style="width: 100%" multiple>
+                            <select name="disc_k_prirazeni[]" class="select_disc" style="width: 100%" multiple>
                             <?php
                                 foreach ($this->data['disc'] as $disc){
                                     foreach($this->data['ad'] as $ad){
@@ -232,8 +238,8 @@
 
                     <!-- Výběr Discipliny s checkboxy-->
                     <div>
-                        <label for="cb_smazat">Pro smazání vybraných disciplín</label>
-                        <button type="submit" name="cb_smazat">Smazat</button>
+                        <label for="cb_smazat">Pro odebrání vybraných účastníků</label>
+                        <button type="submit" name="cb_smazat">Odebrání</button>
                         <?php
                         foreach ($this->data['ucast'] as $ucast){
                             if(!($ucast['id_soup'] == $konkretniSoup['id_soup'])){
@@ -270,45 +276,6 @@
                 <button type="submit" name="cele_smazat">Smazat</button>
             </form>
         </div>
-        <!-- javascript a jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-        <!-- javascript (Combobox) -->
-        <script>    
-            $(document).ready(function() {
-                // Applynuti select2 na vypsané disciplíny
-                $('.uziv').select2({
-                    dropdownAutoWidth : true,
-                    placeholder: "-- Výběr sportovce --"
-                });
-
-                $('.disc').select2({
-                    dropdownAutoWidth : true,
-                    placeholder: "-- Výběr disciplín --"
-                });
-            });
-        </script>
-
-        <!-- javascript (Switch) -->
-        <script>
-            $(document).ready(function() {
-                var vypis = $("#vypis");
-                var edit = $("#edit");
-                edit.css("display", "none");
-
-                $("#switch").click(function() {
-                    if (vypis.css("display") === "block") {
-                        vypis.css("display", "none");
-                        edit.css("display", "block");
-                    } else {
-                        vypis.css("display", "block");
-                        edit.css("display", "none");
-                    }
-                });
-            });
-        </script>
         
     </body>
 </html>

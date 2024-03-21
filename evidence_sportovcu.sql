@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Stř 20. bře 2024, 20:52
+-- Vytvořeno: Čtv 21. bře 2024, 16:52
 -- Verze serveru: 10.4.22-MariaDB
 -- Verze PHP: 8.1.0
 
@@ -118,6 +118,13 @@ CREATE TABLE `disc_ucast` (
   `vys_du` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Vypisuji data pro tabulku `disc_ucast`
+--
+
+INSERT INTO `disc_ucast` (`id_disc_ucast`, `id_ucast`, `id_disc`, `vys_du`) VALUES
+(1, 2, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -131,11 +138,6 @@ CREATE TABLE `dodatecne_info` (
   `odkaz_na_web` varchar(225) DEFAULT NULL,
   `zdravotni_omezeni` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Vypisuji data pro tabulku `dodatecne_info`
---
-
 
 -- --------------------------------------------------------
 
@@ -261,49 +263,6 @@ CREATE TABLE `sportuje` (
   `rekord` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Vypisuji data pro tabulku `sportuje`
---
-
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `trida`
---
-
-CREATE TABLE `trida` (
-  `id_trid` varchar(3) NOT NULL,
-  `tridni_uc` varchar(50) NOT NULL,
-  `zkratka_uc` varchar(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Vypisuji data pro tabulku `trida`
---
-
-INSERT INTO `trida` (`id_trid`, `tridni_uc`, `zkratka_uc`) VALUES
-('E1A', 'Ing. Smyčková Renáta', 'SMY'),
-('E1B', 'Mgr. et Mgr. Richterová Dajana', 'RIC'),
-('E2A', 'Ing. Luptáková Monika', 'LUP'),
-('E2B', 'Mgr. Drahošová Lenka', 'DRA'),
-('E3A', 'Ing. Přindiš Aleš', 'PRI'),
-('E3B', 'Ing. Poloch Petr', 'POC'),
-('E4A', 'Ing. Lacková Martina', 'LAC'),
-('E4B', 'Ing. Bos Petr, Ph.D.', 'BOS'),
-('I1A', 'Mgr. Helsteinová Vladimíra', 'HEL'),
-('I1B', 'Mgr. Kubíčková Marie', 'KUB'),
-('I1C', 'Mgr. Kubinová Vlasta', 'KUI'),
-('I2A', 'Mgr. Zelenková Denisa', 'ZEL'),
-('I2B', 'Mgr. Hubáček Jakub', 'HUB'),
-('I2C', 'Mgr. Plačková Aneta', 'PLO'),
-('I3A', 'Mgr. Gibalová Helena', 'GIB'),
-('I3B', 'Mgr. Šeligová Darja', 'SEL'),
-('I3C', 'Mgr. Hudecová Lenka', 'HUD'),
-('I4A', 'Ing. Krusberská Ivana', 'KRB'),
-('I4B', 'Mgr. Kačerovský Antonín', 'KAC'),
-('I4C', 'Ing. Zapletal Ivo', 'ZAP');
-
 -- --------------------------------------------------------
 
 --
@@ -317,6 +276,13 @@ CREATE TABLE `ucastnik` (
   `vys_u` text DEFAULT NULL,
   `potrvzeni` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `ucastnik`
+--
+
+INSERT INTO `ucastnik` (`id_ucast`, `email`, `id_soup`, `vys_u`, `potrvzeni`) VALUES
+(2, 'r.bednar.st@spseiostrava.cz', 7, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -358,6 +324,10 @@ CREATE TABLE `uzivatel` (
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
+INSERT INTO `uzivatel` (`id_uziv`, `id_trid`, `isic`, `email`, `opravneni`, `jmeno`, `prijmeni`, `dat_nar`, `pohlavi`) VALUES
+(100, 'I4B', 'S420300750570P', 'r.bednar.st@spseiostrava.cz', 1, 'Radim', 'Bednář', '2005-02-04', 'M'),
+(101, 'I4B', 'S420300750566B', 'd.do.st@spseiostrava.cz', 1, 'Duc Trung', 'Do', '2005-02-05', 'M'),
+(102, 'I4B', 'S420300750563Q', 's.fabisz.st@spseiostrava.cz', 1, 'Samuel', 'Fabisz', '2004-08-11', 'M');
 
 --
 -- Indexy pro exportované tabulky
@@ -442,12 +412,6 @@ ALTER TABLE `sportuje`
   ADD KEY `fk_email_sportuje` (`email`) USING BTREE;
 
 --
--- Indexy pro tabulku `trida`
---
-ALTER TABLE `trida`
-  ADD PRIMARY KEY (`id_trid`);
-
---
 -- Indexy pro tabulku `ucastnik`
 --
 ALTER TABLE `ucastnik`
@@ -466,8 +430,7 @@ ALTER TABLE `uroven`
 --
 ALTER TABLE `uzivatel`
   ADD PRIMARY KEY (`id_uziv`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `id_trid` (`id_trid`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -609,12 +572,6 @@ ALTER TABLE `sportuje`
 ALTER TABLE `ucastnik`
   ADD CONSTRAINT `ucastnik_ibfk_2` FOREIGN KEY (`id_soup`) REFERENCES `soupiska` (`id_soup`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ucastnik_ibfk_3` FOREIGN KEY (`email`) REFERENCES `uzivatel` (`email`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Omezení pro tabulku `uzivatel`
---
-ALTER TABLE `uzivatel`
-  ADD CONSTRAINT `uzivatel_ibfk_1` FOREIGN KEY (`id_trid`) REFERENCES `trida` (`id_trid`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

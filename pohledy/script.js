@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 
     //s2 opakovani, kola, sportu
-    $('.select_opak, .select_kolo, .select_sport, select_pohlavi').select2({
+    $('.select_opak, .select_kolo, .select_sport, .select_pohlavi').select2({
         dropdownAutoWidth: true,
     });
 

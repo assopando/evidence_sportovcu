@@ -60,6 +60,20 @@ class ModelyUzivatel {
       return $uzivatel;
     }
 
+    //vrati posledni id v tabulce
+    public function vratPosledniId() {
+      $sql = "SELECT id_uziv
+              FROM uzivatel
+              WHERE opravneni = 0
+              ORDER BY id_uziv DESC
+              LIMIT 1";
+      
+      $uziv = Db::dotazJeden($sql);
+      if ($uziv === false) return 100;
+      else return $uziv['id_uziv'];
+    }
+
+
     /*funkce slouzi k pridani studenta do uzivatele, parametr bude pole, vyzadujici:
     id_uziv
     *id_trid

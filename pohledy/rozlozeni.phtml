@@ -31,24 +31,53 @@
                 <?php } ?>
             </div>
 
+            <?php
+            //--------------------------------- Session ------------------------------------------------------------------
+
+            $modelUzivatele = new ModelyUzivatel();
+
+            // Zkontroluj, zda je uživatel přihlášen
+            if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+                $session['opravneni'] = null;
+            
+            }
+
+            else {
+        
+                // Získání emailu přihlášeného uživatele z session
+                $emailUzivatele = $_SESSION['email'];
+            
+                // Získání informací o přihlášeném uživateli z databáze
+                $uzivatelInfo = $modelUzivatele->vratInfoPodleEmailu($emailUzivatele);
+            
+                // Kontrola, zda byl uživatel nalezen v databázi
+                
+                if ($uzivatelInfo) {
+                    $session = $uzivatelInfo; 
+                }
+            }
+
+            //--------------------------------- Session ------------------------------------------------------------------
+        ?>
+
             <nav>
             <ul>
             <li><a href="uvod">Úvod</a></li>
             <li><a href="profil">profil</a></li>
             <li><a href="vypisakci">Výpis akcí</a></li>
+            <li><a href="ldap">login</a></li>
+            <?php if ($session['opravneni'] >= 1): ?>
             <li><a href="disciplina">Disciplina</a></li>
             <li><a href="sporty">Sporty</a></li>
             <li><a href="kolo">Kolo</a></li>
             <li><a href="opakovanost">Opakovanost</a></li>
             <li><a href="pozice">Pozice</a></li>
             <li><a href="uroven">Uroven</a></li>
-    
             <li><a href="importcsv">Import žáku do db</a></li>
-        
             <li><a href="vytvorakce">Vytvoreni Akcí</a></li>
             <li><a href="pridelenidisciplin">Přidelení žáku k disciplínam</a></li>
             <li><a href="sportovci">Sportovci</a></li>
-            <li><a href="ldap">ldap</a></li>
+            <?php endif; ?>
         </ul>
             </nav>
         </div>
@@ -63,6 +92,7 @@
     <main>
         <?php
             $this->kontroler->vypisPohled();
+
         ?>
     </main>
 

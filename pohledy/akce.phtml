@@ -23,7 +23,7 @@
 
         <h1><?php echo $konkretniAkce['nazev_akce'];?></h1>
         <!-- tlačítko pro přepínaní mezi vypisem a editem -->
-        <?php if ($konkretniAkce["archivovano"] == 0): ?>
+        <?php if ($konkretniAkce["archivovano"] == 0 && $this->data['session']['opravneni'] >= 1): ?>
             <button id="switch">Switch</button>
         <?php endif; ?>
 
@@ -157,7 +157,9 @@
             <div>
                 <?php if ($konkretniAkce["archivovano"] == 0): ?>
                     <div>
+                        <?php if ($this->data['session']['opravneni'] >= 1) { ?>
                         <a href="vytvorsoupisku?ia=<?php echo $konkretniAkce['id_akce']; ?>"><button type="button">+</button></a>
+                        <?php } ?>
                         <h2>Soupisky</h2>
                         <ul>
                             <?php foreach ($this->data["soup"] as $soup): ?>
@@ -175,7 +177,7 @@
 
         <a href="archiv?iar=<?php echo $konkretniAkce['id_akce']; ?>">
 
-            <?php if ($konkretniAkce["archivovano"] == 0): ?>
+            <?php if ($konkretniAkce["archivovano"] == 0 && $this->data['session']['opravneni'] >= 1): ?>
                 <button type="button">Archivovat</button>
             <?php endif; ?>
         </a>

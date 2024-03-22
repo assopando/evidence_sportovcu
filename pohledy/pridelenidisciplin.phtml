@@ -12,6 +12,8 @@
     </style>
 </head>
 <body>
+
+<?php if ($this->data['session']['opravneni'] >= 1) : ?>
     <h1>Přidělení disciplín žákům</h1>
 
     <input id="search-input" type="text">
@@ -144,5 +146,8 @@
             formContainer.style.display = 'block';
         }
     </script>
+    <?php elseif($this->data['session']['opravneni'] === null) : $this->presmeruj("ldap"); 
+    elseif($this->data['session']['opravneni'] === 0) : $this->presmeruj("uvod");
+    endif ?>
 </body>
 </html>

@@ -16,9 +16,9 @@
         <p><?php echo $konkretniAkce['datum_zahajeni'];?><p>
         <h2><?php echo $konkretniSoup['nazev_skupiny'];?></h2>
         
-
-        <button id="switch">Switch</button>
-        
+        <?php if ($this->data['session']['opravneni'] >= 1) : ?>
+            <button id="switch">Switch</button>
+        <?php endif; ?>
 
         <!-- Vypis -->
         <div id="vypis_s">
@@ -51,9 +51,14 @@
                 }
                 ?>
 
-<form method="post">
-    <button type="submit" name="genPDF">VygenerujPDF</button>
-</form>
+                <?php if ($this->data['session']['opravneni'] >= 1) : ?>
+                    <form method="post">
+                        <button type="submit" name="genPDF">VygenerujPDF</button>
+                    </form>
+                <?php endif; ?>
+                
+
+
             </div>
 
 
@@ -118,6 +123,7 @@
             <!-- Vypis x pending -->
 
             <div>
+            <?php if ($this->data['session']['opravneni'] === 0 ) : ?>
                 <!-- požadavek -->
                 <form method="post">
                     <div>
@@ -138,8 +144,12 @@
                     </div>
                     <button type="submit" name="pridat_pending">Přidat se</button>
                 </form>
+                <?php endif;?>
             </div>
+
+
             <div>
+                <?php if ($this->data['session']['opravneni'] >= 1) : ?>
                 <!-- vyhodnocení -->
                 <div>
                     <form method="post">
@@ -176,7 +186,8 @@
                         <button type="submit" name="prijmout_pending">prijmout</button>
                         <button type="submit" name="odmitnout_pending">odmitnout</button>
                     </form>
-                </div>  
+                </div> 
+                <?php  endif?>
             </div>
         </div>
 

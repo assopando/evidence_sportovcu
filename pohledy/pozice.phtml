@@ -7,6 +7,7 @@
     </head>
     <body>
 
+    <?php if ($this->data['session']['opravneni'] >= 1) : ?>
         <h1>Přidaní pozic pro sportovce</h1>
 
         <!-- Výpis zpráv -->
@@ -51,6 +52,10 @@
         <?php else: ?>
             <p>Nejsou k dispozici žádné pozice.</p>
         <?php endif; ?>
+
+        <?php elseif($this->data['session']['opravneni'] === null) : $this->presmeruj("ldap"); 
+        elseif($this->data['session']['opravneni'] === 0) : $this->presmeruj("uvod");
+        endif ?>
 
     </body>
 </html>

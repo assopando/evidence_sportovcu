@@ -10,6 +10,8 @@
     </style>
 </head>
 <body>  
+<?php if ($this->data['session']['opravneni'] != null) : ?>
+
 
 <!-- Výpis zpráv -->
 <?php if (isset($this->zpravy) && !empty($this->zpravy)): ?>
@@ -197,6 +199,8 @@
         });
     });
 </script>
+
+    <?php else : $this->presmeruj("ldap"); endif ?>
 
 </body>
 </html>

@@ -9,6 +9,41 @@ class SportovciKontroler extends Kontroler {
         $modelyUroven = new ModelyUroven();
 
 
+
+
+//--------------------------------- Session ------------------------------------------------------------------
+
+        // Zkontroluj, zda je uživatel přihlášen
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            $this->data['session']['opravneni'] = null;
+           
+        }
+
+        else {
+    
+            // Získání emailu přihlášeného uživatele z session
+            $emailUzivatele = $_SESSION['email'];
+        
+            // Získání informací o přihlášeném uživateli z databáze
+            $uzivatelInfo = $modelyUzivatel->vratInfoPodleEmailu($emailUzivatele);
+        
+            // Kontrola, zda byl uživatel nalezen v databázi
+            
+            if ($uzivatelInfo) {
+                $this->data['session'] = $uzivatelInfo; 
+            }
+        }
+
+//--------------------------------- Session ------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
     //Delete záznamu------------------------------------------------------------------------------------------------------------------        
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['smazat'])) {

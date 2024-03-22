@@ -2,7 +2,35 @@
 class UrovenKontroler extends Kontroler {
     public function zpracuj($parametry) {
 
-         $modelUroven= new ModelyUroven();
+         $modelUroven = new ModelyUroven();
+         $modelUzivatel = new ModelyUzivatel;
+
+
+         
+//--------------------------------- Session ------------------------------------------------------------------
+
+        // Zkontroluj, zda je uživatel přihlášen
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            $this->data['session']['opravneni'] = null;
+           
+        }
+
+        else {
+    
+            // Získání emailu přihlášeného uživatele z session
+            $emailUzivatele = $_SESSION['email'];
+        
+            // Získání informací o přihlášeném uživateli z databáze
+            $uzivatelInfo = $modelUzivatel->vratInfoPodleEmailu($emailUzivatele);
+        
+            // Kontrola, zda byl uživatel nalezen v databázi
+            
+            if ($uzivatelInfo) {
+                $this->data['session'] = $uzivatelInfo; 
+            }
+        }
+
+//--------------------------------- Session ------------------------------------------------------------------
 
         
         

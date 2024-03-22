@@ -12,6 +12,37 @@ class SoupiskaKontroler extends Kontroler {
         $modelDisc_ucast = new ModelyDisc_ucast();
         $modelAkce_disc = new ModelyAkce_disc;
 
+
+
+//--------------------------------- Session ------------------------------------------------------------------
+
+        // Zkontroluj, zda je uživatel přihlášen
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            $this->data['session']['opravneni'] = null;
+           
+        }
+
+        else {
+    
+            // Získání emailu přihlášeného uživatele z session
+            $emailUzivatele = $_SESSION['email'];
+        
+            // Získání informací o přihlášeném uživateli z databáze
+            $uzivatelInfo = $modelUzivatel->vratInfoPodleEmailu($emailUzivatele);
+        
+            // Kontrola, zda byl uživatel nalezen v databázi
+            
+            if ($uzivatelInfo) {
+                $this->data['session'] = $uzivatelInfo; 
+            }
+        }
+
+//--------------------------------- Session ------------------------------------------------------------------
+
+
+
+
+
         $ucast=$modelUcastnici->vratVsechnyUcastniky();
         $du=$modelDisc_ucast->vratVsechnyDisc_ucast();
 
